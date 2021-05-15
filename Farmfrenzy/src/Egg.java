@@ -11,13 +11,10 @@ public class Egg extends Products {
         return EggCoordinates;
     }
 
-    public int addEgg(Egg egg, int counter) {
-        if (counter > 2) {
-            counter = 0;
-            //یه عدد رندمو برا مختصات درمیره به لیست اضافه میکنه
-        } else
-            counter++;
-        return counter;
+    public void addEgg(Egg egg) {
+
+        //یه عدد رندمو برا مختصات درمیره به لیست اضافه میکنه
+        //میزاره تو لیست به همراه عدد 4 واحد زمانی
     }
 
     public Egg() {
