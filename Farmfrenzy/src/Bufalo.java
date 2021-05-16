@@ -1,15 +1,9 @@
 import java.util.LinkedList;
 
 public class Bufalo extends Farmanimals {
-    private LinkedList<String> buffaloList = new LinkedList<String>();
+    public LinkedList<String> buffaloList = new LinkedList<String>();
 
-    public void setBuffaloList(LinkedList<String> buffalo) {
-        this.buffaloList = buffalo;
-    }
-
-    public LinkedList<String> getBuffaloList() {
-        return buffaloList;
-    }
+    //تو لیست فقط اعداد مختصات هستن
 
     public Bufalo() {
         this.price = 400;

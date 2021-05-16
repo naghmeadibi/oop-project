@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class Store {
    private int capacity = 10;
-   private LinkedList<String> stuff = new LinkedList<String>();
+   public LinkedList<String> stuff = new LinkedList<String>();
 
     public LinkedList<String> getStuff() {
         return stuff;

@@ -1,13 +1,14 @@
 import java.util.LinkedList;
 
 public class Truck {
-    private LinkedList<String> stuffToSell = new LinkedList<String>();
+    public LinkedList<String> stuffToSell = new LinkedList<String>();
+    private int capacity = 15;
 
-    public void setStuffToSell(LinkedList<String> stuffToSell) {
-        this.stuffToSell = stuffToSell;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
-    public LinkedList<String> getStuffToSell() {
-        return stuffToSell;
+    public int getCapacity() {
+        return capacity;
     }
 }
