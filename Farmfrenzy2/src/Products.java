@@ -5,7 +5,7 @@ public class Products {
     protected int price;
     protected int capacity;
     private LinkedList<String> allUnPickedupedProducts = new LinkedList<String>();
-
+     protected int coordinate;
     public LinkedList<String> getAllUnPickedupedProducts() {
         return allUnPickedupedProducts;
     }
