@@ -7,10 +7,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
          Manager manager = new Manager();
-
-         manager.menu();
-         manager.addBread();
-         manager.addEgg();
-         manager.addPowder();
+         InputProcossor inputProcossor = new InputProcossor(manager);
+         inputProcossor.run();
     }
 }

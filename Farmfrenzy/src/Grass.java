@@ -1,13 +1,21 @@
 import java.util.LinkedList;
 
 public class Grass {
-    private LinkedList<String> grassList = new LinkedList<String>();
+    public LinkedList<Grass> grassList = new LinkedList<Grass>();
+    private int coordinate;
 
-    public void setGrassList(LinkedList<String> grassList) {
-        this.grassList = grassList;
+    public Grass(int coordinate) {
+        this.coordinate = coordinate;
+    }
+    public Grass (){
+
     }
 
-    public LinkedList<String> getGrassList() {
-        return grassList;
+    public int getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(int coordinate) {
+        this.coordinate = coordinate;
     }
 }
