@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 
 public class Truck {
-    public LinkedList<String> stuffToSell = new LinkedList<String>();
+    public LinkedList<Products> stuffToSell = new LinkedList<Products>();
     private int capacity = 15;
 
     public void setCapacity(int capacity) {
