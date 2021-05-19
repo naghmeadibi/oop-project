@@ -5,9 +5,9 @@ public class Products {
     protected int live;
     protected int price;
     protected int capacity;
-    public LinkedList<String> allUnPickedupedProducts = new LinkedList<String>();
+    public LinkedList<Products> allUnPickedupedProducts = new LinkedList<Products>();
     protected int coordinate;
-
+    protected String name;
 
     public HashMap<String,Integer> capacityOfProduct = new HashMap<>();
     public HashMap<String,Integer> priceOfProduct = new HashMap<>();

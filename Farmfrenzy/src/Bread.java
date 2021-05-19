@@ -5,13 +5,12 @@ import java.util.LinkedList;
  */
 public class Bread extends Products {
 
-    public LinkedList<Bread> breads = new LinkedList<Bread>();
-
     public Bread(int coordinate) {
         this.price = 80;
         this.live = 6;
         this.capacity = 4;
         this.coordinate = coordinate;
+        this.name = "bread";
     }
     public Bread (){
 
