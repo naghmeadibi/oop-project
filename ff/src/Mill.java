@@ -6,8 +6,10 @@ public class Mill extends Factory {
     Powder powder = new Powder();
     public Mill() {
         price = 150;
-        time = 4;
-        inputProduct = egg;
-        outputProduct = powder;
+        upgraidPrice = 250;
+        time1 = 4;
+        time2 = 2;
+        level = 1;
+        name = "mill";
     }
 }

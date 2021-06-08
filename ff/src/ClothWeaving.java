@@ -6,8 +6,11 @@ public class ClothWeaving extends Factory {
     Cloth cloth = new Cloth();
     public ClothWeaving(){
         price = 250;
-        time = 5;
-        inputProduct = feather;
-        outputProduct = cloth;
+        price = 250;
+        upgraidPrice = 600;
+        time1 = 5;
+        time2 = 3;
+        level = 1;
+        name = "ClothWeaving";
     }
 }

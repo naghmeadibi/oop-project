@@ -1,23 +1,51 @@
 [
   {
-    "money": 4000,
+    "money": 20350,
     "level": 2,
     "name": "mamad",
     "password": "6543",
+    "workShops": {
+      "iceCreamShop": false,
+      "Sewing": true,
+      "bakery": false,
+      "milkPackaging": true,
+      "clothWeaving": false,
+      "mill": true
+    }
+  },
+  {
+    "money": 2100,
+    "level": 2,
+    "name": "naghme",
+    "password": "1234",
+    "workShops": {
+      "iceCreamShop": false,
+      "Sewing": false,
+      "bakery": false,
+      "milkPackaging": true,
+      "clothWeaving": true,
+      "mill": false
+    }
+  },
+  {
+    "money": 600,
+    "level": 3,
+    "name": "nana",
+    "password": ":)",
     "workShops": {
       "iceCreamShop": false,
       "Sewing": false,
       "bakery": true,
-      "milkPackaging": true,
+      "milkPackaging": false,
       "clothWeaving": false,
       "mill": true
     }
   },
   {
-    "money": 1000,
+    "money": 100,
     "level": 2,
-    "name": "naghme",
-    "password": "1234",
+    "name": "sam",
+    "password": "0000",
     "workShops": {
       "iceCreamShop": false,
       "Sewing": false,
@@ -28,311 +56,17 @@
     }
   },
   {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
+    "money": 1650,
+    "level": 4,
+    "name": "player",
+    "password": "10",
     "workShops": {
       "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 2800,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
+      "Sewing": true,
       "bakery": false,
       "milkPackaging": true,
-      "clothWeaving": false,
+      "clothWeaving": true,
       "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 3100,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 2800,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 3900,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 2800,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 3100,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 2800,
-    "level": 2,
-    "name": "mamad",
-    "password": "6543",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": true,
-      "clothWeaving": false,
-      "mill": true
-    }
-  },
-  {
-    "money": 1000,
-    "level": 2,
-    "name": "naghme",
-    "password": "1234",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
-    }
-  },
-  {
-    "money": 0,
-    "level": 1,
-    "name": "miloo",
-    "password": "rt43",
-    "workShops": {
-      "iceCreamShop": false,
-      "Sewing": false,
-      "bakery": false,
-      "milkPackaging": false,
-      "clothWeaving": false,
-      "mill": false
     }
   }
 ]

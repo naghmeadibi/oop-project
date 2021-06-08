@@ -14,6 +14,7 @@ public class Turkey extends Farmanimals{
         this.life = 10;
         this.coordinate = coordinate;
         this.name = "turkey";
+        this.capacity = 2;
     }
 
 

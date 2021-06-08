@@ -6,8 +6,10 @@ public class IcecreamShop extends Factory {
     IceCream iceCream = new IceCream();
     public IcecreamShop() {
         price = 550;
-        time = 7;
-        inputProduct = packagedMilk;
-        outputProduct = iceCream;
+        upgraidPrice = 1000;
+        time1 = 7;
+        time2 = 4;
+        level = 1;
+        name = "iceCreamShop";
     }
 }

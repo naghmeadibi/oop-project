@@ -37,6 +37,22 @@ public class Products {
         this.price = price;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(int coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public Products() {
         capacityOfProduct.put("egg",1);
         capacityOfProduct.put("feather",1);

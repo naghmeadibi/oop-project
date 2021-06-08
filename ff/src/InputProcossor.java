@@ -6,9 +6,11 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class InputProcossor {
+    Scanner scanner = new Scanner(System.in);
+    String input="";
     Logger logger = Logger.getLogger("name");
     Manager manager = new Manager();
-    int n = 1, counter = 0;
+    int n = 1;
     boolean finishLev = true;
     private int money = 0;
     private int playerLevel = 0;
@@ -24,82 +26,198 @@ public class InputProcossor {
 
     public LinkedList<String> orders = new LinkedList<>();
 
+    public String processNameFactory(String[] strings) {
+        String output = new String();
+        try {
+            if (strings[1].equalsIgnoreCase("mill")) {
+                output = "mill";
+            } else if (strings[1].equalsIgnoreCase("sewing")) {
+                output = "sewing";
+            } else if ((strings[1].equalsIgnoreCase("Packaging")) && (strings[2].equalsIgnoreCase("milk"))) {
+                output = "packagingMilk";
+            } else if (strings[1].equalsIgnoreCase("bakery")) {
+                output = "bakery";
+            } else if (strings[1].equalsIgnoreCase("weaving")) {
+                output = "weaving";
+            } else if ((strings[1].equalsIgnoreCase("Ice")) && (strings[2].equalsIgnoreCase("cream")) && (strings[3].equalsIgnoreCase("shop"))) {
+                output = "iceCreamShop";
+            } else {
+                System.out.println("Wrong input!!");
+            }
+        } catch (Exception e) {
+            System.out.println("Wrong input!!");
+        }
+        return output;
+    }
 
     public void processWorkFactory(String[] strings) {
         try {
+            int pointer = manager.foundFactory(processNameFactory(strings));
             if (strings[1].equalsIgnoreCase("mill")) {
-                if (manager.factory.factories.contains("mill")) {
-                    if ((!orders.contains("addPowder")) && (manager.checkEgg())) {
-                        orders.add("addPowder");
-                        orders.add("5");
-                    } else if (orders.contains("addPowder")) {
-                        System.out.println("Factory is working!!");
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addPowder")) ) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1 && (manager.checkEgg())) {
+                                orders.add("addPowder");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2&& (manager.checkEgg())) {
+                                if(manager.checkEgg()) {
+                                    orders.add("addPowder");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addPowder");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addPowder");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addPowder")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Mill is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("Mill is not built");
                     }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
+
             } else if (strings[1].equalsIgnoreCase("sewing")) {
-                if (manager.factory.factories.contains("sewing")) {
-                    if ((!orders.contains("addCloth")) && (manager.checkFeather())) {
-                        orders.add("addCloth");
-                        orders.add("6");
-                    } else if (orders.contains("addCloth")) {
-                        System.out.println("Factory is working!!");
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addCloth")) && (manager.checkFeather())) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1) {
+                                orders.add("addCloth");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2) {
+                                if (manager.checkFeather()) {
+                                    orders.add("addCloth");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addCloth");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addCloth");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addCloth")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Sewing is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("Sewing is not built");
                     }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
-            } else if ((strings[1].equalsIgnoreCase("Packaging")) && (strings[2].equalsIgnoreCase("milk"))) {
-                if (manager.factory.factories.contains("packagingMilk")) {
-                    if ((!orders.contains("addPackagedMilk")) && (manager.checkMilk())) {
-                        orders.add("addPackagedMilk");
-                        orders.add("7");
-                    } else if (orders.contains("addPackagedMilk")) {
-                        System.out.println("Factory is working!!");
+
+            } else if ((strings[1].equalsIgnoreCase("packaging")) && (strings[2].equalsIgnoreCase("milk"))) {
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addPackagedMilk")) && (manager.checkMilk())) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1) {
+                                orders.add("addPackagedMilk");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2) {
+                                if(manager.checkMilk()) {
+                                    orders.add("addPackagedMilk");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addPackagedMilk");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addPackagedMilk");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addPackagedMilk")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Packaging milk is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("Packaging Milk is not built");
                     }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
+
             } else if (strings[1].equalsIgnoreCase("bakery")) {
-                if (manager.factory.factories.contains("bakery")) {
-                    if ((!orders.contains("addBread")) && (manager.checkPowder())) {
-                        orders.add("addBread");
-                        orders.add("6");
-                    } else if (orders.contains("addBread")) {
-                        System.out.println("Factory is working!!");
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addBread")) && (manager.checkPowder())) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1) {
+                                orders.add("addBread");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2) {
+                                if (manager.checkPowder()) {
+                                    orders.add("addBread");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addBread");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addBread");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addBread")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Bakery is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("Bakery is not built");
                     }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
+
             } else if (strings[1].equalsIgnoreCase("weaving")) {
-                if (manager.factory.factories.contains("weaving")) {
-                if ((!orders.contains("addShirt")) && (manager.checkCloth())) {
-                    orders.add("addShirt");
-                    orders.add("7");
-                } else if (orders.contains("addShirt")) {
-                    System.out.println("Factory is working!!");
-                }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
-            } else if ((strings[1].equalsIgnoreCase("Ice")) && (strings[2].equalsIgnoreCase("cream")) && (strings[3].equalsIgnoreCase("shop"))) {
-                if (manager.factory.factories.contains("iceCreamShop")) {
-                if ((!orders.contains("addIceCream")) && (manager.checkPackagedMilk())) {
-                    orders.add("addIceCream");
-                    orders.add("8");
-                } else if (orders.contains("addIceCream")) {
-                    System.out.println("Factory is working!!");
-                }
-                } else {
-                    System.out.println("this factory doesnt exist!!");
-                }
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addShirt")) && (manager.checkCloth())) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1) {
+                                orders.add("addShirt");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2) {
+                                if (manager.checkCloth()) {
+                                    orders.add("addShirt");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addShirt");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addShirt");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addShirt")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Weaving is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("weaving is not built");
+                    }
+
+            } else if (processNameFactory(strings).equalsIgnoreCase("iceCreamShop")) {
+                    if (pointer < manager.factory.factories.size()) {
+                        if ((!orders.contains("addIceCream")) && (manager.checkPackagedMilk())) {
+                            if (manager.factory.factories.get(pointer).getLevel() == 1) {
+                                orders.add("addIceCream");
+                                orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime1() + 1));
+                            } else if (manager.factory.factories.get(pointer).getLevel() == 2) {
+                                if (manager.checkPackagedMilk()) {
+                                    orders.add("addIceCream");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                    orders.add("addIceCream");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                } else {
+                                    orders.add("addIceCream");
+                                    orders.add(String.valueOf(manager.factory.factories.get(pointer).getTime2() + 1));
+                                }
+                            }
+                        } else if (orders.contains("addIceCream")) {
+                            System.out.println("Factory is working!!");
+                            manager.logger.warning("Ice cream shop is working");
+                        }
+                    } else {
+                        System.out.println("this factory doesn't exist!!");
+                        manager.logger.warning("Ice cream shop is not built");
+                    }
+
             } else {
-                System.out.println("Error, Wrong input!!");
+                System.out.println("Wrong Input!!");
+                manager.logger.warning("Wrong input");
             }
-        } catch (Exception e) {
-            System.out.println("Error,Wrong input!!");
+        } catch(Exception e){
+                System.out.println("Error,Wrong input!!");
+                manager.logger.warning("Wrong format input");
+            }
         }
-    }
 
     public void processWell(String[] strings) {
         if (!orders.contains("well")) {
@@ -108,20 +226,28 @@ public class InputProcossor {
                 orders.add("4");
             } else {
                 System.out.println("well is not empty!!");
+                manager.logger.warning("Well is not empty");
             }
         } else if (orders.contains("well")) {
             System.out.println("well is working!!");
+            manager.logger.warning("Well is working");
         }
     }
 
     public void processCage(String[] strings) {
-        int x = Integer.valueOf(strings[1]);
-        int y = Integer.valueOf(strings[2]);
-        if ((x > 0) && (x < 7) && (y > 0) && (y < 7)) {
-            int coordinate = x * 10 + y;
-            manager.cage(coordinate);
-        } else {
-            System.out.println("Error, Wrong coordinate!!");
+        try {
+            int x = Integer.valueOf(strings[1]);
+            int y = Integer.valueOf(strings[2]);
+            if ((x > 0) && (x < 7) && (y > 0) && (y < 7)) {
+                int coordinate = x * 10 + y;
+                manager.cage(coordinate);
+            } else {
+                System.out.println("Error, Wrong coordinate!!");
+                manager.logger.warning("Wrong coordinate");
+            }
+        } catch (Exception e) {
+            System.out.println("Wrong input!!");
+            manager.logger.warning("Wrong input format");
         }
     }
 
@@ -134,9 +260,11 @@ public class InputProcossor {
                 manager.plant(coordinate);
             } else {
                 System.out.println("Error, Wrong coordinate!!");
+                manager.logger.warning("Wrong coordinate");
             }
         } catch (Exception e) {
             System.out.println("Error, Wrong Input!!");
+            manager.logger.warning("Wrong input format");
         }
     }
 
@@ -149,9 +277,11 @@ public class InputProcossor {
                 manager.pickUp(coordinate);
             } else {
                 System.out.println("Error, Wrong coordinate!!");
+                manager.logger.warning("Wrong Coordinate");
             }
         } catch (Exception e) {
             System.out.println("Error, Wrong Input!!");
+            manager.logger.warning("Wrong format input");
         }
     }
 
@@ -161,9 +291,11 @@ public class InputProcossor {
                 manager.truckLoad(strings[2]);
             } else {
                 System.out.println("The truck is moving");
+                manager.logger.warning("Truck is moving");
             }
         } catch (Exception e) {
             System.out.println("Error, Wrong input!!");
+            manager.logger.warning("Wrong format input");
         }
     }
 
@@ -173,9 +305,11 @@ public class InputProcossor {
                 manager.truckUnload(strings[2]);
             } else {
                 System.out.println("The truck is moving");
+                manager.logger.warning("Truck is moving");
             }
         } catch (Exception e) {
             System.out.println("Error, Wrong input");
+            manager.logger.warning("Wrong format input");
         }
     }
 
@@ -186,38 +320,39 @@ public class InputProcossor {
             orders.add("11");
         } else if (orders.contains("truckGo")) {
             System.out.println("The truck is moving!!");
+            manager.logger.warning("Truck is moving");
         }
     }
 
     public void processAddAnimals(String[] strings) {
-        if (strings[1].equalsIgnoreCase("hen")) {
-            manager.addHen();
-        } else if (strings[1].equalsIgnoreCase("turkey")) {
-            manager.addTurkey();
-        } else if (strings[1].equalsIgnoreCase("bufalo")) {
-            manager.addBufalo();
-        }/* else if (strings[1].equalsIgnoreCase("lion")) {
-            manager.addLion();
-        } else if (strings[1].equalsIgnoreCase("tiger")) {
-            manager.addTiger();
-        } else if (strings[1].equalsIgnoreCase("bear")) {
-            manager.addBear();
-        }*/
-        //اینا بعدن از تو فایل خونده میشن
-        else if (strings[2].equalsIgnoreCase("dog")) {
-            manager.addDog();
-        } else if (strings[2].equalsIgnoreCase("cat")) {
-            manager.addCat();
-        } else {
-            System.out.println("Wrong input!");
+        try {
+            if (strings[1].equalsIgnoreCase("hen")) {
+                manager.addHen();
+            } else if (strings[1].equalsIgnoreCase("turkey")) {
+                manager.addTurkey();
+            } else if (strings[1].equalsIgnoreCase("buffalo")) {
+                manager.addBuffalo();
+            } else if (strings[1].equalsIgnoreCase("dog")) {
+                manager.addDog();
+            } else if (strings[1].equalsIgnoreCase("cat")) {
+                manager.addCat();
+            } else {
+                System.out.println("Wrong input!");
+                manager.logger.warning("Wrong input");
+            }
+        } catch (Exception e) {
+            System.out.println("Wrong input!!");
+            manager.logger.warning("Wrong format input");
         }
     }
 
     public void processTurn(String[] strings) {
         n = Integer.parseInt(strings[1]);
-        for (int c = 0; c < n - 1; c++) {
+        for (int c = 0; c < n - 1 && finishLev; c++) {
             manager.unCage();
             manager.checkCagedAnimals();
+            manager.catMove();
+            manager.farmAnimalMove();
             manager.movingTiger();
             manager.moving();
             manager.catCollect();
@@ -229,18 +364,12 @@ public class InputProcossor {
             manager.grassToBeEaten();
             manager.animalProduct();
             timeHandle();
-            counter++;
-            manager.addWildAnimals(counter);
+            manager.setCounter(manager.getCounter() + 1);
+            manager.addWildAnimals(manager.getCounter());
             if (manager.checkTasks()) {
-                System.out.println("BABA KHAFAN");
-                if (manager.getSelectedLevel() > manager.users.get(manager.getIndexOfUser()).getLevel())
-                    manager.users.get(manager.getIndexOfUser()).setLevel(manager.getSelectedLevel());
-                manager.moneySet(counter);
-                finishLev = false;
-                break;
+                checkFinishLevel();
             }
         }
-        //  manager.Turn(counter);
     }
 
     public void timeHandle() {
@@ -254,41 +383,49 @@ public class InputProcossor {
                     manager.addPowder();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addCloth")) {
                     manager.addCloth();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addPackagedMilk")) {
                     manager.addPackagedMilk();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addBread")) {
                     manager.addBread();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addShirt")) {
                     manager.addShirt();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addIceCream")) {
                     manager.addIceCream();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("well")) {
                     manager.well();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("truckGo")) {
                     manager.truckGo();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
+                    cnt -= 2;
                 }
             }
         }
     }
 
     public void setUser() {
-        money = manager.users.get(manager.getIndexOfUser()).getMoney();
+        //money = manager.users.get(manager.getIndexOfUser()).getMoney();
         playerLevel = manager.users.get(manager.getIndexOfUser()).getLevel() + 1;
     }
 
@@ -296,6 +433,8 @@ public class InputProcossor {
         if (!input.equalsIgnoreCase("turn 0")) {
             manager.unCage();
             manager.checkCagedAnimals();
+            manager.catMove();
+            manager.farmAnimalMove();
             manager.moving();
             manager.movingTiger();
             manager.catCollect();
@@ -307,45 +446,95 @@ public class InputProcossor {
             manager.grassToBeEaten();
             manager.animalProduct();
             timeHandle();
-            counter++;
-            manager.addWildAnimals(counter);
+            manager.setCounter(manager.getCounter() + 1);
+            manager.addWildAnimals(manager.getCounter());
         }
     }
 
     public void checkFinishLevel() {
         System.out.println("BABA KHAFAN");
-        if (manager.getSelectedLevel() >= manager.users.get(manager.getIndexOfUser()).getLevel())
-            manager.users.get(manager.getIndexOfUser()).setLevel(manager.getSelectedLevel() + 1);
-        manager.moneySet(counter);
+        manager.logger.info("finished level " + String.valueOf(manager.getSelectedLevel()));
+        if (manager.getSelectedLevel() >= manager.users.get(manager.getIndexOfUser()).getLevel()){
+            if(manager.users.get(manager.getIndexOfUser()).getLevel() < manager.levels.size()){
+                manager.users.get(manager.getIndexOfUser()).setLevel(manager.getSelectedLevel() + 1);
+                System.out.println("now You can play level " + manager.users.get(manager.getIndexOfUser()).getLevel());
+                manager.logger.info("Level " + String.valueOf(manager.users.get(manager.getIndexOfUser()).getLevel()) + " is open now");
+            }
+            if(manager.users.get(manager.getIndexOfUser()).getLevel()>manager.levels.size()){
+                System.out.println("YOU FINISHED ALL LEVELS |^.^|");
+            }
+        }
+        manager.moneySet(manager.getCounter());
         finishLev = false;
+        manager.writeGsonUsers();
+        setUser();
+        manager.users.clear();
+        manager.readUser();
+
     }
 
     public void processBuild(String[] strings) {
         try {
             if (strings[1].equalsIgnoreCase("mill")) {
-                manager.buildFactory("mill");
+                if (manager.checkMill()) {
+                manager.buildFactory("mill");}
             } else if (strings[1].equalsIgnoreCase("sewing")) {
-                manager.buildFactory("sewing");
+                if (manager.checkSewing()) {
+                manager.buildFactory("sewing");}
             } else if ((strings[1].equalsIgnoreCase("Packaging")) && (strings[2].equalsIgnoreCase("milk"))) {
-                manager.buildFactory("packagingMilk");
+                if (manager.checkMilkPackaging()) {
+                manager.buildFactory("packagingMilk");}
             } else if (strings[1].equalsIgnoreCase("bakery")) {
-                manager.buildFactory("bakery");
+                if (manager.checkBakery()) {
+                manager.buildFactory("bakery");}
             } else if (strings[1].equalsIgnoreCase("weaving")) {
-                manager.buildFactory("weaving");
+                if (manager.checkWeaving()) {
+                manager.buildFactory("weaving");}
             } else if ((strings[1].equalsIgnoreCase("Ice")) && (strings[2].equalsIgnoreCase("cream")) && (strings[3].equalsIgnoreCase("shop"))) {
-                manager.buildFactory("iceCreamShop");
+                if (manager.checkIceCreamShop()) {
+                manager.buildFactory("iceCreamShop");}
             } else {
                 System.out.println("Wrong input!!");
+                manager.logger.warning("Wrong input");
             }
         } catch (Exception e) {
             System.out.println("Wrong input!!");
+            manager.logger.warning("Wrong format input");
+        }
+    }
+
+    public void processUpgrade(String[] strings) {
+        try {
+            if (strings[1].equalsIgnoreCase("mill")) {
+                manager.upgradeFactory("mill");
+            } else if (strings[1].equalsIgnoreCase("sewing")) {
+                manager.upgradeFactory("sewing");
+            } else if ((strings[1].equalsIgnoreCase("Packaging")) && (strings[2].equalsIgnoreCase("milk"))) {
+                manager.upgradeFactory("packagingMilk");
+            } else if (strings[1].equalsIgnoreCase("bakery")) {
+                manager.upgradeFactory("bakery");
+            } else if (strings[1].equalsIgnoreCase("weaving")) {
+                manager.upgradeFactory("weaving");
+            } else if ((strings[1].equalsIgnoreCase("Ice")) && (strings[2].equalsIgnoreCase("cream")) && (strings[3].equalsIgnoreCase("shop"))) {
+                manager.upgradeFactory("iceCreamShop");
+            } else {
+                System.out.println("Wrong input!!");
+                manager.logger.warning("Wrong input");
+            }
+        } catch (Exception e) {
+            System.out.println("Wrong input!!");
+            manager.logger.warning("Wrong format input");
+
         }
     }
 
     public void run() {
+        manager.setLogger();
         while (true) {
+            if(input.equalsIgnoreCase("logout"))
+            {checkMenu = true;}
             manager.readingLevels();
-            counter = 0;
+            manager.setCounter(0);
             manager.setBack();
             manager.menu(checkMenu);
             manager.coinSet();
@@ -353,9 +542,8 @@ public class InputProcossor {
             manager.setNumOfUsers(manager.numOfUsers);
             checkMenu = false;
             finishLev = true;
-            while (true && finishLev) {
-                Scanner scanner = new Scanner(System.in);
-                String input;
+            input = "";
+            while (finishLev &&!(input .equalsIgnoreCase("logout"))) {
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("logout") && finishLev) {
                     if (input.equalsIgnoreCase("inquiry")) {
                         input = "turn 0";
@@ -385,39 +573,42 @@ public class InputProcossor {
                                 processCage(inputs);
                             } else if (inputs[0].equalsIgnoreCase("turn")) {
                                 processTurn(inputs);
+                                if (!finishLev) {
+                                    break;
+                                }
                             } else if ((inputs[0].equalsIgnoreCase("truck")) && (inputs[1].equalsIgnoreCase("go"))) {
                                 processTruckGo();
                             } else if (inputs[0].equalsIgnoreCase("build")) {
                                 processBuild(inputs);
+                            } else if (inputs[0].equalsIgnoreCase("upgrade")) {
+                                processUpgrade(inputs);
                             } else if (inputs[0].equalsIgnoreCase("exit")) {
+                                manager.logger.info("exit");
+                                manager.writeGsonUsers();
                                 System.exit(0);
                             } else {
                                 System.out.println("Wrong input!!");
                             }
+                         //   System.out.println(manager.store.stuff.toString());
+                         //   System.out.println(orders.toString());
                         } catch (Exception e) {
                             System.out.println("Error, Wrong input!!");
                         }
-                        if (manager.checkTasks()) {
+                        manager.grassCheck();
+                        if ((manager.checkTasks() && finishLev)) {
                             checkFinishLevel();
                             break;
                         }
-                        manager.grassCheck();
                     }
                     check(input);
-                    if (manager.checkTasks()) {
+                    if ((manager.checkTasks()) && finishLev) {
                         checkFinishLevel();
                     }
-
-                    if (inputs[0].equalsIgnoreCase("turn")) {
-                        manager.Turn(counter);
+                    if ((inputs[0].equalsIgnoreCase("turn")) && (finishLev)) {
+                        manager.Turn(manager.getCounter());
                     }
                 }
-                // } else {
-                //   System.out.println("ghofle!!");
-                //}
                 manager.readingLevels();
-                setUser();
-                manager.writeGsonUsers();
                 manager.setNumOfUsers(manager.numOfUsers);
             }
         }

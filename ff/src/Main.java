@@ -11,11 +11,5 @@ public class Main {
          Manager manager = new Manager();
          InputProcossor inputProcossor = new InputProcossor(manager);
          inputProcossor.run();
-    /*   File l = new File("levels.json");
-        try {
-            l.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

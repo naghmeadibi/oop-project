@@ -35,6 +35,14 @@ public class WildAnimals {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setLife(int life) {
         this.life = life;
     }

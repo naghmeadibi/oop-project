@@ -6,8 +6,10 @@ public class MilkPackaging extends Factory {
     PackagedMilk packagedMilk = new PackagedMilk();
     public MilkPackaging () {
         price = 400;
-        time = 6;
-        inputProduct = milk;
-        outputProduct = packagedMilk;
+        upgraidPrice = 750;
+        time1 = 6;
+        time2 = 3;
+        level = 1;
+        name = "packagingMilk";
     }
 }

@@ -14,5 +14,6 @@ public class Hen extends Farmanimals {
         this.timeNeededToProduce = 2;
         this.life = 10;
         this.name = "hen";
+        this.capacity = 1;
     }
 }

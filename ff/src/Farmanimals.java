@@ -7,6 +7,7 @@ public class Farmanimals {
    protected int life = 10;
    protected int coordinate;
    protected String name;
+   protected int capacity;
 
    public int getPrice() {
       return price;

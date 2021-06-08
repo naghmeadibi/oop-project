@@ -3,9 +3,15 @@ import com.google.gson.GsonBuilder;
 
 import javax.swing.*;
 import java.io.*;
+import java.security.KeyStore;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Manager {
+    Logger logger = Logger.getLogger("MyLog");
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     private String password;
@@ -16,7 +22,7 @@ public class Manager {
     Truck truck = new Truck();
     Hen hen = new Hen();
     Turkey turkey = new Turkey();
-    Bufalo bufalo = new Bufalo();
+    Buffalo buffalo = new Buffalo();
     Products products = new Products();
     Factory factory = new Factory();
     WildAnimals wildAnimals = new WildAnimals();
@@ -29,12 +35,41 @@ public class Manager {
     public ArrayList<Level> levels = new ArrayList<Level>();
     public Level[] levells = new Level[20];
     int numOfUsers = getNumOfUsers();
+    private int  counter = 0;
     User[] userss = new User[numOfUsers + 1];
     ArrayList<User> users = new ArrayList<>();
     private int indexOfUser = 0;
 
-    public void coinSet() {
-        coin = levels.get(selectedLevel - 1).coin;
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public void setLogger() {
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        try {
+            fh = new FileHandler("LogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getSelectedLevel() {
@@ -49,105 +84,49 @@ public class Manager {
         this.indexOfUser = indexOfUser;
     }
 
-    public void mennnu() {
-        int check = 0;
-        int start;
-        Scanner scanner = new Scanner(System.in);
-        while (check == 0) {
-            System.out.println("You have an account");
-            System.out.println("1) login");
-            System.out.println("You do not account");
-            System.out.println("2) sign up");
-            System.out.println("Please enter the number of your choose");
-            start = scanner.nextInt();
-            if (start == 1) {
-                System.out.println("Enter your username:");
-                username = scanner.next();
-                System.out.println("Enter your password:");
-                password = scanner.next();
-                File players = new File("Players.txt");
-                try {
-                    Scanner sc = new Scanner(players);
-                    while (sc.hasNextLine()) {
-                        String user = sc.nextLine();
-                        if (user.equals(username + " " + password)) {
-                            check = 1;
-                        }
-                    }
-                    if (check == 1) {
-                        System.out.println("You have successfully logged in");
-                    } else {
-                        System.out.println("password or username is incorrect");
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            } else if (start == 2) {
-                int check1 = 0;
-                System.out.println("Enter your username:");
-                username = scanner.next();
-                File players = new File("Players.txt");
-                try {
-                    Scanner scanner2 = new Scanner(players);
-                    while (scanner2.hasNextLine()) {
-                        String data = scanner2.nextLine();
-                        String[] inputs = data.split("\\s");
-                        if (inputs[0].equals(username)) {
-                            check1 = 1;
-                            break;
-                        }
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if (check1 == 0) {
-                    System.out.println("Enter your password:");
-                    password = scanner.next();
-                    check = 1;
-                    System.out.println("You signed up successfully");
-                    try {
-                        FileWriter player = new FileWriter("Players.txt", true);
-                        player.append(username);
-                        player.append(" ");
-                        player.append(password);
-                        player.append("\n");
-                        player.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (check1 == 1) {
-                    System.out.println("This username already exist!!");
-                }
-            } else {
-                System.out.println("Error, Wrong input!!");
-            }
-        }
-        check = 0;
-    }
-
     public int randomCoordinate() {
         int width = (random.nextInt(6) + 1) * 10;
         int height = random.nextInt(6) + 1;
         int coordinate = width + height;
+        logger.info("Random coordinates were generated :" + String.valueOf(coordinate));
         return coordinate;
     }
-
 
     public void addEgg(int x) {
         Egg egg1 = new Egg(x);
         products.allUnPickedupedProducts.add(egg1);
+         logger.info("Egg was produced " + String.valueOf(x) + " " + counter);
+    }
+
+    public boolean checkMill() {
+        if (!users.get(getIndexOfUser()).workShops.get("mill")) {
+            System.err.println("buy mill from setting");
+            logger.warning("The mill has not been purchased");
+            return false;
+        } else
+            return true;
+
+    }
+
+    public boolean checkBakery() {
+        if (!users.get(getIndexOfUser()).workShops.get("bakery")) {
+            System.err.println("buy bakery from setting");
+            logger.warning("The bakery has not been purchased");
+            return false;
+        } else
+            return true;
+
     }
 
     public boolean checkEgg() {
-        if (!users.get(getIndexOfUser()).workShops.get("mill")) {
-            System.err.println("buy mill");
-            return false;
-        }
+
         if (counterProductInStore("egg") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough eggs");
+            logger.warning("There are not enough eggs");
             return false;
         } else {
             removeFromStoredList("egg");
+            logger.info("An egg was removed from the warehouse");
             return true;
         }
     }
@@ -156,18 +135,17 @@ public class Manager {
         int x = randomCoordinate();
         Powder powder1 = new Powder(x);
         products.allUnPickedupedProducts.add(powder1);
+        logger.info("Powder was produced " + String.valueOf(x));
     }
 
     public boolean checkPowder() {
-        if (!users.get(getIndexOfUser()).workShops.get("bakery")) {
-            System.err.println("buy bakery");
-            return false;
-        }
         if (counterProductInStore("powder") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough powders");
+            logger.warning("There are not enough powders");
             return false;
         } else {
             removeFromStoredList("powder");
+            logger.info("A powder was removed from the warehouse");
             return true;
         }
     }
@@ -176,24 +154,32 @@ public class Manager {
         int x = randomCoordinate();
         Bread bread1 = new Bread(x);
         products.allUnPickedupedProducts.add(bread1);
+        logger.info("Bread was produced " + String.valueOf(x) + " " + counter);
     }
-
 
     public void addFeather(int x) {
         Feather feather1 = new Feather(x);
         products.allUnPickedupedProducts.add(feather1);
+        logger.info("Feather was produced " + String.valueOf(x) + counter);
+    }
+
+    public boolean checkWeaving() {
+        if (!users.get(getIndexOfUser()).workShops.get("Sewing")) {
+            System.err.println("buy weaving from setting");
+            logger.warning("The weaving has not been purchased");
+            return false;
+        } else
+            return true;
     }
 
     public boolean checkFeather() {
-        if (!users.get(getIndexOfUser()).workShops.get("clothWeaving")) {
-            System.err.println("buy clothWeaving");
-            return false;
-        }
         if (counterProductInStore("feather") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough feathers");
+            logger.warning("There are not enough feathers");
             return false;
         } else {
             removeFromStoredList("feather");
+            logger.info("A feather was removed from the warehouse");
             return true;
         }
     }
@@ -202,18 +188,27 @@ public class Manager {
         int x = randomCoordinate();
         Cloth cloth1 = new Cloth(x);
         products.allUnPickedupedProducts.add(cloth1);
+        logger.info("Cloth was produced " + String.valueOf(x) + counter);
+    }
+
+    public boolean checkSewing() {
+        if (!users.get(getIndexOfUser()).workShops.get("clothWeaving")) {
+            System.err.println("buy sewing from setting");
+            logger.warning("The sewing has not been purchased");
+            return false;
+        } else
+            return true;
+
     }
 
     public boolean checkCloth() {
-        if (!users.get(getIndexOfUser()).workShops.get("sewing")) {
-            System.err.println("buy sewing");
-            return false;
-        }
         if (counterProductInStore("cloth") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough cloths");
+            logger.warning("There are not enough cloths");
             return false;
         } else {
             removeFromStoredList("cloth");
+            logger.info("A cloth was removed from the warehouse");
             return true;
         }
     }
@@ -222,24 +217,33 @@ public class Manager {
         int x = randomCoordinate();
         Shirt shirt1 = new Shirt(x);
         products.allUnPickedupedProducts.add(shirt1);
+        logger.info("Shirt was produced " + String.valueOf(x) + " " + counter);
     }
-
 
     public void addMilk(int x) {
         Milk milk1 = new Milk(x);
         products.allUnPickedupedProducts.add(milk1);
+        logger.info("Milk was produced " + String.valueOf(x) + " " + counter);
+    }
+
+    public boolean checkMilkPackaging() {
+        if (!users.get(getIndexOfUser()).workShops.get("milkPackaging")) {
+            System.err.println("buy milkPackaging from setting");
+            logger.warning("The milk packaging has not been purchased");
+            return false;
+        } else
+            return true;
+
     }
 
     public boolean checkMilk() {
-        if (!users.get(getIndexOfUser()).workShops.get("milkPackaging")) {
-            System.err.println("buy milkPackaging");
-            return false;
-        }
         if (counterProductInStore("milk") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough milks");
+            logger.warning("There are not enough milks");
             return false;
         } else {
             removeFromStoredList("milk");
+            logger.info("A milk was removed from the warehouse");
             return true;
         }
     }
@@ -248,18 +252,28 @@ public class Manager {
         int x = randomCoordinate();
         PackagedMilk packagedMilk1 = new PackagedMilk(x);
         products.allUnPickedupedProducts.add(packagedMilk1);
+        logger.info("packaged milk was produced " + String.valueOf(x) + " " + counter);
+    }
+
+    public boolean checkIceCreamShop() {
+        if (!users.get(getIndexOfUser()).workShops.get("iceCreamShop")) {
+            System.err.println("buy iceCreamShop from setting");
+            logger.warning("The ice cream shop has not been purchased");
+            return false;
+        } else
+            return true;
+
     }
 
     public boolean checkPackagedMilk() {
-        if (!users.get(getIndexOfUser()).workShops.get("iceCreamShop")) {
-            System.err.println("buy iceCreamShop");
-            return false;
-        }
+
         if (counterProductInStore("packagedMilk") <= 0) {
-            System.out.println("nadary");
+            System.out.println("You do not have enough packaged milks");
+            logger.warning("There are not enough packaged milks");
             return false;
         } else {
             removeFromStoredList("packagedMilk");
+            logger.info("A packaging milk was removed from the warehouse");
             return true;
         }
     }
@@ -268,6 +282,7 @@ public class Manager {
         int x = randomCoordinate();
         IceCream iceCream1 = new IceCream(x);
         products.allUnPickedupedProducts.add(iceCream1);
+        logger.info("ice cream was produced " + String.valueOf(x) + " " + counter);
     }
 
 
@@ -278,6 +293,7 @@ public class Manager {
     public void well() {
         wellWater = 5;
         System.out.println("Your well water is : " + wellWater);
+        logger.info("The well was full");
     }
 
     public void plant(int x) {
@@ -286,8 +302,10 @@ public class Manager {
             grasses.add(new Grass(x));
             System.out.println("grass " + x);
             System.out.println("Well water : " + wellWater);
+            logger.info("plant " + String.valueOf(x));
         } else {
             System.out.println("Your well is empty!!");
+            logger.warning("Well is empty");
         }
     }
 
@@ -300,9 +318,11 @@ public class Manager {
                 if (store.getCapacity() >= products.allUnPickedupedProducts.get(i).capacity) {
                     store.setCapacity(store.getCapacity() - products.allUnPickedupedProducts.get(i).capacity);
                     store.stuff.add(products.allUnPickedupedProducts.get(i));
+                    logger.info("pickup and add to warehouse " + products.allUnPickedupedProducts.get(i).getName());
                     products.allUnPickedupedProducts.remove(i);
                 } else {
                     System.out.println("Error, Your warehouse does not have enough space!!");
+                    logger.warning("Warehouse does not have enough space");
                 }
                 break;
             }
@@ -314,9 +334,11 @@ public class Manager {
                     if (store.getCapacity() >= wildAnimals.cagedWildAnimals.get(i).capacity) {
                         store.setCapacity(store.getCapacity() - wildAnimals.cagedWildAnimals.get(i).capacity);
                         wildAnimals.storedWildAnimals.add(wildAnimals.cagedWildAnimals.get(i));
+                        logger.info("pickup and add to warehouse " + wildAnimals.cagedWildAnimals.get(i).getName());
                         wildAnimals.cagedWildAnimals.remove(i);
                     } else {
                         System.out.println("Error, Your warehouse does not have enough space!!");
+                        logger.warning("Warehouse does not have enough space");
                     }
                     break;
                 }
@@ -324,6 +346,7 @@ public class Manager {
         }
         if (check == 0) {
             System.out.println("this Coordinates is empty!!");
+            logger.warning("empty coordinates");
         }
     }
 
@@ -334,10 +357,14 @@ public class Manager {
                 check = 1;
                 if (truck.getCapacity() >= store.stuff.get(i).capacity) {
                     truck.setCapacity(truck.getCapacity() - store.stuff.get(i).capacity);
+                    store.setCapacity(store.getCapacity()+store.stuff.get(i).capacity);
+                    truck.setPrice(truck.getPrice() + store.stuff.get(i).getPrice());
                     truck.stuffToSell.add(store.stuff.get(i));
+                    logger.info("add to truck " + store.stuff.get(i).getName());
                     store.stuff.remove(i);
                 } else {
                     System.out.println("The truck does not have enough space!!");
+                    logger.warning("The truck does not have enough space");
                 }
                 break;
             }
@@ -348,33 +375,41 @@ public class Manager {
                     check = 1;
                     if (truck.getCapacity() >= wildAnimals.storedWildAnimals.get(i).capacity) {
                         truck.setCapacity(truck.getCapacity() - wildAnimals.storedWildAnimals.get(i).getCapacity());
+                        store.setCapacity(store.getCapacity()+wildAnimals.storedWildAnimals.get(i).capacity);
                         truck.setPrice(truck.getPrice() + wildAnimals.storedWildAnimals.get(i).price);
                         truck.wildAnimalsToSell.add(wildAnimals.storedWildAnimals.get(i));
+                        logger.info("add to truck " + wildAnimals.storedWildAnimals.get(i).getName());
                         wildAnimals.storedWildAnimals.remove(i);
                     } else {
                         System.out.println("The truck does not have enough space!!");
+                        logger.warning("The truck does not have enough space");
                     }
                     break;
                 }
             }
         }
-     /*   if (check == 0){
+        if (check == 0) {
             for (int i = 0; i < farmanimals.farmanimalss.size(); i++) {
                 if (farmanimals.farmanimalss.get(i).name.equalsIgnoreCase(name)) {
                     check = 1;
                     if (truck.getCapacity() >= farmanimals.farmanimalss.get(i).capacity) {
-                        truck.setCapacity(truck.getCapacity() - store.stuff.get(i).capacity);
-                        truck.wildAnimalsToSell.add(wildAnimals.storedWildAnimals.get(i));
-                        wildAnimals.storedWildAnimals.remove(i);
+                        truck.setCapacity(truck.getCapacity() - farmanimals.farmanimalss.get(i).capacity);
+                        store.setCapacity(store.getCapacity()+farmanimals.farmanimalss.get(i).capacity);
+                        truck.farmAnimalsToSell.add(farmanimals.farmanimalss.get(i));
+                        truck.setPrice(truck.getPrice() + farmanimals.farmanimalss.get(i).getPrice());
+                        logger.info("add to truck " + farmanimals.farmanimalss.get(i).getName());
+                        farmanimals.farmanimalss.remove(i);
                     } else {
                         System.out.println("The truck does not have enough space!!");
+                        logger.warning("The truck does not have enough space");
                     }
                     break;
                 }
             }
-        }*/
+        }
         if (check == 0) {
             System.out.println("This product dosnt exist in warehouse");
+            logger.warning("This product dosnt exist in warehouse");
         }
     }
 
@@ -384,7 +419,10 @@ public class Manager {
             if (truck.stuffToSell.get(i).name.equalsIgnoreCase(name)) {
                 check = 1;
                 truck.setCapacity(truck.getCapacity() + truck.stuffToSell.get(i).capacity);
+                truck.setPrice(truck.getPrice() - truck.stuffToSell.get(i).getPrice());
+                store.setCapacity(store.getCapacity()-truck.stuffToSell.get(i).capacity);
                 store.stuff.add(truck.stuffToSell.get(i));
+                logger.info("back to warehouse " + truck.stuffToSell.get(i).getName());
                 truck.stuffToSell.remove(i);
                 break;
             }
@@ -394,26 +432,44 @@ public class Manager {
                 if (truck.wildAnimalsToSell.get(i).name.equalsIgnoreCase(name)) {
                     check = 1;
                     truck.setCapacity(truck.getCapacity() + truck.wildAnimalsToSell.get(i).capacity);
+                    store.setCapacity(store.getCapacity()-truck.wildAnimalsToSell.get(i).capacity);
                     wildAnimals.storedWildAnimals.add(truck.wildAnimalsToSell.get(i));
+                    truck.setPrice(truck.getPrice() - truck.wildAnimalsToSell.get(i).getPrice());
+                    logger.info("back to warehouse " + truck.wildAnimalsToSell.get(i).getName());
                     truck.wildAnimalsToSell.remove(i);
                     break;
                 }
             }
         }
         if (check == 0) {
+            for (int i = 0; i < truck.farmAnimalsToSell.size(); i++) {
+                if (truck.farmAnimalsToSell.get(i).name.equalsIgnoreCase(name)) {
+                    check = 1;
+                    truck.setCapacity(truck.getCapacity() + truck.farmAnimalsToSell.get(i).capacity);
+                    store.setCapacity(store.getCapacity()-truck.farmAnimalsToSell.get(i).capacity);
+                    truck.setPrice(truck.getPrice() - truck.farmAnimalsToSell.get(i).getPrice());
+                    farmanimals.farmanimalss.add(truck.farmAnimalsToSell.get(i));
+                    logger.info("back to warehouse " + truck.farmAnimalsToSell.get(i).getName());
+                    truck.farmAnimalsToSell.remove(i);
+                    break;
+                }
+            }
+        }
+        if (check == 0) {
             System.out.println("Error, This product is not in the truck");
+            logger.warning("This product is not in the truck");
         }
     }
 
     public void removeFromStoredList(String string) {
         for (int i = 0; i < store.stuff.size(); i++) {
             if (store.stuff.get(i).name.equalsIgnoreCase(string)) {
+                store.setCapacity(store.getCapacity()+store.stuff.get(i).capacity);
                 store.stuff.remove(i);
                 break;
             }
         }
     }
-
 
     public int counterProductInStore(String string) {
         int counter = 0;
@@ -430,8 +486,10 @@ public class Manager {
             Hen hen = new Hen(randomCoordinate());
             farmanimals.farmanimalss.add(hen);
             coin -= hen.price;
+            logger.info("new hen " + String.valueOf(hen.getCoordinate()) + " " + counter);
         } else {
-            System.err.println("you dont have enough coins!");
+            System.err.println("you don't have enough coins!");
+            logger.warning("There is not enough coin");
         }
     }
 
@@ -440,29 +498,34 @@ public class Manager {
             Turkey turkey = new Turkey(randomCoordinate());
             farmanimals.farmanimalss.add(turkey);
             coin -= turkey.price;
+            logger.info("new turkey " + String.valueOf(turkey.getCoordinate()) + " " + counter);
         } else {
             System.err.println("you dont have enough coins!");
+            logger.warning("There is not enough coin");
         }
     }
 
-    public void addBufalo() {
-        if (coin >= bufalo.price) {
-            Bufalo bufalo = new Bufalo(randomCoordinate());
-            farmanimals.farmanimalss.add(bufalo);
-            coin -= bufalo.price;
+    public void addBuffalo() {
+        if (coin >= buffalo.price) {
+            Buffalo buffalo = new Buffalo(randomCoordinate());
+            farmanimals.farmanimalss.add(buffalo);
+            coin -= buffalo.price;
+            logger.info("new buffalo " + String.valueOf(buffalo.getCoordinate()) + " " + counter);
         } else {
             System.err.println("you dont have enough coins!");
+            logger.warning("There is not enough coin");
         }
     }
-
 
     public void cage(int coordinates) {
         for (int cnt = 0; cnt < wildAnimals.livingWildAnimals.size(); cnt++) {
             if (wildAnimals.livingWildAnimals.get(cnt).coordinate == coordinates) {
                 wildAnimals.livingWildAnimals.get(cnt).setLife(wildAnimals.livingWildAnimals.get(cnt).life - 2);
+                logger.info("try cage " + wildAnimals.livingWildAnimals.get(cnt).getName() + " " + wildAnimals.livingWildAnimals.get(cnt).getLife());
                 if (wildAnimals.livingWildAnimals.get(cnt).life == -1) {
                     wildAnimals.livingWildAnimals.get(cnt).setCaged(5);
                     wildAnimals.cagedWildAnimals.add(wildAnimals.livingWildAnimals.get(cnt));
+                    logger.info("add to cage " + wildAnimals.livingWildAnimals.get(cnt).getName());
                     wildAnimals.livingWildAnimals.remove(cnt);
                 }
                 return;
@@ -470,6 +533,7 @@ public class Manager {
         }
 
         System.out.println("there's no wild animal here :(");
+        logger.warning("empty coordinates");
     }
 
     public void unCage() {
@@ -486,6 +550,7 @@ public class Manager {
             if (wildAnimals.cagedWildAnimals.get(cnt).getCaged() != 1) {
                 wildAnimals.cagedWildAnimals.get(cnt).setCaged(wildAnimals.cagedWildAnimals.get(cnt).getCaged() - 1);
             } else {
+                logger.info(wildAnimals.cagedWildAnimals.get(cnt).getName() + " escaped from the cage");
                 wildAnimals.cagedWildAnimals.remove(cnt);
             }
         }
@@ -500,14 +565,17 @@ public class Manager {
     }
 
     public void truckGo() {
-        System.out.println(coin);
         coin += truck.getPrice();
-        System.out.println(coin);
+        truck.setPrice(0);
+        truck.setCapacity(15);
+        logger.info("The truck arrived");
     }
 
     public void moving() {
         for (int cnt = 0; cnt < farmanimals.farmanimalss.size(); cnt++) {
-            farmanimals.farmanimalss.get(cnt).setCoordinate(movingCoordinate(farmanimals.farmanimalss.get(cnt).coordinate));
+            if (farmanimals.farmanimalss.get(cnt).life > 5 || grasses.isEmpty()) {
+                farmanimals.farmanimalss.get(cnt).setCoordinate(movingCoordinate(farmanimals.farmanimalss.get(cnt).coordinate));
+            }
         }
         for (int cnt = 0; cnt < wildAnimals.livingWildAnimals.size(); cnt++) {
             if ((wildAnimals.livingWildAnimals.get(cnt) instanceof Bear) || (wildAnimals.livingWildAnimals.get(cnt) instanceof Lion)) {
@@ -519,10 +587,12 @@ public class Manager {
             dog.coordinate = movingCoordinate(dog.coordinate);
             dogs.set(cnt, dog);
         }
-        for (int cnt = 0; cnt < cats.size(); cnt++) {
-            Cat cat = cats.get(cnt);
-            cat.coordinate = movingCoordinate(cat.coordinate);
-            cats.set(cnt, cat);
+        if (products.allUnPickedupedProducts.isEmpty()) {
+            for (int cnt = 0; cnt < cats.size(); cnt++) {
+                Cat cat = cats.get(cnt);
+                cat.coordinate = movingCoordinate(cat.coordinate);
+                cats.set(cnt, cat);
+            }
         }
     }
 
@@ -578,6 +648,7 @@ public class Manager {
                 }
                 if (aa != Integer.MAX_VALUE && aa <= 5) {
                     farmanimals.farmanimalss.get(a).setLife(10);
+                    logger.info(farmanimals.farmanimalss.get(a).getName() + " eat " + grasses.get(cnt).coordinate);
                     grasses.remove(cnt);
                 }
             }
@@ -609,16 +680,19 @@ public class Manager {
             if (!(wildAnimals.livingWildAnimals.get(cnt) instanceof Tiger)) {
                 for (int cnthen = 0; cnthen < farmanimals.farmanimalss.size(); cnthen += 1) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == farmanimals.farmanimalss.get(cnthen).coordinate) {
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " eat " + farmanimals.farmanimalss.get(cnthen).getName());
                         farmanimals.farmanimalss.remove(cnthen);
                     }
                 }
                 for (int cntbread = 0; cntbread < products.allUnPickedupedProducts.size(); cntbread += 1) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == products.allUnPickedupedProducts.get(cntbread).coordinate) {
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " destroyed " + products.allUnPickedupedProducts.get(cntbread).getName());
                         products.allUnPickedupedProducts.remove(cntbread);
                     }
                 }
                 for (int cntt = 0; cntt < cats.size(); cntt++) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == cats.get(cntt).coordinate) {
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " eat cat ");
                         cats.remove(cntt);
                     }
                 }
@@ -671,11 +745,13 @@ public class Manager {
             if (wildAnimals.livingWildAnimals.get(cnt) instanceof Tiger) {
                 for (int cnthen = 0; cnthen < farmanimals.farmanimalss.size(); cnthen++) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == farmanimals.farmanimalss.get(cnthen).coordinate || ((Tiger) wildAnimals.livingWildAnimals.get(cnt)).interCoordinate == farmanimals.farmanimalss.get(cnthen).coordinate) {
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " eat " + farmanimals.farmanimalss.get(cnthen).getName());
                         farmanimals.farmanimalss.remove(cnthen);
                     }
                 }
                 for (int cntt = 0; cntt < products.allUnPickedupedProducts.size(); cntt++) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == products.allUnPickedupedProducts.get(cntt).coordinate || ((Tiger) wildAnimals.livingWildAnimals.get(cnt)).interCoordinate == products.allUnPickedupedProducts.get(cntt).coordinate) {
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " destroyed " + products.allUnPickedupedProducts.get(cntt).getName());
                         products.allUnPickedupedProducts.remove(cntt);
                     }
 
@@ -683,6 +759,7 @@ public class Manager {
                 for (int cntt = 0; cntt < cats.size(); cntt++) {
                     if (wildAnimals.livingWildAnimals.get(cnt).coordinate == cats.get(cntt).coordinate || ((Tiger) wildAnimals.livingWildAnimals.get(cnt)).interCoordinate == cats.get(cntt).coordinate) {
                         cats.remove(cntt);
+                        logger.info(wildAnimals.livingWildAnimals.get(cnt).getName() + " eat cat ");
                     }
 
                 }
@@ -695,6 +772,7 @@ public class Manager {
         for (int cnt = 0; cnt < dogs.size(); cnt++) {
             for (int cnttiger = 0; cnttiger < wildAnimals.livingWildAnimals.size(); cnttiger++) {
                 if (dogs.get(cnt).coordinate == wildAnimals.livingWildAnimals.get(cnttiger).coordinate) {
+                    logger.info(wildAnimals.livingWildAnimals.get(cnttiger).getName() + " escaped" );
                     dogs.remove(cnt);
                     wildAnimals.livingWildAnimals.remove(cnttiger);
                 }
@@ -706,10 +784,11 @@ public class Manager {
         for (int cnt = 0; cnt < cats.size(); cnt++) {
             for (int cntt = 0; cntt < products.allUnPickedupedProducts.size(); cntt++) {
                 if (cats.get(cnt).coordinate == products.allUnPickedupedProducts.get(cntt).coordinate) {
-                    if (store.getCapacity() >= shirt.capacity) {
+                    if (store.getCapacity() >= products.allUnPickedupedProducts.get(cntt).capacity) {
                         store.stuff.add(products.allUnPickedupedProducts.get(cntt));
+                        store.setCapacity(store.getCapacity() - products.allUnPickedupedProducts.get(cntt).capacity);
+                        logger.info("cat collect " + products.allUnPickedupedProducts.get(cntt).getName());
                         products.allUnPickedupedProducts.remove(cntt);
-                        store.setCapacity(store.getCapacity() - shirt.capacity);
                     }
                 }
             }
@@ -739,8 +818,10 @@ public class Manager {
 
     public void lifeOfAnimals() {
         for (int cnt = 0; cnt < farmanimals.farmanimalss.size(); cnt++) {
-            if (farmanimals.farmanimalss.get(cnt).getLife() == 0)
+            if (farmanimals.farmanimalss.get(cnt).getLife() == 1) {
+                logger.info(farmanimals.farmanimalss.get(cnt).getName() + " died!");
                 farmanimals.farmanimalss.remove(cnt);
+            }
             else
                 farmanimals.farmanimalss.get(cnt).setLife(farmanimals.farmanimalss.get(cnt).getLife() - 1);
         }
@@ -748,24 +829,39 @@ public class Manager {
 
     public void addBear() {
         wildAnimals.livingWildAnimals.add(new Bear(randomCoordinate()));
+        logger.info("new Bear");
     }
 
     public void addLion() {
         wildAnimals.livingWildAnimals.add(new Lion(randomCoordinate()));
+        logger.info("new Lion");
     }
 
     public void addTiger() {
         wildAnimals.livingWildAnimals.add(new Tiger(randomCoordinate()));
+        logger.info("new Tiger");
     }
 
     public void addDog() {
-        dogs.add(new Dog(randomCoordinate()));
-        coin -= 100;
+        if (coin >= 150) {
+            dogs.add(new Dog(randomCoordinate()));
+            coin -= 100;
+            logger.info("new Dog");
+        } else {
+            System.err.println("you don't have enough coins!");
+            logger.warning("There is not enough coin");
+        }
     }
 
     public void addCat() {
-        cats.add(new Cat(randomCoordinate()));
-        coin -= 150;
+        if (coin >= 150) {
+            cats.add(new Cat(randomCoordinate()));
+            coin -= 150;
+            logger.info("new Cat");
+        } else {
+            System.err.println("you don't have enough coins!");
+            logger.warning("There is not enough coin");
+        }
     }
 
     public void animalProduct() {
@@ -777,7 +873,7 @@ public class Manager {
                 } else if (farmanimals.farmanimalss.get(cnt) instanceof Turkey) {
                     addFeather(farmanimals.farmanimalss.get(cnt).coordinate);
                     farmanimals.farmanimalss.get(cnt).setTimeNeededToProduce(3);
-                } else if (farmanimals.farmanimalss.get(cnt) instanceof Bufalo) {
+                } else if (farmanimals.farmanimalss.get(cnt) instanceof Buffalo) {
                     addMilk(farmanimals.farmanimalss.get(cnt).coordinate);
                     farmanimals.farmanimalss.get(cnt).setTimeNeededToProduce(5);
                 }
@@ -824,50 +920,65 @@ public class Manager {
         }
         animalCoordinatePrint();
         productCoordinatePrint();
+        for (int i = 0; i < factory.factories.size(); i++) {
+            System.out.println(factory.factories.get(i).getName() + " " + factory.factories.get(i).getLevel());
+        }
         System.out.println("Coin$ = " + coin);
         System.out.println("Remaining tasks : ");
         printTask();
         //System.out.println(levels.get(selectedLevel - 1).tasks.toString());
     }
 
-    public void printTask(){
+    public void printTask() {
         if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
             System.out.print("Hen : ");
             System.out.println(countFarmAnimal("hen") + "/" + levels.get(selectedLevel - 1).tasks.get("hen"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
             System.out.print("Turkey : ");
             System.out.println(countFarmAnimal("turkey") + "/" + levels.get(selectedLevel - 1).tasks.get("turkey"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
             System.out.print("Buffalo : ");
             System.out.println(countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
             System.out.print("Egg : ");
-            System.out.println(countFarmAnimal("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
+            System.out.println(counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
             System.out.print("Feather : ");
-            System.out.println(countFarmAnimal("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
+            System.out.println(counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
             System.out.print("Milk : ");
-            System.out.println(countFarmAnimal("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
+            System.out.println(counterProductInStore("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
             System.out.print("Powder : ");
-            System.out.println(countFarmAnimal("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
+            System.out.println(counterProductInStore("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
             System.out.print("Cloth : ");
-            System.out.println(countFarmAnimal("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
+            System.out.println(counterProductInStore("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
             System.out.print("Packaged Milk : ");
-            System.out.println(countFarmAnimal("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
+            System.out.println(counterProductInStore("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
             System.out.print("Bread : ");
-            System.out.println(countFarmAnimal("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
+            System.out.println(counterProductInStore("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
             System.out.print("Shirt : ");
-            System.out.println(countFarmAnimal("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
+            System.out.println(counterProductInStore("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
             System.out.print("Ice Cream : ");
-            System.out.println(countFarmAnimal("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
+            System.out.println(counterProductInStore("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
             System.out.print("Coin : ");
             System.out.println(coin + "/" + levels.get(selectedLevel - 1).tasks.get("coin"));
         }
@@ -876,6 +987,7 @@ public class Manager {
     public void productTimeHandle() {
         for (int cnt = 0; cnt < products.allUnPickedupedProducts.size(); cnt++) {
             if (products.allUnPickedupedProducts.get(cnt).live <= 0) {
+                logger.info(products.allUnPickedupedProducts.get(cnt).getName() + " removed");
                 products.allUnPickedupedProducts.remove(cnt);
             } else {
                 products.allUnPickedupedProducts.get(cnt).setLive(products.allUnPickedupedProducts.get(cnt).getLive() - 1);
@@ -894,6 +1006,10 @@ public class Manager {
         } catch (Exception e) {
 
         }
+    }
+
+    public void coinSet() {
+        coin = levels.get(selectedLevel - 1).coin;
     }
 
     public boolean checkLevel(int playerLvel) {
@@ -916,54 +1032,79 @@ public class Manager {
     public boolean checkTasks() {
         if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
             if (levels.get(selectedLevel - 1).tasks.get("hen") <= countFarmAnimal("hen")) {
+                logger.info("task was done : hen");
                 levels.get(selectedLevel - 1).tasks.remove("hen");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
             if (levels.get(selectedLevel - 1).tasks.get("turkey") <= countFarmAnimal("turkey")) {
+                logger.info("task was done : turkey");
                 levels.get(selectedLevel - 1).tasks.remove("turkey");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
             if (levels.get(selectedLevel - 1).tasks.get("buffalo") <= countFarmAnimal("buffalo")) {
+                logger.info("task was done : buffalo");
                 levels.get(selectedLevel - 1).tasks.remove("buffalo");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
             if (levels.get(selectedLevel - 1).tasks.get("egg") <= counterProductInStore("egg")) {
+                logger.info("task was done : egg");
                 levels.get(selectedLevel - 1).tasks.remove("egg");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
             if (levels.get(selectedLevel - 1).tasks.get("feather") <= counterProductInStore("feather")) {
+                logger.info("task was done : feather");
                 levels.get(selectedLevel - 1).tasks.remove("feather");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
             if (levels.get(selectedLevel - 1).tasks.get("milk") <= counterProductInStore("milk")) {
+                logger.info("task was done : milk");
                 levels.get(selectedLevel - 1).tasks.remove("milk");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
             if (levels.get(selectedLevel - 1).tasks.get("powder") <= counterProductInStore("powder")) {
+                logger.info("task was done : powder");
                 levels.get(selectedLevel - 1).tasks.remove("powder");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
             if (levels.get(selectedLevel - 1).tasks.get("cloth") <= counterProductInStore("cloth")) {
+                logger.info("task was done : cloth");
                 levels.get(selectedLevel - 1).tasks.remove("cloth");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
             if (levels.get(selectedLevel - 1).tasks.get("packagedMilk") <= counterProductInStore("packagedMilk")) {
+                logger.info("task was done : packaged milk");
                 levels.get(selectedLevel - 1).tasks.remove("packagedMilk");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
             if (levels.get(selectedLevel - 1).tasks.get("bread") <= counterProductInStore("bread")) {
+                logger.info("task was done : bread");
                 levels.get(selectedLevel - 1).tasks.remove("bread");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
             if (levels.get(selectedLevel - 1).tasks.get("shirt") <= counterProductInStore("shirt")) {
+                logger.info("task was done : shirt");
                 levels.get(selectedLevel - 1).tasks.remove("shirt");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
             if (levels.get(selectedLevel - 1).tasks.get("iceCream") <= counterProductInStore("iceCream")) {
+                logger.info("task was done : ice cream");
                 levels.get(selectedLevel - 1).tasks.remove("iceCream");
             }
-        } if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
             if (levels.get(selectedLevel - 1).tasks.get("coin") <= coin) {
+                logger.info("task was done : coin");
                 levels.get(selectedLevel - 1).tasks.remove("coin");
             }
         }
@@ -999,6 +1140,7 @@ public class Manager {
 
     public void readUser() {
         try {
+            users.clear();
             Gson gson = new Gson();
             userss = gson.fromJson(new FileReader("users.json"), User[].class);
             for (int i = 0; i < userss.length; i++) {
@@ -1023,6 +1165,7 @@ public class Manager {
                 username = scanner.nextLine();
                 if (checkUsername(username) == -1) {
                     System.out.println("Invalid Username!!");
+                    logger.warning("Invalid Username");
                 } else {
                     while (true) {
                         System.out.println("enter your password : ");
@@ -1030,9 +1173,11 @@ public class Manager {
                         if (users.get(checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
                             mainWhile = false;
                             System.out.println("done!");
+                            logger.info("logged in successfully");
                             indexOfUser = checkUsername(username);
                             break;
                         } else {
+                            logger.warning("wrong password");
                             System.out.println("Wrong Password, try again!!");
                         }
                     }
@@ -1049,58 +1194,73 @@ public class Manager {
                         numOfUsers++;
                         setNumOfUsers(numOfUsers);
                         users.add(new User(username, password, 1, 0));
+                        logger.info("signed up successfully");
                         break;
                     } else {
+                        logger.warning("invalid username");
                         System.out.println("your username is invalid choose another ");
                     }
                 }
             } else if (choice.equals("3")) {
+                writeGsonUsers();
+                logger.info("exit");
                 System.exit(0);
             }
         }
         while (true) {
             System.out.println("what shall we do next?");
-            System.out.println("1) start [level] " + " 2) log out" + "  3) settings ");
+            System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
             String choice = scanner.nextLine();
             String[] strings = choice.split("\\s+");
             if (strings[0].equalsIgnoreCase("1")) {
                 selectedLevel = Integer.valueOf(strings[1]);
                 if (selectedLevel > users.get(getIndexOfUser()).getLevel()) {
-                    System.out.println("ghofle!!!");
+                    logger.warning("wrong selected level");
+                    System.out.println("You cant play this level");
                 } else {
                     System.out.println("Go On");
+                    logger.info("Start Game");
                     return;
                 }
             } else if (strings[0].equalsIgnoreCase("2")) {
                 mainWhile = true;
                 c = true;
+                logger.info("log out");
                 menu(c);
+                return;
             } else if (strings[0].equalsIgnoreCase("3")) {
+                logger.info("enter setting");
                 System.out.println("you wanna buy?");
-                System.out.println("1) mill 2) clothWeaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
+                System.out.println("1) mill 2) weaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
                 String workShop = scanner.nextLine();
                 if (workShop.equals("1")) {
                     if (!users.get(indexOfUser).workShops.get("mill")) {
                         if (users.get(indexOfUser).getMoney() >= 150) {
                             users.get(indexOfUser).workShops.replace("mill", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 150);
+                            logger.info("Mill was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("mill is already taken");
+                        logger.warning("mill is already taken");
                     }
                 }
                 if (workShop.equals("2")) {
-                    if (!users.get(indexOfUser).workShops.get("mill")) {
+                    if (!users.get(indexOfUser).workShops.get("clothWeaving")) {
                         if (users.get(indexOfUser).getMoney() >= 250) {
                             users.get(indexOfUser).workShops.replace("clothWeaving", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
+                            logger.info("ClothWeaving was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("clothWeaving is already taken");
+                        logger.warning("clothWeaving is already taken");
                     }
                 }
                 if (workShop.equals("3")) {
@@ -1108,11 +1268,14 @@ public class Manager {
                         if (users.get(indexOfUser).getMoney() >= 400) {
                             users.get(indexOfUser).workShops.replace("milkPackaging", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
+                            logger.info("MilkPackaging was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("milkPackaging is already taken");
+                        logger.warning("milkPackaging is already taken");
                     }
                 }
                 if (workShop.equals("4")) {
@@ -1120,23 +1283,29 @@ public class Manager {
                         if (users.get(indexOfUser).getMoney() >= 250) {
                             users.get(indexOfUser).workShops.replace("bakery", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
+                            logger.info("Bakery was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("bakery is already taken");
+                        logger.warning("bakery is already taken");
                     }
                 }
                 if (workShop.equals("5")) {
-                    if (!users.get(indexOfUser).workShops.get("sewing")) {
+                    if (!users.get(indexOfUser).workShops.get("Sewing")) {
                         if (users.get(indexOfUser).getMoney() >= 400) {
-                            users.get(indexOfUser).workShops.replace("sewing", true);
+                            users.get(indexOfUser).workShops.replace("Sewing", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
+                            logger.info("Sewing was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("sewing is already taken");
+                        logger.warning("sewing is already taken");
                     }
                 }
                 if (workShop.equals("6")) {
@@ -1144,14 +1313,21 @@ public class Manager {
                         if (users.get(indexOfUser).getMoney() >= 550) {
                             users.get(indexOfUser).workShops.replace("iceCreamShop", true);
                             users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 550);
+                            logger.info("IceCreamShop was bought");
                         } else {
                             System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
                         }
                     } else {
                         System.out.println("iceCreamShop is already taken");
+                        logger.warning("iceCreamShop is already taken");
                     }
                 }
                 writeGsonUsers();
+            } else if (choice.equals("4")) {
+                writeGsonUsers();
+                logger.info("exit");
+                System.exit(0);
             }
 
         }
@@ -1195,12 +1371,48 @@ public class Manager {
 
     public void moneySet(int timeCounter) {
 
-        while (!levels.get(getSelectedLevel() - 1).time.containsKey(timeCounter)) {
-            timeCounter++;
+        boolean check = true;
+
+        for(Map.Entry<Integer, Integer> entry: levels.get(getSelectedLevel() - 1).time.entrySet()) {
+            if(entry.getValue() == 400 && check) {
+                if(timeCounter<=entry.getKey()){
+                    timeCounter = entry.getKey();
+                    check = false;
+                    break;
+                }
+            }
+        }
+        for(Map.Entry<Integer, Integer> entry: levels.get(getSelectedLevel() - 1).time.entrySet()) {
+            if(entry.getValue() == 200 && check) {
+                if(timeCounter<=entry.getKey()){
+                    timeCounter = entry.getKey();
+                    check = false;
+                    break;
+                }
+            }
+        }
+        for(Map.Entry<Integer, Integer> entry: levels.get(getSelectedLevel() - 1).time.entrySet()) {
+            if(entry.getValue() == 100 && check) {
+                if(timeCounter<=entry.getKey()){
+                    timeCounter = entry.getKey();
+                    check = false;
+                    break;
+                }
+            }
         }
 
-        users.get(getIndexOfUser()).setMoney(users.get(getIndexOfUser()).getMoney() + levels.get(getSelectedLevel() - 1).time.get(timeCounter));
 
+        users.get(getIndexOfUser()).setMoney(users.get(getIndexOfUser()).getMoney() + levels.get(getSelectedLevel() - 1).time.get(timeCounter));
+        if (levels.get(getSelectedLevel() - 1).time.get(timeCounter)==400) {
+            System.out.println("GOLDEN");
+            logger.info("Golden");
+        } else  if (levels.get(getSelectedLevel() - 1).time.get(timeCounter)==200) {
+            System.out.println("SILVER");
+            logger.info("Silver");
+        } else  if (levels.get(getSelectedLevel() - 1).time.get(timeCounter)==100) {
+            System.out.println("BRONZE");
+            logger.info("Bronze");
+        }
     }
 
     public void setBack() {
@@ -1215,34 +1427,303 @@ public class Manager {
         truck.dogsToSell.clear();
         truck.catToSell.clear();
         truck.farmAnimalsToSell.clear();
+        cats.clear();
+        dogs.clear();
+        factory.factories.clear();
+        grasses.clear();
     }
 
     public void buildFactory(String factoryName) {
-        if (factory.factories.contains(factoryName)){
+        if (checkFactory(factoryName)) {
             System.out.println("this factory already exist!!");
-        }
-        else {
-            if ((factoryName.equalsIgnoreCase("mill")) && (coin >= 150)) {
-                factory.factories.add("mill");
-                coin -= 150;
-            } else if ((factoryName.equalsIgnoreCase("sewing")) && (coin >= 250)) {
-                factory.factories.add("sewing");
-                coin -= 250;
-            } else if ((factoryName.equalsIgnoreCase("packagingMilk")) && (coin >= 400)) {
-                factory.factories.add("packagingMilk");
-                coin -= 400;
-            } else if ((factoryName.equalsIgnoreCase("bakery")) && (coin >= 250)) {
-                factory.factories.add("bakery");
-                coin -= 250;
-            } else if ((factoryName.equalsIgnoreCase("weaving")) && (coin >= 400)) {
-                factory.factories.add("weaving");
-                coin -= 400;
-            } else if ((factoryName.equalsIgnoreCase("iceCreamShop")) && (coin >= 550)) {
-                factory.factories.add("iceCreamShop");
-                coin -= 550;
+            logger.warning(factoryName + " already exist");
+        } else {
+            if (factoryName.equalsIgnoreCase("mill")) {
+                if (coin >= 150) {
+                    factory.factories.add(new Mill());
+                    coin -= 150;
+                    logger.info("Mill was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("sewing")) {
+                if (coin >= 250) {
+                    factory.factories.add(new Sewing());
+                    coin -= 250;
+                    logger.info("Sewing was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("packagingMilk")) {
+                if (coin >= 400) {
+                    factory.factories.add(new MilkPackaging());
+                    coin -= 400;
+                    logger.info("Milk packaging was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("bakery")) {
+                if (coin >= 250) {
+                    factory.factories.add(new Bakery());
+                    coin -= 250;
+                    logger.info("Bakery was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("weaving")) {
+                if (coin >= 400) {
+                    factory.factories.add(new Weaving());
+                    coin -= 400;
+                    logger.info("Weaving was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("iceCreamShop")) {
+                if (coin >= 550) {
+                    factory.factories.add(new IcecreamShop());
+                    coin -= 550;
+                    logger.info("Ice Cream Shop was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
             } else {
-                System.out.println("You dont have enough money!");
+                System.out.println("Wrong input!!");
+                logger.warning("Wrong input");
             }
         }
     }
+
+    public boolean checkFactory(String string) {
+        int check = 0;
+        for (int i = 0; i < factory.factories.size(); i++) {
+            if (factory.factories.get(i).getName().equalsIgnoreCase(string)) {
+                check = 1;
+                break;
+            }
+        }
+        if (check == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void upgradeFactory(String factoryName) {
+        int pointer = foundFactory(factoryName);
+        if (factoryName.equalsIgnoreCase("mill")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 250) {
+                        factory.factories.get(pointer).setLevel(factory.factories.get(foundFactory("mill")).getLevel() + 1);
+                        coin -= 250;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Mill was not built");
+            }
+        } else if (factoryName.equalsIgnoreCase("sewing")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 750) {
+                        factory.factories.get(foundFactory("sewing")).setLevel(factory.factories.get(foundFactory("sewing")).getLevel() + 1);
+                        coin -= 750;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Sewing was not built");
+            }
+        } else if (factoryName.equalsIgnoreCase("packagingMilk")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 750) {
+                        factory.factories.get(foundFactory("packagingMilk")).setLevel(factory.factories.get(foundFactory("packagingMilk")).getLevel() + 1);
+                        coin -= 750;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Milk packaging was not built");
+            }
+        } else if (factoryName.equalsIgnoreCase("bakery")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 400) {
+                        factory.factories.get(foundFactory("bakery")).setLevel(factory.factories.get(foundFactory("bakery")).getLevel() + 1);
+                        coin -= 400;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Bakery was not built");
+            }
+        } else if (factoryName.equalsIgnoreCase("weaving")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 750) {
+                        factory.factories.get(foundFactory("weaving")).setLevel(factory.factories.get(foundFactory("weaving")).getLevel() + 1);
+                        coin -= 750;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Weaving was not built");
+            }
+        } else if (factoryName.equalsIgnoreCase("iceCreamShop")) {
+            if (pointer < factory.factories.size()) {
+                if (factory.factories.get(pointer).getLevel() == 1) {
+                    if (coin >= 1000) {
+                        factory.factories.get(foundFactory("iceCreamShop")).setLevel(factory.factories.get(foundFactory("iceCreamShop")).getLevel() + 1);
+                        coin -= 1000;
+                    } else {
+                        System.out.println("You don't have enough coin!");
+                        logger.warning("There is not enough coin");
+                    }
+                } else {
+                    System.out.println("Max Level");
+                    logger.warning("Max Level");
+                }
+            } else {
+                System.out.println("This factory was not built");
+                logger.warning("Ice cream shop was not built");
+            }
+        } else {
+            System.out.println("Wrong input!!");
+        }
+    }
+
+    public int foundFactory(String name) {
+        int i = 0;
+        for (i = 0; i < factory.factories.size(); i++) {
+            if (factory.factories.get(i).getName().equalsIgnoreCase(name)) {
+                break;
+            }
+        }
+        return i;
+    }
+
+    public boolean checkFactoryLevel(String factoryName) {
+        int check = 0;
+        for (int i = 0; i < factory.factories.size(); i++) {
+            if ((factory.factories.get(i).getName().equalsIgnoreCase(factoryName)) && (factory.factories.get(i).getLevel() == 1)) {
+                check = 1;
+                break;
+            }
+        }
+        if (check == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void catMove() {
+        double distance = 100.0;
+        int index = 0;
+        if (!products.allUnPickedupedProducts.isEmpty()) {
+            for (int i = 0; i < cats.size(); i++) {
+                int x = cats.get(i).coordinate / 10;
+                int y = cats.get(i).coordinate % 10;
+                distance = 100.0;
+                for (int j = 0; j < products.allUnPickedupedProducts.size(); j++) {
+                    int z = products.allUnPickedupedProducts.get(j).coordinate / 10;
+                    int w = products.allUnPickedupedProducts.get(j).coordinate % 10;
+                    if (Math.pow((double) (x - z), 2) + Math.pow((double) (y - w), 2) < distance) {
+                        distance = Math.pow((double) (x - z), 2) + Math.pow((double) (y - w), 2);
+                        index = j;
+                    }
+                }
+                movingTargetCat(index, i);
+            }
+        }
+    }
+
+    public void movingTargetCat(int indexOfProduct, int indexOfAnimal) {
+        if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 == cats.get(indexOfAnimal).coordinate / 10) {
+            if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate % 10 > cats.get(indexOfAnimal).coordinate % 10)
+                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 1;
+            else
+                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 1;
+        } else {
+            if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 > cats.get(indexOfAnimal).coordinate / 10)
+                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 10;
+            else
+                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 10;
+        }
+    }
+
+    public void movingTargetAnimal(int indexOfProduct, int indexOfAnimal) {
+        if (grasses.get(indexOfProduct).coordinate / 10 == farmanimals.farmanimalss.get(indexOfAnimal).coordinate / 10) {
+            if (grasses.get(indexOfProduct).coordinate % 10 > farmanimals.farmanimalss.get(indexOfAnimal).coordinate % 10)
+                farmanimals.farmanimalss.get(indexOfAnimal).coordinate = farmanimals.farmanimalss.get(indexOfAnimal).coordinate + 1;
+            else
+                farmanimals.farmanimalss.get(indexOfAnimal).coordinate = farmanimals.farmanimalss.get(indexOfAnimal).coordinate - 1;
+        } else {
+            if (grasses.get(indexOfProduct).coordinate / 10 > farmanimals.farmanimalss.get(indexOfAnimal).coordinate / 10)
+                farmanimals.farmanimalss.get(indexOfAnimal).coordinate = farmanimals.farmanimalss.get(indexOfAnimal).coordinate + 10;
+            else
+                farmanimals.farmanimalss.get(indexOfAnimal).coordinate = farmanimals.farmanimalss.get(indexOfAnimal).coordinate - 10;
+        }
+    }
+
+    public void farmAnimalMove() {
+        double distance = 100.0;
+        int index = 0;
+        if (!grasses.isEmpty()) {
+            for (int i = 0; i < farmanimals.farmanimalss.size(); i++) {
+                if (farmanimals.farmanimalss.get(i).life <= 5) {
+                    int x = farmanimals.farmanimalss.get(i).coordinate / 10;
+                    int y = farmanimals.farmanimalss.get(i).coordinate % 10;
+                    distance = 100.0;
+                    for (int j = 0; j < grasses.size(); j++) {
+                        int z = grasses.get(j).coordinate / 10;
+                        int w = grasses.get(j).coordinate % 10;
+                        if (Math.pow((double) (x - z), 2) + Math.pow((double) (y - w), 2) < distance) {
+                            distance = Math.pow((double) (x - z), 2) + Math.pow((double) (y - w), 2);
+                            index = j;
+                        }
+                    }
+                    movingTargetAnimal(index, i);
+                }
+            }
+        }
+    }
+
 }

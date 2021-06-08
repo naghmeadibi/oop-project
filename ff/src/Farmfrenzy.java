@@ -11,7 +11,7 @@ public class Farmfrenzy {
 
     public static void main(String[] arg) {
         Scanner scanner = new Scanner(System.in);
-      /* int n = scanner.nextInt();
+       int n = scanner.nextInt();
        Level[] levels = new Level[n];
         for (int i = 0; i < n; i++) {
             int Level = scanner.nextInt();
@@ -39,7 +39,7 @@ public class Farmfrenzy {
             GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
             Gson gson = builder.create();
             String level = gson.toJson(levels);
-            write(level);*/
+            write(level);
      // String jsonString = read();
        // System.out.println(jsonString);
      //   GsonBuilder builder = new GsonBuilder();
@@ -50,21 +50,21 @@ public class Farmfrenzy {
        /* GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
         Gson gson = builder.create();*/
     //   JSONParser jsonParser = new JSONParser();
-       try {
+       /*try {
            Gson gson = new Gson();
            Level[] levels = gson.fromJson(new FileReader("levels.json"),Level[].class);
            System.out.println(levels.length);
            System.out.println(levels[1].tasks.toString());
        }catch (Exception e){
 
-       }
-
+       }*/
+     //400 برا طلا 200 برا نقره 100 برا برنز
 
     }
 
     public static void write (String string) {
         try {
-            FileWriter levels = new FileWriter("levels.json",true);
+            FileWriter levels = new FileWriter("levels.json");
             levels.append(string);
             levels.close();
         } catch (IOException e) {
