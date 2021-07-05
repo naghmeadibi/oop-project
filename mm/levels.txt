@@ -1,0 +1,35 @@
+{
+  "level": 1,
+  "coin": 200,
+  "tasks": {
+    "hen": 4,
+    "egg": 5,
+    "coin": 300
+  },
+  "wildAnimalsHashMap": {
+    "4": "lion",
+    "6": "lion"
+  },
+  "time": {
+    "2147483647": 100,
+    "5": 300,
+    "7": 200
+  }
+}{
+  "level": 2,
+  "coin": 2000,
+  "tasks": {
+    "hen": 15,
+    "egg": 15,
+    "turkey": 3
+  },
+  "wildAnimalsHashMap": {
+    "3": "lion",
+    "5": "bear"
+  },
+  "time": {
+    "2147483647": 100,
+    "4": 400,
+    "6": 300
+  }
+}

@@ -1,0 +1,185 @@
+[
+  {
+    "level": 1,
+    "coin": 400,
+    "tasks": {
+      "hen": 1,
+      "egg": 1
+    },
+    "wildAnimalsHashMap": {
+      "5": "lion",
+      "9": "bear"
+    },
+    "time": {
+      "2147483647": 100,
+      "6": 400,
+      "10": 200
+    }
+  },
+  {
+    "level": 2,
+    "coin": 500,
+    "tasks": {
+      "feather": 3,
+      "turkey": 3,
+      "coin": 1000
+    },
+    "wildAnimalsHashMap": {
+      "6": "tiger",
+      "11": "lion"
+    },
+    "time": {
+      "2147483647": 100,
+      "20": 200,
+      "15": 400
+    }
+  },
+  {
+    "level": 3,
+    "coin": 6000,
+    "tasks": {
+      "powder": 3,
+      "packagedMilk": 3
+    },
+    "wildAnimalsHashMap": {
+        "3": "tiger"
+    },
+    "time": {
+      "2147483647": 100,
+      "20": 400,
+      "30": 200
+    }
+  },
+  {
+    "level": 4,
+    "coin": 700,
+    "tasks": {
+      "shirt": 7
+    },
+    "wildAnimalsHashMap": {
+      "5": "lion",
+      "6": "lion",
+      "7": "bear"
+    },
+    "time": {
+      "2147483647": 100,
+      "50": 200,
+      "40": 400
+    }
+  },
+  {
+    "level": 5,
+    "coin": 1000,
+    "tasks": {
+      "bread": 5,
+      "iceCream": 5,
+      "buffalo": 10,
+      "coin": 2000
+    },
+    "wildAnimalsHashMap": {
+      "2": "tiger",
+      "8": "lion",
+      "10": "bear",
+      "11": "tiger"
+    },
+    "time": {
+      "2147483647": 100,
+      "66": 200,
+      "55": 400
+    }
+  },
+  {
+    "level": 6,
+    "coin": 90,
+    "tasks": {
+      "powder": 12,
+      "bread": 7,
+      "hen" : 6,
+      "coin" : 1000
+    },
+    "wildAnimalsHashMap": {
+      "3": "lion",
+      "4": "lion",
+      "5": "tiger"
+    },
+    "time": {
+      "2147483647": 100,
+      "30": 400,
+      "50": 200
+    }
+  },
+  {
+    "level": 7,
+    "coin": 250,
+    "tasks": {
+      "powder": 15,
+      "buffalo": 3,
+      "coin": 600
+    },
+    "wildAnimalsHashMap": {
+      "1": "tiger",
+      "20": "lion"
+    },
+    "time": {
+      "2147483647": 100,
+      "40": 200,
+      "30": 400
+    }
+  },
+  {
+    "level": 8,
+    "coin": 600,
+    "tasks": {
+      "iceCream": 6,
+      "buffalo": 6
+    },
+    "wildAnimalsHashMap": {
+      "3": "tiger",
+      "6": "bear"
+    },
+    "time": {
+      "2147483647": 100,
+      "30": 400,
+      "45": 200
+    }
+  },
+  {
+    "level": 9,
+    "coin": 600,
+    "tasks": {
+      "bread": 15,
+      "egg": 30
+    },
+    "wildAnimalsHashMap": {
+      "5": "lion",
+      "6": "lion",
+      "7": "bear",
+      "8": "tiger"
+    },
+    "time": {
+      "2147483647": 100,
+      "50": 200,
+      "40": 400
+    }
+  },
+  {
+    "level": 10,
+    "coin": 250,
+    "tasks": {
+      "bread": 1,
+      "hen": 30,
+      "powder": 1
+    },
+    "wildAnimalsHashMap": {
+      "1": "tiger",
+      "2": "lion",
+      "10": "bear",
+      "11": "tiger"
+    },
+    "time": {
+      "2147483647": 100,
+      "66": 200,
+      "55": 400
+    }
+  }
+]
