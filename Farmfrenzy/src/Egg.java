@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+
 
 public class Egg extends Products {
 
@@ -12,5 +12,6 @@ public class Egg extends Products {
     public Egg() {
 
     }
+
 }
 

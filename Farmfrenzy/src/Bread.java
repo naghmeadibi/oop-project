@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+
 
 /**
  * Created by Atmospher-PC on 15/05/2021.
@@ -12,7 +12,5 @@ public class Bread extends Products {
         this.coordinate = coordinate;
         this.name = "bread";
     }
-    public Bread (){
 
-    }
 }

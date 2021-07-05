@@ -1,15 +1,16 @@
-import java.util.LinkedList;
+
 
 /**
  * Created by Atmospher-PC on 15/05/2021.
  */
 public class Bakery extends Factory {
-
-    Products products = new Products();
-  //  Powder powder = new Powder();
-  //  Bread bread = new Bread();
     public Bakery() {
         this.price = 250;
-        this.time = 5;
+        this.upgraidPrice = 400;
+        this.time1 = 5;
+        this.time2 = 3;
+        this.level = 1;
+        this.name = "bakery";
     }
+
 }

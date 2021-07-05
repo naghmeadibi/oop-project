@@ -6,5 +6,13 @@ public class Tiger extends WildAnimals {
         this.interCoordinate = 0;
         this.price = 500;
         this.caged = -1;
+        this.maxLife = 4;
+        this.name = "tiger";
+    }
+
+
+
+    public void setInterCoordinate(int interCoordinate) {
+        this.interCoordinate = interCoordinate;
     }
 }

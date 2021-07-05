@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+
 
 public class Lion extends WildAnimals{
 
@@ -7,5 +7,7 @@ public class Lion extends WildAnimals{
         this.life = 3;
         this.price=300;
         this.caged=-1;
+        this.maxLife = 3;
+        this.name = "lion";
     }
 }
