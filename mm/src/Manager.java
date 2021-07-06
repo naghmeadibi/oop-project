@@ -22,8 +22,8 @@ public class Manager {
     Factory factory = new Factory();
     WildAnimals wildAnimals = new WildAnimals();
     Farmanimals farmanimals = new Farmanimals();
-    int wellWater = 5;
-    public int coin = 0;
+    int wellWater = 50;
+    public int coin = 10000;
     public LinkedList<Grass> grasses = new LinkedList<>();
     public LinkedList<Dog> dogs = new LinkedList<>();
     public LinkedList<Cat> cats = new LinkedList<>();
@@ -82,6 +82,28 @@ public class Manager {
             System.out.println("Your well is empty!!");
             logger.warning("Well is empty");
         }
+    }
+
+    public void check() {
+            unCage();
+            checkCagedAnimals();
+            catCollect();
+            bearAndLionToEat();
+            tigerToEat();
+            dogToCatch();
+            lifeOfAnimals();
+            productTimeHandle();
+            grassToBeEaten();
+            catMove();
+            farmAnimalMove();
+            moving();
+            movingTiger();
+            dogMove();
+            animalProduct();
+           // timeHandle();
+            setCounter(getCounter() + 1);
+            addWildAnimals(getCounter());
+
     }
 
 
@@ -277,7 +299,7 @@ public class Manager {
     }
 
 
-    public void pickUp(int x) {
+    public int pickUp(int x) {
         int check = 0;
         for (int i = 0; i < products.allUnPickedupedProducts.size(); i++) {
             if ((products.allUnPickedupedProducts.get(i).coordinate == x)) {
@@ -291,7 +313,7 @@ public class Manager {
                     System.out.println("Error, Your warehouse does not have enough space!!");
                     logger.warning("Warehouse does not have enough space");
                 }
-                break;
+                return 1;
             }
         }
         if (check == 0) {
@@ -307,13 +329,16 @@ public class Manager {
                         System.out.println("Error, Your warehouse does not have enough space!!");
                         logger.warning("Warehouse does not have enough space");
                     }
-                    break;
+                    return 1;
                 }
             }
         }
         if (check == 0) {
             System.out.println("this Coordinates is empty!!");
             logger.warning("empty coordinates");
+            return 0;
+        } else {
+            return 1;
         }
     }
 
@@ -484,7 +509,8 @@ public class Manager {
         }
     }
 
-    public void cage(int coordinates) {
+    public int cage(int coordinates) {
+        System.out.println(coordinates);
         for (int cnt = 0; cnt < wildAnimals.livingWildAnimals.size(); cnt++) {
             if (wildAnimals.livingWildAnimals.get(cnt).coordinate == coordinates) {
                 wildAnimals.livingWildAnimals.get(cnt).setLife(wildAnimals.livingWildAnimals.get(cnt).life - 2);
@@ -495,12 +521,11 @@ public class Manager {
                     logger.info("add to cage " + wildAnimals.livingWildAnimals.get(cnt).getName());
                     wildAnimals.livingWildAnimals.remove(cnt);
                 }
-                return;
+                return 1;
             }
         }
 
-        System.out.println("there's no wild animal here :(");
-        logger.warning("empty coordinates");
+        return 0;
     }
 
     public void unCage() {
@@ -1755,4 +1780,5 @@ public class Manager {
                 dogs.get(indexOfAnimal).coordinate = dogs.get(indexOfAnimal).coordinate - 10;
         }
     }
+
 }

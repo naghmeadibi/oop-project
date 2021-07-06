@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by Atmospher-PC on 24/06/2021.
  */
-public class Graphics extends JFrame implements MouseListener {
+public class MyGraphics extends JFrame implements MouseListener {
     JFrame frame;
     ImageIcon backGround;
     JLabel main;
