@@ -22,7 +22,7 @@ public class Manager {
     Factory factory = new Factory();
     WildAnimals wildAnimals = new WildAnimals();
     Farmanimals farmanimals = new Farmanimals();
-    int wellWater = 5;
+    int wellWater = 50;
     public int coin = 0;
     public LinkedList<Grass> grasses = new LinkedList<>();
     public LinkedList<Dog> dogs = new LinkedList<>();

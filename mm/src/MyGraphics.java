@@ -2,18 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by Atmospher-PC on 24/06/2021.
  */
-public class Graphics extends JFrame implements ActionListener {
+public class MyGraphics extends JFrame implements MouseListener {
     JFrame frame;
     ImageIcon backGround;
     JLabel main;
     JPanel mainPanel;
-    JButton[][] key;
+    JLabel[][] key;
     Manager manager = new Manager();
     ImageIcon grass;
+
     
     
     public void run() {
@@ -23,9 +26,9 @@ public class Graphics extends JFrame implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        ImageIcon image = new ImageIcon("logo.jpg");
-        frame.setIconImage(image.getImage());
         grass = new ImageIcon("grass.png");
+
+
 
 
 
@@ -37,7 +40,7 @@ public class Graphics extends JFrame implements ActionListener {
 
 
 
-        backGround = new ImageIcon("back.jpg");
+        backGround = new ImageIcon("newBack.jpg");
 
 
 
@@ -62,16 +65,14 @@ public class Graphics extends JFrame implements ActionListener {
 
 
     public void printKey() {
-        key = new JButton[6][6];
+        key = new JLabel[6][6];
         for (int i = 0; i < 6 ; i++) {
             for (int j = 0; j < 6; j++) {
-                key[i][j] = new JButton();
+                key[i][j] = new JLabel();
                 key[i][j].setBounds(i*100+350,j*90+140,100,90);
                 mainPanel.add(key[i][j]);
                 key[i][j].setOpaque(false);
-                key[i][j].setContentAreaFilled(false);
-                key[i][j].setBorderPainted(false);
-                key[i][j].addActionListener(this);
+                key[i][j].addMouseListener(this);
 
 
             }
@@ -79,19 +80,37 @@ public class Graphics extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < 6 ; i++) {
             for (int j = 0; j < 6 ; j++) {
                 if (e.getSource() == key[i][j]) {
                     int coordinate = 10 * (i+1) + j +1;
                     key[i][j].setIcon(grass);
-                    key[i][j].setOpaque(true);
-                    key[i][j].setContentAreaFilled(true);
-                    //key[i][j].setBorderPainted(true);
+                    key[i][j].setOpaque(false);
                     manager.plant(coordinate);
                     break;
                 }
             }
         }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
