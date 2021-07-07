@@ -1,14 +1,15 @@
 [
   {
     "level": 1,
-    "coin": 400,
+    "coin": 4000,
     "tasks": {
       "hen": 1,
       "egg": 1
     },
     "wildAnimalsHashMap": {
       "5": "lion",
-      "9": "lion"
+      "6": "tiger",
+      "7": "bear"
     },
     "time": {
       "2147483647": 100,

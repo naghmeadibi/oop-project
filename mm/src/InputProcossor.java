@@ -50,7 +50,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if ((!orders.contains("addPowder")) ) {
                             if (manager.checkEgg() == false) {
-                                System.out.println("You do not have enough eggs");
                                 manager.logger.warning("There are not enough eggs");
                             }
                             else if (manager.factory.factories.get(pointer).getLevel() == 1 && (manager.checkEgg())) {
@@ -74,11 +73,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addPowder")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Mill is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("Mill is not built");
                     }
 
@@ -86,7 +83,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if (!orders.contains("addCloth")) {
                             if (manager.checkFeather() == false) {
-                                System.out.println("You do not have enough feathers");
                                 manager.logger.warning("There are not enough feathers");
                             }
                             else if ((manager.factory.factories.get(pointer).getLevel() == 1) && (manager.checkFeather())) {
@@ -110,11 +106,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addCloth")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Sewing is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("Sewing is not built");
                     }
 
@@ -122,7 +116,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if (!orders.contains("addPackagedMilk")) {
                             if (manager.checkMilk() == false) {
-                                System.out.println("You do not have enough milks");
                                 manager.logger.warning("There are not enough milks");
                             }
                             if ((manager.factory.factories.get(pointer).getLevel() == 1) && (manager.checkMilk())) {
@@ -146,11 +139,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addPackagedMilk")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Packaging milk is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("Packaging Milk is not built");
                     }
 
@@ -158,7 +149,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if (!orders.contains("addBread")) {
                             if (manager.checkPowder() == false) {
-                                System.out.println("You do not have enough powders");
                                 manager.logger.warning("There are not enough powders");
                             }
                             else if ((manager.factory.factories.get(pointer).getLevel() == 1) && (manager.checkPowder())) {
@@ -182,11 +172,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addBread")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Bakery is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("Bakery is not built");
                     }
 
@@ -194,7 +182,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if (!orders.contains("addShirt")) {
                             if (manager.checkCloth() == false) {
-                                System.out.println("You do not have enough cloths");
                                 manager.logger.warning("There are not enough cloths");
                             }
                             if ((manager.factory.factories.get(pointer).getLevel() == 1) && (manager.checkCloth())) {
@@ -218,11 +205,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addShirt")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Weaving is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("weaving is not built");
                     }
 
@@ -230,7 +215,6 @@ public class InputProcossor {
                     if (pointer < manager.factory.factories.size()) {
                         if (!orders.contains("addIceCream")) {
                             if (manager.checkPackagedMilk() == false) {
-                                System.out.println("You do not have enough packaged milks");
                                 manager.logger.warning("There are not enough packaged milks");
                             }
                             else if ((manager.factory.factories.get(pointer).getLevel() == 1) && (manager.checkPackagedMilk())) {
@@ -254,11 +238,9 @@ public class InputProcossor {
                                 }
                             }
                         } else if (orders.contains("addIceCream")) {
-                            System.out.println("Factory is working!!");
                             manager.logger.warning("Ice cream shop is working");
                         }
                     } else {
-                        System.out.println("this factory doesn't exist!!");
                         manager.logger.warning("Ice cream shop is not built");
                     }
 

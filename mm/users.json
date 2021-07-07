@@ -10,7 +10,7 @@
       "bakery": true,
       "milkPackaging": true,
       "clothWeaving": false,
-      "mill": true
+      "mill": false
     }
   },
   {

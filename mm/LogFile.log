@@ -1,0 +1,164 @@
+Jun 27, 2021 12:09:21 AM Manager menu
+INFO: logged in successfully
+Jun 27, 2021 12:09:22 AM Manager menu
+INFO: Start Game
+Jun 27, 2021 12:09:24 AM Manager checkMill
+WARNING: The mill has not been purchased
+Jun 27, 2021 12:09:27 AM Manager randomCoordinate
+INFO: Random coordinates were generated :24
+Jun 27, 2021 12:09:27 AM Manager addLion
+INFO: new Lion
+Jun 27, 2021 12:09:27 AM Manager randomCoordinate
+INFO: Random coordinates were generated :62
+Jun 27, 2021 12:09:27 AM Manager addTiger
+INFO: new Tiger
+Jun 27, 2021 12:09:27 AM Manager randomCoordinate
+INFO: Random coordinates were generated :65
+Jun 27, 2021 12:09:27 AM Manager addBear
+INFO: new Bear
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :66
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 66 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :36
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 36 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :21
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 21 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :25
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 25 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :56
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 56 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :34
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 34 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :52
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 52 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :33
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 33 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :66
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 66 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :43
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 43 12
+Jun 27, 2021 12:09:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :21
+Jun 27, 2021 12:09:33 AM Manager addHen
+INFO: new hen 21 12
+Jun 27, 2021 12:09:33 AM Manager tigerToEat
+INFO: tiger eat hen
+Jun 27, 2021 12:09:36 AM Manager bearAndLionToEat
+INFO: lion eat hen
+Jun 27, 2021 12:09:36 AM Manager bearAndLionToEat
+INFO: lion eat hen
+Jun 27, 2021 12:09:36 AM Manager tigerToEat
+INFO: tiger eat hen
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 65 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 26 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 46 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 24 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 62 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 25 14
+Jun 27, 2021 12:09:36 AM Manager addEgg
+INFO: Egg was produced 45 14
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 46 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 36 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 36 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 36 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 52 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 26 17
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 35 17
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager bearAndLionToEat
+INFO: lion eat hen
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 45 20
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 26 20
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 44 20
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 26 20
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 34 20
+Jun 27, 2021 12:09:37 AM Manager addEgg
+INFO: Egg was produced 45 20
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger eat hen
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager lifeOfAnimals
+INFO: hen died!
+Jun 27, 2021 12:09:37 AM Manager lifeOfAnimals
+INFO: hen died!
+Jun 27, 2021 12:09:37 AM Manager lifeOfAnimals
+INFO: hen died!
+Jun 27, 2021 12:09:37 AM Manager lifeOfAnimals
+INFO: hen died!
+Jun 27, 2021 12:09:37 AM Manager lifeOfAnimals
+INFO: hen died!
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager tigerToEat
+INFO: tiger destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager bearAndLionToEat
+INFO: bear destroyed Egg
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
+Jun 27, 2021 12:09:37 AM Manager productTimeHandle
+INFO: Egg removed
