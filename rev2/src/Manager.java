@@ -12,7 +12,7 @@ public class Manager {
     Logger logger = Logger.getLogger("MyLog");
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
-    private int selectedLevel;
+    public int selectedLevel;
     Store store = new Store();
     Truck truck = new Truck();
     Hen hen = new Hen();
@@ -34,8 +34,9 @@ public class Manager {
     User[] userss = new User[numOfUsers + 1];
     ArrayList<User> users = new ArrayList<>();
     public LinkedList<String> orders = new LinkedList<>();
-    private int indexOfUser = 0;
+    public int indexOfUser = 0;
     int timeCounter = -1;
+
 
     public int getCounter() {
         return counter;
@@ -104,16 +105,6 @@ public class Manager {
         timeCounter++;
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
     public int randomCoordinate() {
@@ -932,17 +923,17 @@ public class Manager {
         }
         animalCoordinatePrint();
         productCoordinatePrint();
-        if (!factory.factories.isEmpty()){
+        if (!factory.factories.isEmpty()) {
             System.out.println("Factories : ");
         }
         for (int i = 0; i < factory.factories.size(); i++) {
             System.out.print(factory.factories.get(i).getName());
-            System.out.println( "  level = " + factory.factories.get(i).getLevel());
+            System.out.println("  level = " + factory.factories.get(i).getLevel());
         }
         if (!wildAnimals.cagedWildAnimals.isEmpty()) {
             System.out.println("Caged Animals : ");
         }
-        for (int i = 0; i < wildAnimals.cagedWildAnimals.size() ; i++) {
+        for (int i = 0; i < wildAnimals.cagedWildAnimals.size(); i++) {
             System.out.print(wildAnimals.cagedWildAnimals.get(i).getName());
             System.out.println("  Coordinate : " + wildAnimals.cagedWildAnimals.get(i).getCoordinate());
         }
@@ -951,60 +942,7 @@ public class Manager {
         printTask();
     }
 
-    public void printTask() {
-        if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
-            System.out.print("Hen : ");
-            System.out.println(countFarmAnimal("hen") + "/" + levels.get(selectedLevel - 1).tasks.get("hen"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
-            System.out.print("Turkey : ");
-            System.out.println(countFarmAnimal("turkey") + "/" + levels.get(selectedLevel - 1).tasks.get("turkey"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
-            System.out.print("Buffalo : ");
-            System.out.println(countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
-            System.out.print("Egg : ");
-            System.out.println(counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
-            System.out.print("Feather : ");
-            System.out.println(counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
-            System.out.print("Milk : ");
-            System.out.println(counterProductInStore("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
-            System.out.print("Powder : ");
-            System.out.println(counterProductInStore("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
-            System.out.print("Cloth : ");
-            System.out.println(counterProductInStore("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
-            System.out.print("Packaged Milk : ");
-            System.out.println(counterProductInStore("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
-            System.out.print("Bread : ");
-            System.out.println(counterProductInStore("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
-            System.out.print("Shirt : ");
-            System.out.println(counterProductInStore("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
-            System.out.print("Ice Cream : ");
-            System.out.println(counterProductInStore("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
-        }
-        if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
-            System.out.print("Coin : ");
-            System.out.println(coin + "/" + levels.get(selectedLevel - 1).tasks.get("coin"));
-        }
-    }
+
 
     public void productTimeHandle() {
         for (int cnt = 0; cnt < products.allUnPickedupedProducts.size(); cnt++) {
@@ -1170,7 +1108,11 @@ public class Manager {
         }
     }
 
-    public void menu(boolean c) {
+
+
+
+
+    public void menu1(boolean c) {
         String password;
         String username;
         readUser();
@@ -1355,6 +1297,235 @@ public class Manager {
 
         }
     }
+
+
+
+
+    String password;
+    String username;
+    String choice ;
+    public int menu(boolean c) {
+        readUser();
+        boolean mainWhile = true;
+        while (mainWhile && c) {
+            switch (choice) {
+                case "1":
+                    if (checkUsername(username) == -1) {
+                        logger.warning("Invalid Username");
+                        return -1;
+                    } else {
+                        if (users.get(checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
+                            logger.info("logged in successfully");
+                            indexOfUser = checkUsername(username);
+                            return 1;
+                        } else {
+                            logger.warning("wrong password");
+                            return 0;
+                        }
+
+                    }
+                case "2":
+                    if (checkUsername(username) == -1) {
+                        indexOfUser = numOfUsers;
+                        numOfUsers++;
+                        setNumOfUsers(numOfUsers);
+                        users.add(new User(username, password, 1, 0));
+                        logger.info("signed up successfully");
+                        return 2;
+                    } else {
+                        logger.warning("invalid username");
+                        return 3;
+                    }
+            }
+        }
+        return 0;
+    }
+    public void secondMenu(boolean c){
+        while (true) {
+            System.out.println("what shall we do next?");
+            System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
+            String choice = scanner.nextLine();
+            String[] strings = choice.split("\\s+");
+            if (strings[0].equalsIgnoreCase("1")) {
+                selectedLevel = Integer.parseInt(strings[1]);
+                if (selectedLevel > users.get(getIndexOfUser()).getLevel()) {
+                    logger.warning("wrong selected level");
+                    System.out.println("You cant play this level");
+                } else {
+                    System.out.println("Go On");
+                    logger.info("Start Game");
+                    return;
+                }
+            } else if (strings[0].equalsIgnoreCase("2")) {
+                c = true;
+                logger.info("log out");
+                menu(c);
+                return;
+            } else if (strings[0].equalsIgnoreCase("3")) {
+                logger.info("enter setting");
+                System.out.println("you wanna buy?");
+                System.out.println("1) mill 2) weaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
+                String workShop = scanner.nextLine();
+                if (workShop.equals("1")) {
+                    if (!users.get(indexOfUser).workShops.get("mill")) {
+                        if (users.get(indexOfUser).getMoney() >= 150) {
+                            users.get(indexOfUser).workShops.replace("mill", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 150);
+                            logger.info("Mill was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("mill is already taken");
+                        logger.warning("mill is already taken");
+                    }
+                }
+                if (workShop.equals("2")) {
+                    if (!users.get(indexOfUser).workShops.get("clothWeaving")) {
+                        if (users.get(indexOfUser).getMoney() >= 250) {
+                            users.get(indexOfUser).workShops.replace("clothWeaving", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
+                            logger.info("ClothWeaving was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("clothWeaving is already taken");
+                        logger.warning("clothWeaving is already taken");
+                    }
+                }
+                if (workShop.equals("3")) {
+                    if (!users.get(indexOfUser).workShops.get("milkPackaging")) {
+                        if (users.get(indexOfUser).getMoney() >= 400) {
+                            users.get(indexOfUser).workShops.replace("milkPackaging", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
+                            logger.info("MilkPackaging was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("milkPackaging is already taken");
+                        logger.warning("milkPackaging is already taken");
+                    }
+                }
+                if (workShop.equals("4")) {
+                    if (!users.get(indexOfUser).workShops.get("bakery")) {
+                        if (users.get(indexOfUser).getMoney() >= 250) {
+                            users.get(indexOfUser).workShops.replace("bakery", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
+                            logger.info("Bakery was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("bakery is already taken");
+                        logger.warning("bakery is already taken");
+                    }
+                }
+                if (workShop.equals("5")) {
+                    if (!users.get(indexOfUser).workShops.get("Sewing")) {
+                        if (users.get(indexOfUser).getMoney() >= 400) {
+                            users.get(indexOfUser).workShops.replace("Sewing", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
+                            logger.info("Sewing was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("sewing is already taken");
+                        logger.warning("sewing is already taken");
+                    }
+                }
+                if (workShop.equals("6")) {
+                    if (!users.get(indexOfUser).workShops.get("iceCreamShop")) {
+                        if (users.get(indexOfUser).getMoney() >= 550) {
+                            users.get(indexOfUser).workShops.replace("iceCreamShop", true);
+                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 550);
+                            logger.info("IceCreamShop was bought");
+                        } else {
+                            System.out.println("you don't have enough money");
+                            logger.warning("There is not enough money");
+                        }
+                    } else {
+                        System.out.println("iceCreamShop is already taken");
+                        logger.warning("iceCreamShop is already taken");
+                    }
+                }
+                writeGsonUsers();
+            } else if (choice.equals("4")) {
+                writeGsonUsers();
+                logger.info("exit");
+                System.exit(0);
+            }
+
+        }
+    }
+
+
+
+    String[] tasks = new String[13];
+    public String[] printTask() {
+        if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
+            tasks[0] = ("HEN " + countFarmAnimal("hen") + "/" + levels.get(selectedLevel - 1).tasks.get("hen"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
+            tasks[1] = (countFarmAnimal("turkey") + "/" + levels.get(selectedLevel - 1).tasks.get("turkey"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
+            System.out.print("Buffalo : ");
+            System.out.println(countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
+            tasks [3] = ("EGG " + counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
+            System.out.print("Feather : ");
+            System.out.println(counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
+            System.out.print("Milk : ");
+            System.out.println(counterProductInStore("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
+            System.out.print("Powder : ");
+            System.out.println(counterProductInStore("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
+            System.out.print("Cloth : ");
+            System.out.println(counterProductInStore("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
+            System.out.print("Packaged Milk : ");
+            System.out.println(counterProductInStore("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
+            System.out.print("Bread : ");
+            System.out.println(counterProductInStore("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
+            System.out.print("Shirt : ");
+            System.out.println(counterProductInStore("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
+            System.out.print("Ice Cream : ");
+            System.out.println(counterProductInStore("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
+        }
+        if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
+            System.out.print("Coin : ");
+            System.out.println(coin + "/" + levels.get(selectedLevel - 1).tasks.get("coin"));
+        }
+        return tasks;
+    }
+
+
+
+
+
 
     public int checkUsername(String userName) {
         int check = -1;
@@ -1834,24 +2005,24 @@ public class Manager {
             }
         }
     }
+
     public void workFactory(String string) {
         int pointer = foundFactory(string);
         try {
             if (string.equalsIgnoreCase("mill")) {
                 if (pointer < factory.factories.size()) {
-                    if ((!orders.contains("addPowder")) ) {
+                    if ((!orders.contains("addPowder"))) {
                         if (checkEgg() == false) {
                             logger.warning("There are not enough eggs");
-                        }
-                        else if (factory.factories.get(pointer).getLevel() == 1 && (checkEgg())) {
+                        } else if (factory.factories.get(pointer).getLevel() == 1 && (checkEgg())) {
                             orders.add("addPowder");
                             orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
                             removeFromStoredList("egg");
                             logger.info("An egg was removed from the warehouse");
-                        } else if (factory.factories.get(pointer).getLevel() == 2&& (checkEgg())) {
+                        } else if (factory.factories.get(pointer).getLevel() == 2 && (checkEgg())) {
                             removeFromStoredList("egg");
                             logger.info("An egg was removed from the warehouse");
-                            if(checkEgg()) {
+                            if (checkEgg()) {
                                 orders.add("addPowder");
                                 orders.add(String.valueOf(factory.factories.get(pointer).getTime2() + 1));
                                 orders.add("addPowder");
@@ -1875,8 +2046,7 @@ public class Manager {
                     if (!orders.contains("addCloth")) {
                         if (checkFeather() == false) {
                             logger.warning("There are not enough feathers");
-                        }
-                        else if ((factory.factories.get(pointer).getLevel() == 1) && (checkFeather())) {
+                        } else if ((factory.factories.get(pointer).getLevel() == 1) && (checkFeather())) {
                             orders.add("addCloth");
                             orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
                             removeFromStoredList("feather");
@@ -1917,7 +2087,7 @@ public class Manager {
                         } else if ((factory.factories.get(pointer).getLevel() == 2) && (checkMilk())) {
                             removeFromStoredList("milk");
                             logger.info("A milk was removed from the warehouse");
-                            if(checkMilk()) {
+                            if (checkMilk()) {
                                 orders.add("addPackagedMilk");
                                 orders.add(String.valueOf(factory.factories.get(pointer).getTime2() + 1));
                                 orders.add("addPackagedMilk");
@@ -1941,8 +2111,7 @@ public class Manager {
                     if (!orders.contains("addBread")) {
                         if (checkPowder() == false) {
                             logger.warning("There are not enough powders");
-                        }
-                        else if ((factory.factories.get(pointer).getLevel() == 1) && (checkPowder())) {
+                        } else if ((factory.factories.get(pointer).getLevel() == 1) && (checkPowder())) {
                             orders.add("addBread");
                             orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
                             removeFromStoredList("powder");
@@ -2007,8 +2176,7 @@ public class Manager {
                     if (!orders.contains("addIceCream")) {
                         if (checkPackagedMilk() == false) {
                             logger.warning("There are not enough packaged milks");
-                        }
-                        else if ((factory.factories.get(pointer).getLevel() == 1) && (checkPackagedMilk())) {
+                        } else if ((factory.factories.get(pointer).getLevel() == 1) && (checkPackagedMilk())) {
                             orders.add("addIceCream");
                             orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
                             removeFromStoredList("packagedMilk");
@@ -2039,31 +2207,38 @@ public class Manager {
                 System.out.println("Wrong Input!!");
                 logger.warning("Wrong input");
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error,Wrong input!!");
             logger.warning("Wrong format input");
         }
     }
+
     public void processBuild(String strings) {
         try {
             if (strings.equalsIgnoreCase("mill")) {
                 if (checkMill()) {
-                    buildFactory("mill");}
+                    buildFactory("mill");
+                }
             } else if (strings.equalsIgnoreCase("sewing")) {
                 if (checkSewing()) {
-                    buildFactory("sewing");}
+                    buildFactory("sewing");
+                }
             } else if (strings.equalsIgnoreCase("milkPackaging")) {
                 if (checkMilkPackaging()) {
-                    buildFactory("milkPackaging");}
+                    buildFactory("milkPackaging");
+                }
             } else if (strings.equalsIgnoreCase("bakery")) {
                 if (checkBakery()) {
-                    buildFactory("bakery");}
+                    buildFactory("bakery");
+                }
             } else if (strings.equalsIgnoreCase("weaving")) {
                 if (checkWeaving()) {
-                    buildFactory("weaving");}
+                    buildFactory("weaving");
+                }
             } else if (strings.equalsIgnoreCase("iceCreamShop")) {
                 if (checkIceCreamShop()) {
-                    buildFactory("iceCreamShop");}
+                    buildFactory("iceCreamShop");
+                }
             } else {
                 logger.warning("Wrong input");
             }
