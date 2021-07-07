@@ -11,6 +11,7 @@ public class PackagedMilk extends Products{
         this.capacity = 2;
         this.coordinate = coordinate;
         this.name = "packagedMilk";
+        this.imageAddress = "packagedMilk.png";
     }
     public PackagedMilk() {
 

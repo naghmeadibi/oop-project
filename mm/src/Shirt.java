@@ -11,6 +11,7 @@ public class Shirt extends Products {
         this.capacity = 4;
         this.coordinate = coordinate;
         this.name = "shirt";
+        this.imageAddress = "shirt.png";
     }
     public Shirt() {
 

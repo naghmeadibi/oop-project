@@ -11,6 +11,7 @@ public class Bread extends Products {
         this.capacity = 4;
         this.coordinate = coordinate;
         this.name = "bread";
+        this.imageAddress = "bread.png";
     }
 
 }

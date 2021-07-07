@@ -5,6 +5,7 @@ public class Products {
     protected int live;
     protected int price;
     protected int capacity;
+    String imageAddress;
 
     public String getName() {
         return name;

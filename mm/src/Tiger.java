@@ -8,6 +8,8 @@ public class Tiger extends WildAnimals {
         this.caged = -1;
         this.maxLife = 4;
         this.name = "tiger";
+        this.image = "tiger.png";
+        this.sadImage = "sadTiger.png";
     }
 
 

@@ -8,6 +8,7 @@ public class Egg extends Products {
         this.capacity = 1;
         this.coordinate = coordinate;
         this.name = "Egg";
+        this.imageAddress = "Egg.png";
     }
     public Egg() {
 

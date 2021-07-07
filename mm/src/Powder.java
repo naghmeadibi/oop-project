@@ -11,6 +11,7 @@ public class Powder extends Products {
         this.capacity = 2;
         this.coordinate = coordinate;
         this.name = "powder";
+        this.imageAddress = "powder.png";
     }
     public Powder() {
 

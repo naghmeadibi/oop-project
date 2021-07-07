@@ -12,6 +12,8 @@ public class WildAnimals {
     protected int maxLife;
     String name;
     int capacity = 15;
+    String image;
+    String sadImage;
 
     public int getMaxLife() {
         return maxLife;

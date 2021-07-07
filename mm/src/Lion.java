@@ -9,5 +9,7 @@ public class Lion extends WildAnimals{
         this.caged=-1;
         this.maxLife = 3;
         this.name = "lion";
+        this.image = "lion.png";
+        this.sadImage = "sadLion.png";
     }
 }

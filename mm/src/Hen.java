@@ -7,6 +7,8 @@ public class Hen extends Farmanimals {
         this.life = 10;
         this.coordinate = coordinate;
         this.name = "hen";
+        this.image = "duck.png";
+        this.capacity = 1;
     }
 
     public Hen() {

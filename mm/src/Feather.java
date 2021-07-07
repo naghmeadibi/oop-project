@@ -8,6 +8,7 @@ public class Feather extends Products {
         this.capacity = 1;
         this.coordinate = coordinate;
         this.name = "feather";
+        this.imageAddress = "feather.png";
     }
     public Feather() {
 

@@ -8,9 +8,8 @@ public class Milk extends Products{
         this.capacity = 1;
         this.coordinate = coordinate;
         this.name = "milk";
+        this.imageAddress = "milk.png";
     }
 
-    public Milk(){
 
-    }
 }

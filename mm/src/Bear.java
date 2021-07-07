@@ -8,5 +8,7 @@ public class Bear extends WildAnimals{
         this.caged = -1;
         this.maxLife = 4;
         this.name = "bear";
+        this.image = "bear.png";
+        this.sadImage = "sadBear.png";
     }
 }

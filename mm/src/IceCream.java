@@ -11,6 +11,7 @@ public class IceCream extends Products {
         this.capacity = 4;
         this.coordinate = coordinate;
         this.name = "iceCream";
+        this.imageAddress = "iceCream.png";
     }
     public IceCream() {
 

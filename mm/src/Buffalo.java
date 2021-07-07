@@ -7,6 +7,7 @@ public class Buffalo extends Farmanimals {
         this.timeNeededToProduce = 3;
         this.life = 10;
         this.name = "buffalo";
+        this.image = "buffalo.png";
     }
 
     public Buffalo(int coordinate) {
@@ -16,5 +17,6 @@ public class Buffalo extends Farmanimals {
         this.coordinate = coordinate;
         this.name = "buffalo";
         this.capacity = 4;
+        this.image = "buffalo.png";
     }
 }

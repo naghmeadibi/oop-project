@@ -8,6 +8,7 @@ public class Farmanimals {
    protected int coordinate;
    protected String name;
    protected int capacity;
+   String image;
 
    public int getPrice() {
       return price;
