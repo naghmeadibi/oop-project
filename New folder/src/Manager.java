@@ -35,7 +35,7 @@ public class Manager {
     ArrayList<User> users = new ArrayList<>();
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
-    int timeCounter = -1;
+    int timeCounter = 0;
 
 
     public int getCounter() {
@@ -988,6 +988,49 @@ public class Manager {
         }
     }
 
+
+
+    public int countFarmAnimal(String nameAnimal) {
+        int counter = 0;
+        for (int i = 0; i < farmanimals.farmanimalss.size(); i++) {
+            if (farmanimals.farmanimalss.get(i).getName().equalsIgnoreCase(nameAnimal)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public void writeGsonUsers() {
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = builder.create();
+        String user = gson.toJson(users);
+        writeUsers(user);
+    }
+
+    public void writeUsers(String string) {
+        try {
+            FileWriter users = new FileWriter("users.json");
+            users.append(string);
+            users.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readUser() {
+        try {
+            users.clear();
+            Gson gson = new Gson();
+            userss = gson.fromJson(new FileReader("users.json"), User[].class);
+            Collections.addAll(users, userss);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+
+
     public boolean checkTasks() {
         if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
             if (levels.get(selectedLevel - 1).tasks.get("hen") <= countFarmAnimal("hen")) {
@@ -1069,48 +1112,6 @@ public class Manager {
         }
         return levels.get(selectedLevel - 1).tasks.isEmpty();
     }
-
-    public int countFarmAnimal(String nameAnimal) {
-        int counter = 0;
-        for (int i = 0; i < farmanimals.farmanimalss.size(); i++) {
-            if (farmanimals.farmanimalss.get(i).getName().equalsIgnoreCase(nameAnimal)) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    public void writeGsonUsers() {
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-        Gson gson = builder.create();
-        String user = gson.toJson(users);
-        writeUsers(user);
-    }
-
-    public void writeUsers(String string) {
-        try {
-            FileWriter users = new FileWriter("users.json");
-            users.append(string);
-            users.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void readUser() {
-        try {
-            users.clear();
-            Gson gson = new Gson();
-            userss = gson.fromJson(new FileReader("users.json"), User[].class);
-            Collections.addAll(users, userss);
-        } catch (Exception e) {
-
-        }
-    }
-
-
-
-
 
     public void menu1(boolean c) {
         String password;
@@ -1298,7 +1299,22 @@ public class Manager {
         }
     }
 
+    public void checkFinishLevel() {
+            logger.info("finished level " + (getSelectedLevel()));
+            if (getSelectedLevel() >= users.get(getIndexOfUser()).getLevel()) {
+                if (users.get(getIndexOfUser()).getLevel() < levels.size()) {
+                    users.get(getIndexOfUser()).setLevel(getSelectedLevel() + 1);
+                    logger.info("Level " + (users.get(getIndexOfUser()).getLevel()) + " is open now");
+                }
+                if (users.get(getIndexOfUser()).getLevel() > levels.size()) {
+                    System.out.println("YOU FINISHED ALL LEVELS |^.^|");
+                }
+            }
+            writeGsonUsers();
+            users.clear();
+            readUser();
 
+    }
 
 
     String password;
@@ -1470,54 +1486,47 @@ public class Manager {
 
     String[] tasks = new String[13];
     public String[] printTask() {
+        for (int i = 0; i < 13 ; i++) {
+            tasks[i] = null;
+        }
         if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
             tasks[0] = ("HEN " + countFarmAnimal("hen") + "/" + levels.get(selectedLevel - 1).tasks.get("hen"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("turkey")) {
-            tasks[1] = (countFarmAnimal("turkey") + "/" + levels.get(selectedLevel - 1).tasks.get("turkey"));
+            tasks[1] = ("TURKEY " + countFarmAnimal("turkey") + "/" + levels.get(selectedLevel - 1).tasks.get("turkey"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("buffalo")) {
-            System.out.print("Buffalo : ");
-            System.out.println(countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
+            tasks[2] = ("BUFFALO " + countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
             tasks [3] = ("EGG " + counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
-            System.out.print("Feather : ");
-            System.out.println(counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
+            tasks[4] = ("FEATHER " + counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("milk")) {
-            System.out.print("Milk : ");
-            System.out.println(counterProductInStore("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
+            tasks[5] = ("MILK " + counterProductInStore("milk") + "/" + levels.get(selectedLevel - 1).tasks.get("milk"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("powder")) {
-            System.out.print("Powder : ");
-            System.out.println(counterProductInStore("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
+            tasks[6] = ("POWDER " + counterProductInStore("powder") + "/" + levels.get(selectedLevel - 1).tasks.get("powder"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("cloth")) {
-            System.out.print("Cloth : ");
-            System.out.println(counterProductInStore("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
+            tasks[7] = ("CLOTH " + counterProductInStore("cloth") + "/" + levels.get(selectedLevel - 1).tasks.get("cloth"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("packagedMilk")) {
-            System.out.print("Packaged Milk : ");
-            System.out.println(counterProductInStore("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
+            tasks[8] = ("PACKAGED MILK " + counterProductInStore("packagedMilk") + "/" + levels.get(selectedLevel - 1).tasks.get("packagedMilk"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("bread")) {
-            System.out.print("Bread : ");
-            System.out.println(counterProductInStore("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
+            tasks[9] = ("BREAD " + counterProductInStore("bread") + "/" + levels.get(selectedLevel - 1).tasks.get("bread"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("shirt")) {
-            System.out.print("Shirt : ");
-            System.out.println(counterProductInStore("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
+            tasks[10] = ("SHIRT " + counterProductInStore("shirt") + "/" + levels.get(selectedLevel - 1).tasks.get("shirt"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("iceCream")) {
-            System.out.print("Ice Cream : ");
-            System.out.println(counterProductInStore("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
+            tasks[11] = ("ICE CREAM " + counterProductInStore("iceCream") + "/" + levels.get(selectedLevel - 1).tasks.get("iceCream"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("coin")) {
-            System.out.print("Coin : ");
-            System.out.println(coin + "/" + levels.get(selectedLevel - 1).tasks.get("coin"));
+            tasks[12] = ("COIN " + coin + "/" + levels.get(selectedLevel - 1).tasks.get("coin"));
         }
         return tasks;
     }
@@ -1563,7 +1572,7 @@ public class Manager {
         }
     }
 
-    public void moneySet(int timeCounter) {
+    public String moneySet(int timeCounter) {
 
         boolean check = true;
 
@@ -1597,15 +1606,20 @@ public class Manager {
 
         users.get(getIndexOfUser()).setMoney(users.get(getIndexOfUser()).getMoney() + levels.get(getSelectedLevel() - 1).time.get(timeCounter));
         if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 400) {
-            System.out.println("GOLDEN");
             logger.info("Golden");
+            return "GOLDEN";
+
         } else if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 200) {
-            System.out.println("SILVER");
             logger.info("Silver");
+            return "SILVER";
+
         } else if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 100) {
-            System.out.println("BRONZE");
             logger.info("Bronze");
+            return "BRONZE";
+
         }
+        else
+            return "Bronze";
     }
 
     public void setBack() {

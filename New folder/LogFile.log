@@ -1,18 +1,76 @@
-Jun 30, 2021 4:17:59 AM Manager menu
-INFO: signed up successfully
-Jun 30, 2021 4:18:04 AM MenuSocond buyWorkShop
+Jun 30, 2021 5:15:17 PM Manager menu
+INFO: logged in successfully
+Jun 30, 2021 5:15:26 PM MenuSocond buyWorkShop
 INFO: enter setting
-Jun 30, 2021 4:18:04 AM MenuSocond buyWorkShop
-WARNING: There is not enough money
-Jun 30, 2021 4:18:07 AM MenuSocond buyWorkShop
+Jun 30, 2021 5:15:26 PM MenuSocond buyWorkShop
+WARNING: milkPackaging is already taken
+Jun 30, 2021 5:15:29 PM MenuSocond buyWorkShop
 INFO: enter setting
-Jun 30, 2021 4:18:07 AM MenuSocond buyWorkShop
-WARNING: There is not enough money
-Jun 30, 2021 4:18:09 AM MenuSocond buyWorkShop
+Jun 30, 2021 5:15:29 PM MenuSocond buyWorkShop
+WARNING: mill is already taken
+Jun 30, 2021 5:15:31 PM MenuSocond buyWorkShop
 INFO: enter setting
-Jun 30, 2021 4:18:09 AM MenuSocond buyWorkShop
-WARNING: There is not enough money
-Jun 30, 2021 4:18:11 AM MenuSocond buyWorkShop
+Jun 30, 2021 5:15:31 PM MenuSocond buyWorkShop
+WARNING: bakery is already taken
+Jun 30, 2021 5:15:33 PM MenuSocond buyWorkShop
 INFO: enter setting
-Jun 30, 2021 4:18:11 AM MenuSocond buyWorkShop
-WARNING: There is not enough money
+Jun 30, 2021 5:15:33 PM MenuSocond buyWorkShop
+WARNING: sewing is already taken
+Jun 30, 2021 5:15:35 PM MenuSocond buyWorkShop
+INFO: enter setting
+Jun 30, 2021 5:15:35 PM MenuSocond buyWorkShop
+WARNING: clothWeaving is already taken
+Jun 30, 2021 5:15:36 PM MenuSocond buyWorkShop
+INFO: enter setting
+Jun 30, 2021 5:15:36 PM MenuSocond buyWorkShop
+WARNING: iceCreamShop is already taken
+Jun 30, 2021 5:16:03 PM Manager plant
+INFO: plant 44
+Jun 30, 2021 5:16:04 PM Manager plant
+INFO: plant 24
+Jun 30, 2021 5:16:04 PM Manager plant
+INFO: plant 42
+Jun 30, 2021 5:16:06 PM Manager buildFactory
+INFO: Mill was built
+Jun 30, 2021 5:16:09 PM Manager randomCoordinate
+INFO: Random coordinates were generated :62
+Jun 30, 2021 5:16:09 PM Manager addHen
+INFO: new hen 62 0
+Jun 30, 2021 5:16:09 PM Manager checkTasks
+INFO: task was done : hen
+Jun 30, 2021 5:16:11 PM Manager buildFactory
+WARNING: mill already exist
+Jun 30, 2021 5:16:13 PM Manager randomCoordinate
+INFO: Random coordinates were generated :31
+Jun 30, 2021 5:16:13 PM Manager addBuffalo
+INFO: new buffalo 31 0
+Jun 30, 2021 5:16:14 PM Manager randomCoordinate
+INFO: Random coordinates were generated :21
+Jun 30, 2021 5:16:14 PM Manager addTurkey
+INFO: new turkey 21 0
+Jun 30, 2021 5:16:15 PM Manager plant
+INFO: plant 33
+Jun 30, 2021 5:16:15 PM Manager plant
+INFO: plant 31
+Jun 30, 2021 5:16:29 PM Manager addEgg
+INFO: Egg was produced 54 2
+Jun 30, 2021 5:16:31 PM Manager pickUp
+INFO: pickup and add to warehouse Egg
+Jun 30, 2021 5:16:31 PM Manager checkTasks
+INFO: task was done : egg
+Jun 30, 2021 5:16:31 PM Manager checkFinishLevel
+INFO: finished level 1
+Jun 30, 2021 5:16:31 PM Manager moneySet
+INFO: Golden
+Jun 30, 2021 5:16:37 PM Manager checkFinishLevel
+INFO: finished level 1
+Jun 30, 2021 5:16:37 PM Manager moneySet
+INFO: Golden
+Jun 30, 2021 5:16:38 PM Manager checkFinishLevel
+INFO: finished level 1
+Jun 30, 2021 5:16:38 PM Manager moneySet
+INFO: Golden
+Jun 30, 2021 5:16:38 PM Manager checkFinishLevel
+INFO: finished level 1
+Jun 30, 2021 5:16:38 PM Manager moneySet
+INFO: Golden
