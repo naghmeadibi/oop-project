@@ -4,8 +4,7 @@
 public class ToTry {
     MyGraphics graphics = new MyGraphics();
     public static void main(String[] args) {
-       Manager manager = new Manager();
-       //manager.menu(true);
-
+        MyGraphics graphics = new MyGraphics();
+        graphics.run();
     }
 }

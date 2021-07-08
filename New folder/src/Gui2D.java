@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
@@ -15,291 +17,24 @@ import javax.swing.*;
 
 public class Gui2D {
     public static void main(String[] args) {
-        Gui2 gui = new Gui2();
-        gui.go();
+
+
+        Menu menu = new Menu();
+        menu.menu();
+
     }
 
     static class Gui2 extends JFrame {
         JFrame frame = new JFrame();
-        MyDrawPanel drawpanel = new MyDrawPanel();
+        MyDrawPanel drawpanel;
 
+        public Gui2(MyDrawPanel drawpanel) throws HeadlessException {
+            this.drawpanel = drawpanel;
+        }
 
         public void go() {
             drawpanel.manager.setLogger();
-            menu(true);
-
-
-        }
-
-        public void menu(boolean c) {
-            JFrame myJFrame = new JFrame();
-
-            String password;
-            String username;
-            drawpanel.manager.readUser();
-            boolean mainWhile = true;
-            while (mainWhile && c) {
-                System.out.println("Enter number of your choice : ");
-                System.out.println("1) login");
-                System.out.println("2) sign up");
-                System.out.println("3) EXIT");
-                String choice = drawpanel.manager.scanner.nextLine();
-                switch (choice) {
-                    case "1":
-                        System.out.println("enter your username :");
-                        username = drawpanel.manager.scanner.nextLine();
-                        if (drawpanel.manager.checkUsername(username) == -1) {
-                            System.out.println("Invalid Username!!");
-                            drawpanel.manager.logger.warning("Invalid Username");
-                        } else {
-                            while (true) {
-                                System.out.println("enter your password : ");
-                                password = drawpanel.manager.scanner.nextLine();
-                                if (drawpanel.manager.users.get(drawpanel.manager.checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
-                                    mainWhile = false;
-                                    System.out.println("done!");
-                                    drawpanel.manager.logger.info("logged in successfully");
-                                    drawpanel.manager.indexOfUser = drawpanel.manager.checkUsername(username);
-                                    break;
-                                } else {
-                                    drawpanel.manager.logger.warning("wrong password");
-                                    System.out.println("Wrong Password, try again!!");
-                                }
-                            }
-                        }
-                        break;
-                    case "2":
-                        while (true) {
-                            System.out.println("enter your username :");
-                            username = drawpanel.manager.scanner.nextLine();
-                            if (drawpanel.manager.checkUsername(username) == -1) {
-                                System.out.println("enter your password : ");
-                                password = drawpanel.manager.scanner.nextLine();
-                                mainWhile = false;
-                                drawpanel.manager.indexOfUser = drawpanel.manager.numOfUsers;
-                                drawpanel.manager.numOfUsers++;
-                                drawpanel.manager.setNumOfUsers(drawpanel.manager.numOfUsers);
-                                drawpanel.manager.users.add(new User(username, password, 1, 0));
-                                drawpanel.manager.logger.info("signed up successfully");
-                                break;
-                            } else {
-                                drawpanel.manager.logger.warning("invalid username");
-                                System.out.println("your username is invalid choose another ");
-                            }
-                        }
-                        break;
-                    case "3":
-                        drawpanel.manager.writeGsonUsers();
-                        drawpanel.manager.logger.info("exit");
-                        System.exit(0);
-                }
-            }
-            while (true) {
-                System.out.println("what shall we do next?");
-                System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
-                String choice = drawpanel.manager.scanner.nextLine();
-                String[] strings = choice.split("\\s+");
-                if (strings[0].equalsIgnoreCase("1")) {
-                /*selectedLevel = Integer.parseInt(strings[1]);
-                if (selectedLevel > users.get(getIndexOfUser()).getLevel()) {
-                    logger.warning("wrong selected level");
-                    System.out.println("You cant play this level");
-                } else {
-                    System.out.println("Go On");
-                    logger.info("Start Game");
-                    return;
-                }*/
-                    graphicChoseLevel(myJFrame);
-                    return;
-                } else if (strings[0].equalsIgnoreCase("2")) {
-                    c = true;
-                    drawpanel.manager.logger.info("log out");
-                    menu(c);
-                    return;
-                } else if (strings[0].equalsIgnoreCase("3")) {
-                    grphicBuyWorkShop(myJFrame);
-                    drawpanel.manager.logger.info("enter setting");
-                    System.out.println("you wanna buy?");
-                    System.out.println("1) mill 2) weaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
-                    String workShop = drawpanel.manager.scanner.nextLine();
-                    if (workShop.equals("1")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("mill")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 150) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("mill", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 150);
-                                drawpanel.manager.logger.info("Mill was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("mill is already taken");
-                            drawpanel.manager.logger.warning("mill is already taken");
-                        }
-                    }
-                    if (workShop.equals("2")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("clothWeaving")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 250) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("clothWeaving", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 250);
-                                drawpanel.manager.logger.info("ClothWeaving was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("clothWeaving is already taken");
-                            drawpanel.manager.logger.warning("clothWeaving is already taken");
-                        }
-                    }
-                    if (workShop.equals("3")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("milkPackaging")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 400) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("milkPackaging", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 400);
-                                drawpanel.manager.logger.info("MilkPackaging was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("milkPackaging is already taken");
-                            drawpanel.manager.logger.warning("milkPackaging is already taken");
-                        }
-                    }
-                    if (workShop.equals("4")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("bakery")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 250) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("bakery", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 250);
-                                drawpanel.manager.logger.info("Bakery was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("bakery is already taken");
-                            drawpanel.manager.logger.warning("bakery is already taken");
-                        }
-                    }
-                    if (workShop.equals("5")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("Sewing")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 400) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("Sewing", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 400);
-                                drawpanel.manager.logger.info("Sewing was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("sewing is already taken");
-                            drawpanel.manager.logger.warning("sewing is already taken");
-                        }
-                    }
-                    if (workShop.equals("6")) {
-                        if (!drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.get("iceCreamShop")) {
-                            if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() >= 550) {
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).workShops.replace("iceCreamShop", true);
-                                drawpanel.manager.users.get(drawpanel.manager.indexOfUser).setMoney(drawpanel.manager.users.get(drawpanel.manager.indexOfUser).getMoney() - 550);
-                                drawpanel.manager.logger.info("IceCreamShop was bought");
-                            } else {
-                                System.out.println("you don't have enough money");
-                                drawpanel.manager.logger.warning("There is not enough money");
-                            }
-                        } else {
-                            System.out.println("iceCreamShop is already taken");
-                            drawpanel.manager.logger.warning("iceCreamShop is already taken");
-                        }
-                    }
-                    drawpanel.manager.writeGsonUsers();
-                } else if (choice.equals("4")) {
-                    drawpanel.manager.writeGsonUsers();
-                    drawpanel.manager.logger.info("exit");
-                    System.exit(0);
-                }
-
-            }
-        }
-
-        public void printOnButton(JButton button, String address) {
-            ImageIcon imageIcon = new ImageIcon(address);
-            Image image = imageIcon.getImage();
-            Image newIm = image.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-            imageIcon = new ImageIcon(newIm);
-            button.setIcon(imageIcon);
-        }
-
-        public void graphicChoseLevel(JFrame myJFrame) {
-            try {
-                BufferedImage myImage = ImageIO.read(new File("menuBack.jpeg"));
-                myJFrame.setTitle("choose level");
-                myJFrame.setContentPane(new ImagePanel(myImage));
-                myJFrame.setSize(900, 600);
-                myJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                myJFrame.setVisible(true);
-                Image image = new ImageIcon("back.png").getImage().getScaledInstance(80, 50, Image.SCALE_SMOOTH);
-                myJFrame.setLayout(null);
-                ImageIcon icon = new ImageIcon(image);
-                JButton back = new JButton(icon);
-                back.setBounds(0, 0, 80, 50);
-                back.addActionListener(e -> {
-                    myJFrame.removeAll();
-                    menu(false);
-                });
-                back.setOpaque(false);
-                back.setContentAreaFilled(false);
-                back.setBorderPainted(false);
-                myJFrame.add(back);
-
-                JButton[] buttons = new JButton[10];
-
-
-                for (int i = 0; i < 10; i++) {
-                    buttons[i] = new JButton();
-                    buttons[i].setOpaque(false);
-                    buttons[i].setContentAreaFilled(false);
-                    buttons[i].setBorderPainted(false);
-                    if (drawpanel.manager.users.get(drawpanel.manager.indexOfUser).level >= i + 1) {
-                        printOnButton(buttons[i], "openLock.png");
-                        int f = i;
-                        buttons[i].addActionListener(e -> {
-                            myJFrame.dispose();
-                            drawpanel.manager.selectedLevel = f + 1;
-                            drawpanel.manager.logger.info("Start Game");
-                            start();
-                            return;
-                        });
-                    } else {
-                        printOnButton(buttons[i], "closeLock.png");
-                        buttons[i].addActionListener(e -> {
-                            JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            drawpanel.manager.logger.warning("wrong selected level");
-                        });
-                    }
-                    myJFrame.add(buttons[i]);
-
-                }
-                buttons[0].setBounds(320, 500, 40, 40);
-                buttons[1].setBounds(260, 480, 40, 40);
-                buttons[2].setBounds(200, 460, 40, 40);
-                buttons[3].setBounds(127, 420, 40, 40);
-                buttons[4].setBounds(190, 380, 40, 40);
-                buttons[5].setBounds(240, 350, 40, 40);
-                buttons[6].setBounds(300, 320, 40, 40);
-                buttons[7].setBounds(350, 290, 40, 40);
-                buttons[8].setBounds(280, 270, 40, 40);
-                buttons[9].setBounds(235, 260, 40, 40);
-
-
-            } catch (IOException e) {
-                System.out.println("Error");
-            }
-
-
-        }
-
-        public void start() {
+            //drawpanel.manager.menu1(true);
             drawpanel.manager.readingLevels();
             drawpanel.manager.setCounter(0);
             drawpanel.manager.setBack();
@@ -310,36 +45,38 @@ public class Gui2D {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1370, 850);
             frame.setVisible(true);
+
         }
 
-        public void grphicBuyWorkShop(JFrame myJFrame) {
-            try {
-                myJFrame.invalidate();
-                myJFrame.validate();
-                BufferedImage myImage = ImageIO.read(new File("backBuyWorkShop.jpg"));
-                myJFrame.setContentPane(new ImagePanel(myImage));
-                myJFrame.repaint();
-            } catch (IOException e) {
-            }
-        }
 
     }
 
     static class MyDrawPanel extends JComponent implements MouseListener {
-        Manager manager = new Manager();
+        Manager manager;
+
+        public MyDrawPanel(Manager manager) {
+            this.manager = manager;
+        }
 
         public void paintComponent(Graphics g) {
 
 
             manager.check();
 
+
             Graphics2D g2D = (Graphics2D) g;
+
+            if (checkFinishLevel()){
+                g2D.dispose();
+            }
 
 
             printIcons(g2D);
 
 
             this.addMouseListener(this);
+
+
 
 
             printGrass(g2D);
@@ -897,13 +634,13 @@ public class Gui2D {
                 }
             }
             for (int i = 0; i < manager.truck.farmAnimalsToSell.size(); i++) {
-                g2D.drawImage(new ImageIcon(manager.truck.farmAnimalsToSell.get(i).image).getImage(), 135 + (i % 5) * 25, 670 - (i / 5) * 25, 20, 20, null);
+                g2D.drawImage(new ImageIcon(manager.truck.farmAnimalsToSell.get(i).image).getImage(), 135 + (i % 5) * 25, 620 + (i / 5) * 25, 20, 20, null);
                 cnt++;
             }
             for (int i = 0; i < manager.truck.stuffToSell.size(); i++) {
                 for (int j = 0; j < manager.truck.stuffToSell.get(i).capacity; j++) {
                     int x = 135 + ((j + cnt + cntt) % 5) * 25;
-                    int y = 670 - ((j + cnt + cntt) / 5) * 25;
+                    int y = 620 + ((j + cnt + cntt) / 5) * 25;
                     g2D.drawImage(new ImageIcon(manager.truck.stuffToSell.get(i).imageAddress).getImage(), x, y, 20, 20, null);
                 }
                 cntt += manager.truck.stuffToSell.get(i).capacity;
@@ -919,25 +656,6 @@ public class Gui2D {
                 JOptionPane.showMessageDialog(null, "truck is moving", "ERROR", JOptionPane.ERROR_MESSAGE);
                 manager.logger.warning("Truck is moving");
             }
-        }
-
-        public void Turn(int timeCounter, Graphics2D g2D) {
-            Font font = new Font("Courier New", Font.BOLD, 18);
-            String time = timeCounter + " units of time passed :)";
-            AttributedString as = new AttributedString(time);
-            as.addAttribute(TextAttribute.FONT, font);
-            as.addAttribute(TextAttribute.FOREGROUND, Color.PINK);
-            g2D.drawString(as.getIterator(), 1000, 20);
-            Font fontCoin = new Font("Courier New", Font.BOLD, 15);
-            String coin = manager.coin + "$";
-            AttributedString as1 = new AttributedString(coin);
-            as1.addAttribute(TextAttribute.FONT, fontCoin);
-            as1.addAttribute(TextAttribute.FOREGROUND, new Color(0x800919));
-            g2D.drawString(as1.getIterator(), 1300, 48);
-
-
-            System.out.println("Remaining tasks : ");
-            manager.printTask();
         }
 
         public void printIcons(Graphics2D g2D) {
@@ -956,10 +674,42 @@ public class Gui2D {
             g2D.drawImage(new ImageIcon("truck.png").getImage(), 60, 610, 210, 180, null);
             g2D.drawImage(new ImageIcon("go.png").getImage(), 0, 670, 60, 60, null);
             g2D.drawImage(new ImageIcon("coin.png").getImage(), 1300, 20, 50, 50, null);
+            g2D.drawImage(new ImageIcon("win-back.png").getImage(), 1150, 15, 155, 250, null);
             if (manager.orders.contains("truckGo"))
                 g2D.drawImage(new ImageIcon("truckIsMoving.png").getImage(), 135, 670, 60, 60, null);
 
         }
+
+        public void Turn(int timeCounter, Graphics2D g2D) {
+            Font font = new Font("Courier New", Font.BOLD, 18);
+            String time = timeCounter + " units of time passed :)";
+            AttributedString as = new AttributedString(time);
+            as.addAttribute(TextAttribute.FONT, font);
+            as.addAttribute(TextAttribute.FOREGROUND, Color.PINK);
+            g2D.drawString(as.getIterator(), 1000, 20);
+            Font fontCoin = new Font("Courier New", Font.BOLD, 15);
+            String coin = manager.coin + "$";
+            AttributedString as1 = new AttributedString(coin);
+            as1.addAttribute(TextAttribute.FONT, fontCoin);
+            as1.addAttribute(TextAttribute.FOREGROUND, new Color(0x800919));
+            g2D.drawString(as1.getIterator(), 1300, 48);
+
+
+            int l = 0;
+            manager.printTask();
+            for (int i = 0; i < manager.tasks.length; i++) {
+                if (manager.tasks[i] != null) {
+                    String time1 = manager.tasks[i];
+                    AttributedString as2 = new AttributedString(time1);
+                    as2.addAttribute(TextAttribute.FONT, font);
+                    as2.addAttribute(TextAttribute.FOREGROUND, Color.BLACK);
+                    g2D.drawString(as2.getIterator(), 1190, 75 + l);
+                    l += 20;
+                }
+            }
+
+        }
+
 
         public void printWorkingFactory(Graphics2D g2D) {
             for (int i = 0; i < manager.orders.size(); i += 2) {
@@ -981,7 +731,7 @@ public class Gui2D {
                     if (manager.factory.factories.get(foundIndexOfFactory("bakery")).getLevel() == 1) {
                         g2D.drawImage(new ImageIcon("factoryWorking.png").getImage(), 960, 80, 40, 40, null);
                     } else {
-                        g2D.drawImage(new ImageIcon("factoryWorking.png").getImage(), 1130, 150, 40, 40, null);
+                        g2D.drawImage(new ImageIcon("factoryWorking.png").getImage(), 1120, 160, 40, 40, null);
                     }
                 } else if (manager.orders.get(i).equals("addShirt")) {
                     if (manager.factory.factories.get(foundIndexOfFactory("weaving")).getLevel() == 1) {
@@ -1058,7 +808,309 @@ public class Gui2D {
 
         }
 
+        public boolean checkFinishLevel() {
+            if (manager.checkTasks()){
+                manager.checkFinishLevel();
+                JFrame frame;
+                frame = new JFrame("menu");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(900, 600);
+                frame.setVisible(true);
+                frame.setLayout(null);
+                frame.setContentPane(new MenuSocond(manager, frame));
+                return true;
+            }
+            return false;
+        }
+
 
     }
+
+    static class Menu extends JFrame implements ActionListener {
+
+        JFrame jFrame;
+        JTextField textField;
+        JPasswordField passwordField;
+        JButton login;
+        JButton signUp;
+        JButton exit;
+        Manager manager = new Manager();
+        //SecondMenu secondMenu;
+        JLabel userNameField;
+        JLabel passField;
+        JLabel passArrow;
+        JLabel password;
+        JLabel usernameArrow;
+        JLabel userName;
+
+        public void menu() {
+            manager.setLogger();
+            jFrame = new JFrame("menu");
+            jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jFrame.setSize(900, 700);
+            ImageIcon arrow = new ImageIcon("arrow.png");
+            ImageIcon userPassField = new ImageIcon("passField.png");
+
+            JLabel label = new JLabel();
+            label.setBounds(0, 0, 1370, 700);
+
+
+            ImageIcon back = new ImageIcon("levelSelect.jpeg");
+            label.setIcon(back);
+
+            usernameArrow = new JLabel();
+            usernameArrow.setBounds(10, 240, 300, 300);
+            usernameArrow.setIcon(arrow);
+
+
+            userName = new JLabel("USERNAME");
+            userName.setBounds(50, 288, 200, 100);
+            userName.setFont(new Font("Comic Sans", Font.PLAIN, 15));
+            userName.setForeground(new Color(186, 101, 86, 255));
+
+
+            userNameField = new JLabel();
+            userNameField.setIcon(userPassField);
+            userNameField.setBounds(260, 200, 200, 300);
+
+
+            textField = new JTextField();
+            textField.setFont(new Font("Consolas", Font.PLAIN, 18));
+            textField.setBackground(new Color(201, 96, 27));
+            textField.setBounds(280, 320, 150, 30);
+            textField.setForeground(Color.WHITE);
+            jFrame.add(textField);
+
+
+            passArrow = new JLabel();
+            passArrow.setBounds(160, 400, 300, 300);
+            passArrow.setIcon(arrow);
+
+
+            password = new JLabel("PASSWORD");
+            password.setBounds(196, 448, 200, 100);
+            password.setFont(new Font("Comic Sans", Font.PLAIN, 15));
+            password.setForeground(new Color(186, 101, 86, 255));
+
+
+            passField = new JLabel();
+            passField.setIcon(userPassField);
+            passField.setBounds(430, 370, 200, 300);
+
+
+            passwordField = new JPasswordField();
+            passwordField.setFont(new Font("Consolas", Font.PLAIN, 18));
+            passwordField.setBackground(new Color(201, 96, 27));
+            passwordField.setBounds(450, 490, 150, 30);
+            passwordField.setForeground(Color.WHITE);
+            jFrame.add(passwordField);
+
+
+            login = new JButton("Login");
+            login.addActionListener(this);
+            login.setFocusable(false);
+            login.setBounds(695, 20, 90, 30);
+            login.setFont(new Font("Comic Sans", Font.BOLD, 13));
+            login.setBackground(Color.CYAN);
+
+
+            signUp = new JButton("SignUP");
+            signUp.addActionListener(this);
+            signUp.setFocusable(false);
+            signUp.setBounds(800, 20, 90, 30);
+            signUp.setFont(new Font("Comic Sans", Font.BOLD, 13));
+            signUp.setBackground(Color.CYAN);
+
+
+            exit = new JButton("EXIT");
+            exit.addActionListener(this);
+            exit.setFocusable(false);
+            exit.setBounds(800, 620, 90, 30);
+            exit.setFont(new Font("Comic Sans", Font.BOLD, 13));
+            exit.setBackground(Color.red);
+
+
+            jFrame.add(exit);
+            jFrame.add(login);
+            jFrame.add(signUp);
+            jFrame.add(passField);
+            jFrame.add(password);
+            jFrame.add(passArrow);
+            jFrame.add(userNameField);
+            jFrame.add(userName);
+            jFrame.add(usernameArrow);
+            jFrame.add(label);
+
+            // jFrame.pack();
+
+
+            jFrame.setVisible(true);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == exit) {
+                if (!manager.users.isEmpty())
+                    manager.writeGsonUsers();
+                System.exit(0);
+            } else if (e.getSource() == login) {
+                manager.username = textField.getText();
+                manager.password = passwordField.getText();
+                manager.choice = "1";
+                int index = manager.menu(true);
+                printLogMassage(index);
+                if (index == 1) {
+                    jFrame.dispose();
+                    //secondMenu = new SecondMenu(manager);
+                    //secondMenu.graphicChoseLevel();
+                }
+            } else if (e.getSource() == signUp) {
+                manager.username = textField.getText();
+                manager.password = passwordField.getText();
+                manager.choice = "2";
+                int index = manager.menu(true);
+                printLogMassage(index);
+                if (index == 2) {
+                    //secondMenu = new SecondMenu(manager);
+                    //secondMenu.graphicChoseLevel();
+                }
+            }
+        }
+
+
+        public void printLogMassage(int i) {
+            if ((i == -1) || (i == 3)) {
+                JOptionPane.showMessageDialog(null, "INVALID USERNAME!", "MASSAGE", JOptionPane.WARNING_MESSAGE);
+            } else if (i == 0) {
+                JOptionPane.showMessageDialog(null, "WRONG PASSWORD!!", "MASSAGE", JOptionPane.WARNING_MESSAGE);
+            } else if (i == 1) {
+                JOptionPane.showMessageDialog(null, "LOGIN SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
+                JFrame frame;
+                frame = new JFrame("menu");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(900, 600);
+                frame.setVisible(true);
+                frame.setLayout(null);
+                frame.setContentPane(new MenuSocond(manager, frame));
+            } else if (i == 2) {
+                JOptionPane.showMessageDialog(null, "SIGN UP SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
+                manager.users.add(new User(manager.username, manager.password, 1, 0));
+                JFrame frame;
+                frame = new JFrame("menu");
+                frame.setSize(900, 600);
+                frame.setVisible(true);
+                frame.setLayout(null);
+                frame.setContentPane(new MenuSocond(manager, frame));
+            }
+        }
+
+    }
+
+   /* static class SecondMenu {
+        JFrame myJFrame;
+        Manager manager = new Manager();
+        JLabel label;
+        JButton[] buttons;
+
+        public SecondMenu(Manager manager) {
+            this.manager = manager;
+        }
+
+        public void graphicChoseLevel() {
+
+
+            myJFrame = new JFrame();
+            myJFrame.setSize(900, 600);
+            myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            myJFrame.setLayout(null);
+
+
+            ImageIcon icon = new ImageIcon("levelSelect.png");
+            label = new JLabel();
+            label.setSize(900, 600);
+            label.setIcon(icon);
+
+
+            JButton back = new JButton("BACK");
+            back.setBounds(0, 0, 80, 50);
+            myJFrame.add(back);
+            //  back.setOpaque(false);
+            //  back.setContentAreaFilled(false);
+            //  back.setBorderPainted(false);
+
+
+            buttons = new JButton[10];
+
+
+          int x = 0;
+            for (int i = 0; i < 10; i++) {
+                buttons[i] = new JButton("level");
+                buttons[i].setBounds(320, 500 - x, 40, 40);
+                x += 50;
+                myJFrame.add(buttons[i]);
+
+
+
+
+
+                for (int i = 0; i < 10; i++) {
+                    buttons[i] = new JButton();
+                    if (manager.users.get(manager.indexOfUser).level >= i + 1) {
+                        printOnButton(buttons[i], "openLock.png");
+                        int f = i;
+                        buttons[i].addActionListener(e -> {
+                            myJFrame.dispose();
+                            manager.selectedLevel = f + 1;
+                            manager.logger.info("Start Game");
+                            return;
+                        });
+                    } else {
+                        printOnButton(buttons[i], "closeLock.png");
+                        buttons[i].addActionListener(e -> {
+                            JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            manager.logger.warning("wrong selected level");
+                        });
+                    }
+                    myJFrame.add(buttons[i]);
+                    buttons[i].setVisible(true);
+
+                }
+            buttons[0].setBounds(320, 500, 40, 40);
+            buttons[1].setBounds(260, 480, 40, 40);
+            buttons[2].setBounds(200, 460, 40, 40);
+            buttons[3].setBounds(127, 420, 40, 40);
+            buttons[4].setBounds(190, 380, 40, 40);
+            buttons[5].setBounds(240, 350, 40, 40);
+            buttons[6].setBounds(300, 320, 40, 40);
+            buttons[7].setBounds(350, 290, 40, 40);
+            buttons[8].setBounds(280, 270, 40, 40);
+            buttons[9].setBounds(235, 260, 40, 40);
+
+
+//
+            //               myJFrame.repaint();
+            //            myJFrame.setVisible(true);
+
+            //   myJFrame.pack();
+
+
+            myJFrame.add(label);
+
+
+            myJFrame.setVisible(true);
+
+        }
+
+        public void printOnButton(JButton button, String address) {
+            ImageIcon imageIcon = new ImageIcon(address);
+            Image image = imageIcon.getImage();
+            Image newIm = image.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(newIm);
+            button.setIcon(imageIcon);
+        }
+
+
+    }*/
 
 }

@@ -68,5 +68,19 @@
       "clothWeaving": true,
       "mill": true
     }
+  },
+  {
+    "money": 0,
+    "level": 1,
+    "name": "comon",
+    "password": "3",
+    "workShops": {
+      "iceCreamShop": false,
+      "Sewing": false,
+      "bakery": false,
+      "milkPackaging": false,
+      "clothWeaving": false,
+      "mill": false
+    }
   }
 ]
