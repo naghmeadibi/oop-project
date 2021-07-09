@@ -39,7 +39,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 1;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -49,7 +49,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 2;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -59,7 +59,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 3;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -69,7 +69,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 4;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -79,7 +79,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 5;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -89,7 +89,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 6;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -99,7 +99,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 7;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -109,7 +109,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 8;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -119,7 +119,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 9;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -129,7 +129,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 10;
-                    gui.go(manager);
+                    gui.go();
                 } else {
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }

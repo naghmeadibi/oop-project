@@ -36,7 +36,6 @@ public class Manager {
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
     int timeCounter = 0;
-    boolean setLoggerControll = false;
 
 
     public int getCounter() {
@@ -48,19 +47,16 @@ public class Manager {
     }
 
     public void setLogger() {
-        if (!setLoggerControll) {
-            Logger logger = Logger.getLogger("MyLog");
-            FileHandler fh;
-            try {
-                fh = new FileHandler("LogFile.log");
-                logger.addHandler(fh);
-                SimpleFormatter formatter = new SimpleFormatter();
-                fh.setFormatter(formatter);
-                logger.setUseParentHandlers(false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            setLoggerControll = true;
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        try {
+            fh = new FileHandler("LogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -107,7 +103,6 @@ public class Manager {
         setCounter(getCounter() + 1);
         addWildAnimals(getCounter());
         timeCounter++;
-        System.out.println(timeCounter);
 
     }
 
@@ -987,7 +982,7 @@ public class Manager {
             levells = gson.fromJson(new FileReader("levels.json"), Level[].class);
             Collections.addAll(levels, levells);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -1001,7 +996,6 @@ public class Manager {
     }
 
     public void addWildAnimals(int counter) {
-        readingLevels();
         if (levels.get(selectedLevel - 1).wildAnimalsHashMap.containsKey(counter)) {
             if (levels.get(selectedLevel - 1).wildAnimalsHashMap.get(counter).equalsIgnoreCase("lion")) {
                 addLion();
