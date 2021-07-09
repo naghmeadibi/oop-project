@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 
 public class MenuSocond extends JComponent implements MouseListener {
     Manager manager;
@@ -168,16 +170,40 @@ public class MenuSocond extends JComponent implements MouseListener {
         } else if (witchPage == 3) {
             if (e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 50 && e.getY() <= 250) {
                 buyWorkShop("4");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 250 && e.getX() <= 450 && e.getY() >= 50 && e.getY() <= 250) {
                 buyWorkShop("1");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 450 && e.getX() <= 650 && e.getY() >= 50 && e.getY() <= 250) {
                 buyWorkShop("3");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 250 && e.getY() <= 450) {
                 buyWorkShop("5");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 250 && e.getX() <= 450 && e.getY() >= 250 && e.getY() <= 450) {
                 buyWorkShop("2");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 450 && e.getX() <= 650 && e.getY() >= 250 && e.getY() <= 450) {
                 buyWorkShop("6");
+                this.removeMouseListener(this);
+                this.invalidate();
+                this.validate();
+                this.repaint();
             } else if (e.getX() >= 0 && e.getX() <= 80 && e.getY() >= 510 && e.getY() <= 550) {
                 witchPage = 1;
                 this.removeMouseListener(this);
@@ -259,6 +285,11 @@ public class MenuSocond extends JComponent implements MouseListener {
         graphics2D.drawImage(new ImageIcon("weaving.png").getImage(), 250, 250, 200, 200, null);
         graphics2D.drawImage(new ImageIcon("iceCreamShop.png").getImage(), 450, 250, 200, 200, null);
         graphics2D.drawImage(new ImageIcon("back.png").getImage(), 0, 510, 80, 40, null);
+        String money = "MONEY : " + manager.users.get(manager.indexOfUser).getMoney() + " $";
+        AttributedString as1 = new AttributedString(money);
+        as1.addAttribute(TextAttribute.FONT, new Font("Courier New",Font.BOLD,18));
+        as1.addAttribute(TextAttribute.FOREGROUND, new Color(0x800919));
+        graphics2D.drawString(as1.getIterator(), 750, 20);
     }
 
     public void buyWorkShop(String workShop) {
@@ -272,13 +303,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     manager.logger.info("Mill was bought");
                     JOptionPane.showMessageDialog(null, "Mill was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("mill is already taken");
                 manager.logger.warning("mill is already taken");
                 JOptionPane.showMessageDialog(null, "mill is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
@@ -293,13 +322,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     JOptionPane.showMessageDialog(null, "ClothWeaving was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("clothWeaving is already taken");
                 manager.logger.warning("clothWeaving is already taken");
                 JOptionPane.showMessageDialog(null, "clothWeaving is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
@@ -314,13 +341,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     JOptionPane.showMessageDialog(null, "SIGN UP SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("milkPackaging is already taken");
                 manager.logger.warning("milkPackaging is already taken");
                 JOptionPane.showMessageDialog(null, "milkPackaging is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
@@ -335,13 +360,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     JOptionPane.showMessageDialog(null, "Bakery was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("bakery is already taken");
                 manager.logger.warning("bakery is already taken");
                 JOptionPane.showMessageDialog(null, "bakery is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
@@ -356,13 +379,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     JOptionPane.showMessageDialog(null, "Sewing was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("sewing is already taken");
                 manager.logger.warning("sewing is already taken");
                 JOptionPane.showMessageDialog(null, "sewing is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
@@ -377,13 +398,11 @@ public class MenuSocond extends JComponent implements MouseListener {
                     JOptionPane.showMessageDialog(null, "IceCreamShop was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    System.out.println("you don't have enough money");
                     manager.logger.warning("There is not enough money");
                     JOptionPane.showMessageDialog(null, "There is not enough money", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } else {
-                System.out.println("iceCreamShop is already taken");
                 manager.logger.warning("iceCreamShop is already taken");
                 JOptionPane.showMessageDialog(null, "iceCreamShop is already taken", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 

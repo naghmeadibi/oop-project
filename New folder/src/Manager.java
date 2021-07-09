@@ -35,7 +35,7 @@ public class Manager {
     ArrayList<User> users = new ArrayList<>();
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
-    int timeCounter = -1;
+    int timeCounter = 0;
 
 
     public int getCounter() {
@@ -1310,7 +1310,6 @@ public class Manager {
                     System.out.println("YOU FINISHED ALL LEVELS |^.^|");
                 }
             }
-            moneySet(getCounter());
             writeGsonUsers();
             users.clear();
             readUser();
@@ -1573,7 +1572,7 @@ public class Manager {
         }
     }
 
-    public void moneySet(int timeCounter) {
+    public String moneySet(int timeCounter) {
 
         boolean check = true;
 
@@ -1607,15 +1606,20 @@ public class Manager {
 
         users.get(getIndexOfUser()).setMoney(users.get(getIndexOfUser()).getMoney() + levels.get(getSelectedLevel() - 1).time.get(timeCounter));
         if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 400) {
-            System.out.println("GOLDEN");
             logger.info("Golden");
+            return "GOLDEN";
+
         } else if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 200) {
-            System.out.println("SILVER");
             logger.info("Silver");
+            return "SILVER";
+
         } else if (levels.get(getSelectedLevel() - 1).time.get(timeCounter) == 100) {
-            System.out.println("BRONZE");
             logger.info("Bronze");
+            return "BRONZE";
+
         }
+        else
+            return "Bronze";
     }
 
     public void setBack() {
