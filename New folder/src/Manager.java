@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Manager {
-    Logger logger = Logger.getLogger("MyLog");
+
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     public int selectedLevel;
@@ -36,6 +36,9 @@ public class Manager {
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
     int timeCounter = 0;
+    boolean setLoggerControll = false;
+    FileHandler fh;
+    Logger logger;
 
 
     public int getCounter() {
@@ -47,18 +50,25 @@ public class Manager {
     }
 
     public void setLogger() {
-        Logger logger = Logger.getLogger("MyLog");
-        FileHandler fh;
-        try {
-            fh = new FileHandler("LogFile.log");
-            logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-            logger.setUseParentHandlers(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      //  if (!setLoggerControll) {
+            logger = Logger.getLogger("MyLog");
+            try {
+                fh = new FileHandler("LogFile.log");
+                logger.addHandler(fh);
+                SimpleFormatter formatter = new SimpleFormatter();
+                fh.setFormatter(formatter);
+                logger.setUseParentHandlers(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        //    setLoggerControll = true;
+      //  }
     }
+
+    public void writeLogger(FileHandler fileHandler) {
+        logger.setUseParentHandlers(false);
+    }
+
 
     public int getSelectedLevel() {
         return selectedLevel;
@@ -103,6 +113,7 @@ public class Manager {
         setCounter(getCounter() + 1);
         addWildAnimals(getCounter());
         timeCounter++;
+     //   System.out.println(timeCounter);
 
     }
 
@@ -154,6 +165,13 @@ public class Manager {
         int x = 11;
         Powder powder1 = new Powder(x);
         products.allUnPickedupedProducts.add(powder1);
+        logger.info("Powder was produced " + (x));
+    }
+
+    public void makeHen() {
+        int x = 13;
+        Hen hen1 = new Hen(x);
+        farmanimals.farmanimalss.add(hen1);
         logger.info("Powder was produced " + (x));
     }
 
@@ -975,7 +993,7 @@ public class Manager {
             levells = gson.fromJson(new FileReader("levels.json"), Level[].class);
             Collections.addAll(levels, levells);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -989,6 +1007,7 @@ public class Manager {
     }
 
     public void addWildAnimals(int counter) {
+        //readingLevels();
         if (levels.get(selectedLevel - 1).wildAnimalsHashMap.containsKey(counter)) {
             if (levels.get(selectedLevel - 1).wildAnimalsHashMap.get(counter).equalsIgnoreCase("lion")) {
                 addLion();
@@ -1341,7 +1360,7 @@ public class Manager {
                         return -1;
                     } else {
                         if (users.get(checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
-                            logger.info("logged in successfully");
+                            logger.info("logged in successfully < " + username + " >");
                             indexOfUser = checkUsername(username);
                             return 1;
                         } else {
@@ -1356,7 +1375,7 @@ public class Manager {
                         numOfUsers++;
                         setNumOfUsers(numOfUsers);
 
-                        logger.info("signed up successfully");
+                        logger.info("signed up successfully < " + username + " >");
                         return 2;
                     } else {
                         logger.warning("invalid username");
@@ -1497,6 +1516,7 @@ public class Manager {
     String[] tasks = new String[13];
 
     public String[] printTask() {
+
         for (int i = 0; i < 13; i++) {
             tasks[i] = null;
         }
@@ -1709,6 +1729,15 @@ public class Manager {
                     System.out.println("You don't have enough money!");
                     logger.warning("There is not enough money");
                 }
+            } else if (factoryName.equalsIgnoreCase("makeHen")) {
+                if (coin >= 150) {
+                    factory.factories.add(new MakeHen());
+                    coin -= 150;
+                    logger.info("Make Hen was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
             } else {
                 System.out.println("Wrong input!!");
                 logger.warning("Wrong input");
@@ -1877,8 +1906,8 @@ public class Manager {
                         z = products.allUnPickedupedProducts.get(j).coordinate / 10;
                         w = products.allUnPickedupedProducts.get(j).coordinate % 10;
                     } else {
-                        z = wildAnimals.cagedWildAnimals.get(j-products.allUnPickedupedProducts.size()).coordinate / 10;
-                        w = wildAnimals.cagedWildAnimals.get(j-products.allUnPickedupedProducts.size()).coordinate % 10;
+                        z = wildAnimals.cagedWildAnimals.get(j - products.allUnPickedupedProducts.size()).coordinate / 10;
+                        w = wildAnimals.cagedWildAnimals.get(j - products.allUnPickedupedProducts.size()).coordinate % 10;
                     }
                     double distance1 = Math.pow((x - z), 2) + Math.pow((y - w), 2);
                     if (distance1 < distance) {
@@ -2028,6 +2057,11 @@ public class Manager {
                     cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addIceCream")) {
                     addIceCream();
+                    orders.remove(cnt);
+                    orders.remove(cnt - 1);
+                    cnt -= 2;
+                } else if (orders.get(cnt - 1).equalsIgnoreCase("makeHen")) {
+                    makeHen();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
                     cnt -= 2;
@@ -2243,6 +2277,23 @@ public class Manager {
                     logger.warning("Ice cream shop is not built");
                 }
 
+            } else if (string.equalsIgnoreCase("makeHen")) {
+                if (pointer < factory.factories.size()) {
+                    if (!orders.contains("makeHen")) {
+                        if (checkEgg() == false) {
+                            logger.warning("There are not enough egg");
+                        } else {
+                            orders.add("makeHen");
+                            orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
+                            removeFromStoredList("egg");
+                            logger.info("A egg was removed from the warehouse");
+                        }
+                    } else if (orders.contains("makeHen")) {
+                        logger.warning("Make Hen factory is working");
+                    }
+                } else {
+                    logger.warning("make hen factory is not built");
+                }
             } else {
                 System.out.println("Wrong Input!!");
                 logger.warning("Wrong input");
@@ -2279,6 +2330,8 @@ public class Manager {
                 if (checkIceCreamShop()) {
                     buildFactory("iceCreamShop");
                 }
+            } else if (strings.equalsIgnoreCase("makeHen")) {
+                buildFactory("makeHen");
             } else {
                 logger.warning("Wrong input");
             }
@@ -2324,6 +2377,7 @@ public class Manager {
             logger.warning("Well is working");
         }
     }
+
 
 
 }
