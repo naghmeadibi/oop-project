@@ -36,6 +36,7 @@ public class Manager {
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
     int timeCounter = 0;
+    boolean setLoggerControll = false;
 
 
     public int getCounter() {
@@ -47,16 +48,19 @@ public class Manager {
     }
 
     public void setLogger() {
-        Logger logger = Logger.getLogger("MyLog");
-        FileHandler fh;
-        try {
-            fh = new FileHandler("LogFile.log");
-            logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-            logger.setUseParentHandlers(false);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!setLoggerControll) {
+            Logger logger = Logger.getLogger("MyLog");
+            FileHandler fh;
+            try {
+                fh = new FileHandler("LogFile.log");
+                logger.addHandler(fh);
+                SimpleFormatter formatter = new SimpleFormatter();
+                fh.setFormatter(formatter);
+                logger.setUseParentHandlers(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setLoggerControll = true;
         }
     }
 
@@ -103,6 +107,7 @@ public class Manager {
         setCounter(getCounter() + 1);
         addWildAnimals(getCounter());
         timeCounter++;
+        System.out.println(timeCounter);
 
     }
 
@@ -154,6 +159,13 @@ public class Manager {
         int x = 11;
         Powder powder1 = new Powder(x);
         products.allUnPickedupedProducts.add(powder1);
+        logger.info("Powder was produced " + (x));
+    }
+
+    public void makeHen() {
+        int x = 13;
+        Hen hen1 = new Hen(x);
+        farmanimals.farmanimalss.add(hen1);
         logger.info("Powder was produced " + (x));
     }
 
@@ -574,7 +586,7 @@ public class Manager {
                 dogs.set(cnt, dog);
             }
         }
-        if (products.allUnPickedupedProducts.isEmpty()) {
+        if (products.allUnPickedupedProducts.isEmpty() && wildAnimals.cagedWildAnimals.isEmpty()) {
             for (int cnt = 0; cnt < cats.size(); cnt++) {
                 Cat cat = cats.get(cnt);
                 cat.coordinate = movingCoordinate(cat.coordinate);
@@ -796,6 +808,19 @@ public class Manager {
                 }
             }
         }
+        for (Cat cat : cats) {
+            for (int cntt = 0; cntt < wildAnimals.cagedWildAnimals.size(); cntt++) {
+                if (cat.coordinate == wildAnimals.cagedWildAnimals.get(cntt).coordinate) {
+                    if (store.getCapacity() >= wildAnimals.cagedWildAnimals.get(cntt).capacity) {
+                        wildAnimals.storedWildAnimals.add(wildAnimals.cagedWildAnimals.get(cntt));
+                        store.setCapacity(store.getCapacity() - wildAnimals.cagedWildAnimals.get(cntt).capacity);
+                        logger.info("cat collect " + wildAnimals.cagedWildAnimals.get(cntt).getName());
+                        wildAnimals.cagedWildAnimals.remove(cntt);
+                        cntt--;
+                    }
+                }
+            }
+        }
     }
 
     public void animalCoordinatePrint() {
@@ -943,7 +968,6 @@ public class Manager {
     }
 
 
-
     public void productTimeHandle() {
         for (int cnt = 0; cnt < products.allUnPickedupedProducts.size(); cnt++) {
             if (products.allUnPickedupedProducts.get(cnt).live <= 1) {
@@ -963,7 +987,7 @@ public class Manager {
             levells = gson.fromJson(new FileReader("levels.json"), Level[].class);
             Collections.addAll(levels, levells);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -977,6 +1001,7 @@ public class Manager {
     }
 
     public void addWildAnimals(int counter) {
+        readingLevels();
         if (levels.get(selectedLevel - 1).wildAnimalsHashMap.containsKey(counter)) {
             if (levels.get(selectedLevel - 1).wildAnimalsHashMap.get(counter).equalsIgnoreCase("lion")) {
                 addLion();
@@ -987,7 +1012,6 @@ public class Manager {
             }
         }
     }
-
 
 
     public int countFarmAnimal(String nameAnimal) {
@@ -1027,8 +1051,6 @@ public class Manager {
 
         }
     }
-
-
 
 
     public boolean checkTasks() {
@@ -1300,26 +1322,27 @@ public class Manager {
     }
 
     public void checkFinishLevel() {
-            logger.info("finished level " + (getSelectedLevel()));
-            if (getSelectedLevel() >= users.get(getIndexOfUser()).getLevel()) {
-                if (users.get(getIndexOfUser()).getLevel() < levels.size()) {
-                    users.get(getIndexOfUser()).setLevel(getSelectedLevel() + 1);
-                    logger.info("Level " + (users.get(getIndexOfUser()).getLevel()) + " is open now");
-                }
-                if (users.get(getIndexOfUser()).getLevel() > levels.size()) {
-                    System.out.println("YOU FINISHED ALL LEVELS |^.^|");
-                }
+        logger.info("finished level " + (getSelectedLevel()));
+        if (getSelectedLevel() >= users.get(getIndexOfUser()).getLevel()) {
+            if (users.get(getIndexOfUser()).getLevel() < levels.size()) {
+                users.get(getIndexOfUser()).setLevel(getSelectedLevel() + 1);
+                logger.info("Level " + (users.get(getIndexOfUser()).getLevel()) + " is open now");
             }
-            writeGsonUsers();
-            users.clear();
-            readUser();
+            if (users.get(getIndexOfUser()).getLevel() > levels.size()) {
+                System.out.println("YOU FINISHED ALL LEVELS |^.^|");
+            }
+        }
+        writeGsonUsers();
+        users.clear();
+        readUser();
 
     }
 
 
     String password;
     String username;
-    String choice ;
+    String choice;
+
     public int menu(boolean c) {
         readUser();
         boolean mainWhile = true;
@@ -1356,7 +1379,8 @@ public class Manager {
         }
         return 0;
     }
-    public void secondMenu(boolean c){
+
+    public void secondMenu(boolean c) {
         while (true) {
             System.out.println("what shall we do next?");
             System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
@@ -1483,10 +1507,10 @@ public class Manager {
     }
 
 
-
     String[] tasks = new String[13];
+
     public String[] printTask() {
-        for (int i = 0; i < 13 ; i++) {
+        for (int i = 0; i < 13; i++) {
             tasks[i] = null;
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("hen")) {
@@ -1499,7 +1523,7 @@ public class Manager {
             tasks[2] = ("BUFFALO " + countFarmAnimal("buffalo") + "/" + levels.get(selectedLevel - 1).tasks.get("buffalo"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("egg")) {
-            tasks [3] = ("EGG " + counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
+            tasks[3] = ("EGG " + counterProductInStore("egg") + "/" + levels.get(selectedLevel - 1).tasks.get("egg"));
         }
         if (levels.get(selectedLevel - 1).tasks.containsKey("feather")) {
             tasks[4] = ("FEATHER " + counterProductInStore("feather") + "/" + levels.get(selectedLevel - 1).tasks.get("feather"));
@@ -1530,10 +1554,6 @@ public class Manager {
         }
         return tasks;
     }
-
-
-
-
 
 
     public int checkUsername(String userName) {
@@ -1617,8 +1637,7 @@ public class Manager {
             logger.info("Bronze");
             return "BRONZE";
 
-        }
-        else
+        } else
             return "Bronze";
     }
 
@@ -1699,6 +1718,15 @@ public class Manager {
                     factory.factories.add(new IcecreamShop());
                     coin -= 550;
                     logger.info("Ice Cream Shop was built");
+                } else {
+                    System.out.println("You don't have enough money!");
+                    logger.warning("There is not enough money");
+                }
+            } else if (factoryName.equalsIgnoreCase("makeHen")) {
+                if (coin >= 150) {
+                    factory.factories.add(new MakeHen());
+                    coin -= 150;
+                    logger.info("Make Hen was built");
                 } else {
                     System.out.println("You don't have enough money!");
                     logger.warning("There is not enough money");
@@ -1860,14 +1888,20 @@ public class Manager {
     public void catMove() {
         double distance;
         int index = 0;
-        if (!products.allUnPickedupedProducts.isEmpty()) {
+        if (!products.allUnPickedupedProducts.isEmpty() || !wildAnimals.cagedWildAnimals.isEmpty()) {
             for (int i = 0; i < cats.size(); i++) {
                 int x = cats.get(i).coordinate / 10;
                 int y = cats.get(i).coordinate % 10;
                 distance = 100.0;
-                for (int j = 0; j < products.allUnPickedupedProducts.size(); j++) {
-                    int z = products.allUnPickedupedProducts.get(j).coordinate / 10;
-                    int w = products.allUnPickedupedProducts.get(j).coordinate % 10;
+                for (int j = 0; j < products.allUnPickedupedProducts.size() + wildAnimals.cagedWildAnimals.size(); j++) {
+                    int z, w;
+                    if (j < products.allUnPickedupedProducts.size()) {
+                        z = products.allUnPickedupedProducts.get(j).coordinate / 10;
+                        w = products.allUnPickedupedProducts.get(j).coordinate % 10;
+                    } else {
+                        z = wildAnimals.cagedWildAnimals.get(j - products.allUnPickedupedProducts.size()).coordinate / 10;
+                        w = wildAnimals.cagedWildAnimals.get(j - products.allUnPickedupedProducts.size()).coordinate % 10;
+                    }
                     double distance1 = Math.pow((x - z), 2) + Math.pow((y - w), 2);
                     if (distance1 < distance) {
                         distance = distance1;
@@ -1880,16 +1914,30 @@ public class Manager {
     }
 
     public void movingTargetCat(int indexOfProduct, int indexOfAnimal) {
-        if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 == cats.get(indexOfAnimal).coordinate / 10) {
-            if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate % 10 > cats.get(indexOfAnimal).coordinate % 10)
-                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 1;
-            else
-                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 1;
+        if (indexOfProduct < products.allUnPickedupedProducts.size()) {
+            if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 == cats.get(indexOfAnimal).coordinate / 10) {
+                if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate % 10 > cats.get(indexOfAnimal).coordinate % 10)
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 1;
+                else
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 1;
+            } else {
+                if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 > cats.get(indexOfAnimal).coordinate / 10)
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 10;
+                else
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 10;
+            }
         } else {
-            if (products.allUnPickedupedProducts.get(indexOfProduct).coordinate / 10 > cats.get(indexOfAnimal).coordinate / 10)
-                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 10;
-            else
-                cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 10;
+            if (wildAnimals.cagedWildAnimals.get(indexOfProduct).coordinate / 10 == cats.get(indexOfAnimal).coordinate / 10) {
+                if (wildAnimals.cagedWildAnimals.get(indexOfProduct).coordinate % 10 > cats.get(indexOfAnimal).coordinate % 10)
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 1;
+                else
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 1;
+            } else {
+                if (wildAnimals.cagedWildAnimals.get(indexOfProduct).coordinate / 10 > cats.get(indexOfAnimal).coordinate / 10)
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate + 10;
+                else
+                    cats.get(indexOfAnimal).coordinate = cats.get(indexOfAnimal).coordinate - 10;
+            }
         }
     }
 
@@ -2002,6 +2050,11 @@ public class Manager {
                     cnt -= 2;
                 } else if (orders.get(cnt - 1).equalsIgnoreCase("addIceCream")) {
                     addIceCream();
+                    orders.remove(cnt);
+                    orders.remove(cnt - 1);
+                    cnt -= 2;
+                } else if (orders.get(cnt - 1).equalsIgnoreCase("makeHen")) {
+                    makeHen();
                     orders.remove(cnt);
                     orders.remove(cnt - 1);
                     cnt -= 2;
@@ -2217,6 +2270,23 @@ public class Manager {
                     logger.warning("Ice cream shop is not built");
                 }
 
+            } else if (string.equalsIgnoreCase("makeHen")) {
+                if (pointer < factory.factories.size()) {
+                    if (!orders.contains("makeHen")) {
+                        if (checkEgg() == false) {
+                            logger.warning("There are not enough egg");
+                        } else {
+                            orders.add("makeHen");
+                            orders.add(String.valueOf(factory.factories.get(pointer).getTime1() + 1));
+                            removeFromStoredList("egg");
+                            logger.info("A egg was removed from the warehouse");
+                        }
+                    } else if (orders.contains("makeHen")) {
+                        logger.warning("Make Hen factory is working");
+                    }
+                } else {
+                    logger.warning("make hen factory is not built");
+                }
             } else {
                 System.out.println("Wrong Input!!");
                 logger.warning("Wrong input");
@@ -2253,6 +2323,8 @@ public class Manager {
                 if (checkIceCreamShop()) {
                     buildFactory("iceCreamShop");
                 }
+            } else if (strings.equalsIgnoreCase("makeHen")) {
+                buildFactory("makeHen");
             } else {
                 logger.warning("Wrong input");
             }

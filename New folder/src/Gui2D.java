@@ -21,6 +21,7 @@ public class Gui2D {
 
 
         Menu menu = new Menu();
+
         menu.menu();
 
     }
@@ -28,14 +29,25 @@ public class Gui2D {
     static class Gui2 extends JFrame {
         JFrame frame = new JFrame();
         MyDrawPanel drawpanel;
+        MainThread mainThread;
+        TurnThread turnThread;
 
-        public Gui2(MyDrawPanel drawpanel) throws HeadlessException {
+        public Gui2(MyDrawPanel drawpanel) {
             this.drawpanel = drawpanel;
         }
 
-        public void go() {
-            drawpanel.manager.setLogger();
-            //drawpanel.manager.menu1(true);
+
+        public void go(Manager manager) {
+            mainThread = new MainThread(manager, drawpanel);
+            turnThread = new TurnThread(manager, drawpanel);
+
+
+            turnThread.start();
+            mainThread.start();
+
+        }
+
+        public void goOn(Manager manager) {
             drawpanel.manager.readingLevels();
             drawpanel.manager.setCounter(0);
             drawpanel.manager.setBack();
@@ -57,6 +69,9 @@ public class Gui2D {
         Manager manager;
         JFrame jFrame;
         boolean clickPose = false;
+        Graphics2D g2D;
+        boolean exit = false;
+
 
         public void setjFrame(JFrame jFrame) {
             this.jFrame = jFrame;
@@ -67,7 +82,7 @@ public class Gui2D {
         }
 
         public void paintComponent(Graphics g) {
-            Graphics2D g2D = (Graphics2D) g;
+            g2D = (Graphics2D) g;
             if (!clickPose) {
                 if (!checkFinishLevel()) {
 
@@ -76,6 +91,8 @@ public class Gui2D {
 
 
                     this.addMouseListener(this);
+
+                    //     processTime();
 
 
                     printGrass(g2D);
@@ -100,6 +117,7 @@ public class Gui2D {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+
             if (!clickPose) {
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 6; j++) {
@@ -289,7 +307,21 @@ public class Gui2D {
                     this.validate();
                     this.repaint();
                     return;
-                } else if (e.getX() >= 600 && e.getX() <= 700 && e.getY() >= 30 && e.getY() <= 180) {
+                } else if (e.getX() >= 520 && e.getX() <= 560 && e.getY() >= 90 && e.getY() <= 130) {
+                    manager.processBuild("makeHen");
+                    this.removeMouseListener(this);
+                    this.invalidate();
+                    this.validate();
+                    this.repaint();
+                    return;
+                } else if (e.getX() >= 500 && e.getX() <= 680 && e.getY() >= 20 && e.getY() <= 180) {
+                    manager.workFactory("makeHen");
+                    this.removeMouseListener(this);
+                    this.invalidate();
+                    this.validate();
+                    this.repaint();
+                    return;
+                } else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() >= 30 && e.getY() <= 180) {
                     manager.processWell();
                     this.removeMouseListener(this);
                     this.invalidate();
@@ -321,16 +353,33 @@ public class Gui2D {
                     this.validate();
                     this.repaint();
                     return;
+                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 540 && e.getY() <= 600) {
+                    manager.addDog();
+                    this.removeMouseListener(this);
+                    this.invalidate();
+                    this.validate();
+                    this.repaint();
+                    return;
+                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 600 && e.getY() <= 660) {
+                    manager.addCat();
+                    this.removeMouseListener(this);
+                    this.invalidate();
+                    this.validate();
+                    this.repaint();
+                    return;
                 }
             } else {
-                if (e.getX()>=400 && e.getX()<=900 && e.getY()>=300 && e.getY()<=400) {
+                if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 300 && e.getY() <= 400) {
+                    TurnThread turnThread = new TurnThread(manager,this);
+                    exit = false;
+                    turnThread.start();
                     clickPose = false;
                     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
-                } else if (e.getX()>=400 && e.getX()<=900 && e.getY()>=500 && e.getY()<=600) {
+                } else if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 500 && e.getY() <= 600) {
                     this.removeMouseListener(this);
                     end();
                     return;
@@ -344,6 +393,7 @@ public class Gui2D {
         @Override
         public void mouseEntered(MouseEvent e) {
             // TODO Auto-generated method stub
+
 
         }
 
@@ -401,6 +451,18 @@ public class Gui2D {
                 if (manager.farmanimals.farmanimalss.get(i) instanceof Buffalo)
                     g2D.drawImage(new ImageIcon("buffalo.png").getImage(), 250 + 100 * x, 50 + 90 * y, 90, 70, null);
 
+            }
+
+            for (int i = 0; i < manager.dogs.size(); i++) {
+                int x = manager.dogs.get(i).coordinate % 10;
+                int y = manager.dogs.get(i).coordinate / 10;
+                g2D.drawImage(new ImageIcon("dog.png").getImage(), 250 + 100 * x, 50 + 90 * y, 90, 70, null);
+            }
+
+            for (int i = 0; i < manager.cats.size(); i++) {
+                int x = manager.cats.get(i).coordinate % 10;
+                int y = manager.cats.get(i).coordinate / 10;
+                g2D.drawImage(new ImageIcon("cat.png").getImage(), 250 + 100 * x, 50 + 90 * y, 90, 70, null);
             }
         }
 
@@ -481,6 +543,7 @@ public class Gui2D {
         }
 
         public void truckClicked() {
+            exit = true;
             Random random = new Random();
             JFrame jFrame = new JFrame("truck load");
             jFrame.setLayout(null);
@@ -500,6 +563,9 @@ public class Gui2D {
             ok.setBounds(470, 730, 60, 30);
             ok.addActionListener(e -> {
                 jFrame.dispose();
+                TurnThread turnThread = new TurnThread(manager,this);
+                exit = false;
+                turnThread.start();
                 this.removeMouseListener(this);
                 this.invalidate();
                 this.validate();
@@ -698,13 +764,16 @@ public class Gui2D {
             g2D.drawImage(new ImageIcon("buyHen.jpg").getImage(), 0, 0, 60, 60, null);
             g2D.drawImage(new ImageIcon("buyTurkey.jpg").getImage(), 0, 60, 60, 60, null);
             g2D.drawImage(new ImageIcon("buyBuffalo.jpg").getImage(), 0, 120, 60, 60, null);
-            g2D.drawImage(new ImageIcon("well.png").getImage(), 600, 30, 100, 150, null);
+            g2D.drawImage(new ImageIcon("well.png").getImage(), 750, 30, 100, 150, null);
+            g2D.drawImage(new ImageIcon("makeHen.png").getImage(), 520, 90, 40, 40, null);
             g2D.drawImage(new ImageIcon("mill.png").getImage(), 0, 180, 60, 60, null);
             g2D.drawImage(new ImageIcon("bakery.png").getImage(), 0, 240, 60, 60, null);
             g2D.drawImage(new ImageIcon("packagingMilk.png").getImage(), 0, 300, 60, 60, null);
             g2D.drawImage(new ImageIcon("iceCreamShop.png").getImage(), 0, 360, 60, 60, null);
             g2D.drawImage(new ImageIcon("sewing.png").getImage(), 0, 420, 60, 60, null);
             g2D.drawImage(new ImageIcon("weaving.png").getImage(), 0, 480, 60, 60, null);
+            g2D.drawImage(new ImageIcon("dogIcon.png").getImage(), 0, 540, 60, 60, null);
+            g2D.drawImage(new ImageIcon("catIcon.png").getImage(), 0, 600, 60, 60, null);
             g2D.drawImage(new ImageIcon("wareHouse.png").getImage(), 1090, 570, 210, 200, null);
             g2D.drawImage(new ImageIcon("truck.png").getImage(), 60, 610, 210, 180, null);
             g2D.drawImage(new ImageIcon("go.png").getImage(), 0, 670, 60, 60, null);
@@ -736,13 +805,14 @@ public class Gui2D {
 
             int l = 0;
             manager.printTask();
+            Font font1 = new Font("Courier New", Font.BOLD, 14);
             for (int i = 0; i < manager.tasks.length; i++) {
                 if (manager.tasks[i] != null) {
                     String time1 = manager.tasks[i];
                     AttributedString as2 = new AttributedString(time1);
-                    as2.addAttribute(TextAttribute.FONT, font);
+                    as2.addAttribute(TextAttribute.FONT, font1);
                     as2.addAttribute(TextAttribute.FOREGROUND, Color.BLACK);
-                    g2D.drawString(as2.getIterator(), 1190, 75 + l);
+                    g2D.drawString(as2.getIterator(), 1175, 75 + l);
                     l += 20;
                 }
             }
@@ -784,6 +854,8 @@ public class Gui2D {
                     } else {
                         g2D.drawImage(new ImageIcon("factoryWorking.png").getImage(), 1140, 350, 40, 40, null);
                     }
+                } else if (manager.orders.get(i).equals("makeHen")) {
+                    g2D.drawImage(new ImageIcon("factoryWorking.png").getImage(), 500, 45, 40, 40, null);
                 }
             }
         }
@@ -842,12 +914,15 @@ public class Gui2D {
                     } else if (manager.factory.factories.get(i).getLevel() == 2) {
                         g2D.drawImage(new ImageIcon("weavingLevel2.png").getImage(), 970, 450, 200, 200, null);
                     }
+                } else if (manager.factory.factories.get(i) instanceof MakeHen) {
+                    g2D.drawImage(new ImageIcon("makeHen.png").getImage(), 500, 20, 180, 180, null);
                 }
             }
 
         }
 
         public boolean checkFinishLevel() {
+            manager.readingLevels();
             if (manager.checkTasks()) {
                 return true;
             } else
@@ -855,6 +930,7 @@ public class Gui2D {
         }
 
         public void printFinishLevel(Graphics2D g2D) {
+            exit = true;
             manager.checkFinishLevel();
             String st = manager.moneySet(manager.timeCounter);
             this.removeMouseListener(this);
@@ -884,8 +960,9 @@ public class Gui2D {
         }
 
         public void end() {
+            exit = true;
             jFrame.dispose();
-            manager.timeCounter=0;
+            manager.timeCounter = 0;
             manager.orders.clear();
 
             JFrame frame;
@@ -899,9 +976,14 @@ public class Gui2D {
 
         public void processTime() {
             manager.check();
+            this.removeMouseListener(this);
+            this.invalidate();
+            this.validate();
+            this.repaint();
         }
 
         public void pose(Graphics2D g2D) {
+            exit = true;
             g2D.drawImage(new ImageIcon("newBack.jpg").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("darkGlass.png").getImage(), 0, 0, 1370, 900, null);
             g2D.drawImage(new ImageIcon("Wooden-Blackboard.png").getImage(), 0, 100, 1330, 730, null);
@@ -922,7 +1004,6 @@ public class Gui2D {
         JButton signUp;
         JButton exit;
         Manager manager = new Manager();
-        //SecondMenu secondMenu;
         JLabel userNameField;
         JLabel passField;
         JLabel passArrow;
@@ -930,7 +1011,10 @@ public class Gui2D {
         JLabel usernameArrow;
         JLabel userName;
 
+
+
         public void menu() {
+
             manager.setLogger();
             jFrame = new JFrame("menu");
             jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1092,112 +1176,5 @@ public class Gui2D {
         }
 
     }
-
-   /* static class SecondMenu {
-        JFrame myJFrame;
-        Manager manager = new Manager();
-        JLabel label;
-        JButton[] buttons;
-
-        public SecondMenu(Manager manager) {
-            this.manager = manager;
-        }
-
-        public void graphicChoseLevel() {
-
-
-            myJFrame = new JFrame();
-            myJFrame.setSize(900, 600);
-            myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            myJFrame.setLayout(null);
-
-
-            ImageIcon icon = new ImageIcon("levelSelect.png");
-            label = new JLabel();
-            label.setSize(900, 600);
-            label.setIcon(icon);
-
-
-            JButton back = new JButton("BACK");
-            back.setBounds(0, 0, 80, 50);
-            myJFrame.add(back);
-            //  back.setOpaque(false);
-            //  back.setContentAreaFilled(false);
-            //  back.setBorderPainted(false);
-
-
-            buttons = new JButton[10];
-
-
-          int x = 0;
-            for (int i = 0; i < 10; i++) {
-                buttons[i] = new JButton("level");
-                buttons[i].setBounds(320, 500 - x, 40, 40);
-                x += 50;
-                myJFrame.add(buttons[i]);
-
-
-
-
-
-                for (int i = 0; i < 10; i++) {
-                    buttons[i] = new JButton();
-                    if (manager.users.get(manager.indexOfUser).level >= i + 1) {
-                        printOnButton(buttons[i], "openLock.png");
-                        int f = i;
-                        buttons[i].addActionListener(e -> {
-                            myJFrame.dispose();
-                            manager.selectedLevel = f + 1;
-                            manager.logger.info("Start Game");
-                            return;
-                        });
-                    } else {
-                        printOnButton(buttons[i], "closeLock.png");
-                        buttons[i].addActionListener(e -> {
-                            JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            manager.logger.warning("wrong selected level");
-                        });
-                    }
-                    myJFrame.add(buttons[i]);
-                    buttons[i].setVisible(true);
-
-                }
-            buttons[0].setBounds(320, 500, 40, 40);
-            buttons[1].setBounds(260, 480, 40, 40);
-            buttons[2].setBounds(200, 460, 40, 40);
-            buttons[3].setBounds(127, 420, 40, 40);
-            buttons[4].setBounds(190, 380, 40, 40);
-            buttons[5].setBounds(240, 350, 40, 40);
-            buttons[6].setBounds(300, 320, 40, 40);
-            buttons[7].setBounds(350, 290, 40, 40);
-            buttons[8].setBounds(280, 270, 40, 40);
-            buttons[9].setBounds(235, 260, 40, 40);
-
-
-//
-            //               myJFrame.repaint();
-            //            myJFrame.setVisible(true);
-
-            //   myJFrame.pack();
-
-
-            myJFrame.add(label);
-
-
-            myJFrame.setVisible(true);
-
-        }
-
-        public void printOnButton(JButton button, String address) {
-            ImageIcon imageIcon = new ImageIcon(address);
-            Image image = imageIcon.getImage();
-            Image newIm = image.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-            imageIcon = new ImageIcon(newIm);
-            button.setIcon(imageIcon);
-        }
-
-
-    }*/
 
 }
