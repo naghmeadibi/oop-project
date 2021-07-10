@@ -101,8 +101,9 @@ public class Manager {
         animalProduct();
         timeHandle();
         setCounter(getCounter() + 1);
-        addWildAnimals(getCounter());
+     //   addWildAnimals(getCounter());
         timeCounter++;
+        System.out.println(timeCounter);
 
     }
 
