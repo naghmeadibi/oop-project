@@ -39,8 +39,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 1;
+                    manager.logger.info("Start level 1");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 1 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -49,8 +51,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 2;
+                    manager.logger.info("Start level 2");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 2 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -59,8 +63,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 3;
+                    manager.logger.info("Start level 3");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 3 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -69,8 +75,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 4;
+                    manager.logger.info("Start level 4");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 4 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -79,8 +87,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 5;
+                    manager.logger.info("Start level 5");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 5 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -89,8 +99,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 6;
+                    manager.logger.info("Start level 6");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 6 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -99,8 +111,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 7;
+                    manager.logger.info("Start level 7");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 7 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -109,8 +123,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 8;
+                    manager.logger.info("Start level 8");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 8 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -119,8 +135,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 9;
+                    manager.logger.info("Start level 9");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 9 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -129,8 +147,10 @@ public class MenuSocond extends JComponent implements MouseListener {
                     frame.dispose();
                     Gui2D.Gui2 gui = new Gui2D.Gui2(new Gui2D.MyDrawPanel(manager));
                     manager.selectedLevel = 10;
+                    manager.logger.info("Start level 10");
                     gui.go(manager);
                 } else {
+                    manager.logger.warning("Level 10 is locked!!");
                     JOptionPane.showMessageDialog(null, "this level is locked", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -155,7 +175,8 @@ public class MenuSocond extends JComponent implements MouseListener {
                 this.validate();
                 this.repaint();
             } else if (e.getX() >= 200 && e.getX() <= 700 && e.getY() >= 400 && e.getY() <= 500) {
-                Gui2D.Menu menu = new Gui2D.Menu();
+                manager.logger.info("Logged Out");
+                Gui2D.Menu menu = new Gui2D.Menu(manager);
                 menu.menu();
                 frame.dispose();
                 this.removeMouseListener(this);
@@ -165,6 +186,7 @@ public class MenuSocond extends JComponent implements MouseListener {
             } else if (e.getX() >= 0 && e.getX() <= 80 && e.getY() >= 0 && e.getY() <= 50) {
                 this.removeMouseListener(this);
                 manager.writeGsonUsers();
+                manager.logger.info("Exit");
                 System.exit(0);
             }
         } else if (witchPage == 3) {

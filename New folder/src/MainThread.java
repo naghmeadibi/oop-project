@@ -3,13 +3,15 @@
  */
 public class MainThread extends Thread {
     Manager manager;
-    public MainThread(Manager manager) {
+    Gui2D.MyDrawPanel drawPanel;
+    public MainThread(Manager manager, Gui2D.MyDrawPanel drawPanel) {
         super("MainThread");
         this.manager = manager;
+        this.drawPanel = drawPanel;
     }
     public void run() {
-        Gui2D.MyDrawPanel draw =(new Gui2D.MyDrawPanel(manager));
-        draw.w = 2;
+        Gui2D.MyDrawPanel draw =(drawPanel);
+
         Gui2D.Gui2 gui = new Gui2D.Gui2(draw);
         gui.goOn(manager);
     }
