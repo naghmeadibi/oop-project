@@ -10,8 +10,9 @@ public class MainThread extends Thread {
         this.drawPanel = drawPanel;
     }
     public void run() {
+        Gui2D.MyDrawPanel draw =(drawPanel);
 
-        Gui2D.Gui2 gui = new Gui2D.Gui2(drawPanel);
+        Gui2D.Gui2 gui = new Gui2D.Gui2(draw);
         gui.goOn(manager);
     }
 }

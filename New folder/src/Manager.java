@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Manager {
-
+    Logger logger = Logger.getLogger("MyLog");
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     public int selectedLevel;
@@ -36,9 +36,6 @@ public class Manager {
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
     int timeCounter = 0;
-    boolean setLoggerControll = false;
-    FileHandler fh;
-    Logger logger;
 
 
     public int getCounter() {
@@ -50,25 +47,18 @@ public class Manager {
     }
 
     public void setLogger() {
-      //  if (!setLoggerControll) {
-            logger = Logger.getLogger("MyLog");
-            try {
-                fh = new FileHandler("LogFile.log");
-                logger.addHandler(fh);
-                SimpleFormatter formatter = new SimpleFormatter();
-                fh.setFormatter(formatter);
-                logger.setUseParentHandlers(false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        //    setLoggerControll = true;
-      //  }
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        try {
+            fh = new FileHandler("LogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-    public void writeLogger(FileHandler fileHandler) {
-        logger.setUseParentHandlers(false);
-    }
-
 
     public int getSelectedLevel() {
         return selectedLevel;
@@ -111,9 +101,9 @@ public class Manager {
         animalProduct();
         timeHandle();
         setCounter(getCounter() + 1);
-        addWildAnimals(getCounter());
+     //   addWildAnimals(getCounter());
         timeCounter++;
-     //   System.out.println(timeCounter);
+        System.out.println(timeCounter);
 
     }
 
@@ -993,7 +983,7 @@ public class Manager {
             levells = gson.fromJson(new FileReader("levels.json"), Level[].class);
             Collections.addAll(levels, levells);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -1007,7 +997,6 @@ public class Manager {
     }
 
     public void addWildAnimals(int counter) {
-        //readingLevels();
         if (levels.get(selectedLevel - 1).wildAnimalsHashMap.containsKey(counter)) {
             if (levels.get(selectedLevel - 1).wildAnimalsHashMap.get(counter).equalsIgnoreCase("lion")) {
                 addLion();
@@ -1360,7 +1349,7 @@ public class Manager {
                         return -1;
                     } else {
                         if (users.get(checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
-                            logger.info("logged in successfully < " + username + " >");
+                            logger.info("logged in successfully");
                             indexOfUser = checkUsername(username);
                             return 1;
                         } else {
@@ -1375,7 +1364,7 @@ public class Manager {
                         numOfUsers++;
                         setNumOfUsers(numOfUsers);
 
-                        logger.info("signed up successfully < " + username + " >");
+                        logger.info("signed up successfully");
                         return 2;
                     } else {
                         logger.warning("invalid username");
@@ -1516,7 +1505,6 @@ public class Manager {
     String[] tasks = new String[13];
 
     public String[] printTask() {
-
         for (int i = 0; i < 13; i++) {
             tasks[i] = null;
         }
@@ -2377,7 +2365,6 @@ public class Manager {
             logger.warning("Well is working");
         }
     }
-
 
 
 }

@@ -18,12 +18,9 @@ import javax.swing.*;
 
 public class Gui2D {
     public static void main(String[] args) {
-        Manager manager = new Manager();
 
 
-        manager.setLogger();
-        Menu menu = new Menu(manager);
-
+        Menu menu = new Menu();
         menu.menu();
 
     }
@@ -45,11 +42,13 @@ public class Gui2D {
 
 
             turnThread.start();
+
             mainThread.start();
 
         }
 
         public void goOn(Manager manager) {
+            drawpanel.manager.setLogger();
             drawpanel.manager.readingLevels();
             drawpanel.manager.setCounter(0);
             drawpanel.manager.setBack();
@@ -69,14 +68,13 @@ public class Gui2D {
 
     static class MyDrawPanel extends JComponent implements MouseListener {
         Manager manager;
-        JFrame jFrame1;
+        JFrame jFrame;
         boolean clickPose = false;
         Graphics2D g2D;
-        boolean exit = false;
-
+        
 
         public void setjFrame(JFrame jFrame) {
-            this.jFrame1 = jFrame;
+            this.jFrame = jFrame;
         }
 
         public MyDrawPanel(Manager manager) {
@@ -91,8 +89,10 @@ public class Gui2D {
 
                     printIcons(g2D);
 
-                    if (this.getMouseListeners().length == 0)
-                        this.addMouseListener(this);
+
+                    this.addMouseListener(this);
+
+                    //     processTime();
 
 
                     printGrass(g2D);
@@ -118,278 +118,275 @@ public class Gui2D {
         @Override
         public void mouseClicked(MouseEvent e) {
 
-            if (!clickPose) {
-                for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 6; j++) {
-                        if ((e.getX() >= 350 + i * 100 && e.getX() <= 450 + i * 100 && e.getY() >= 140 + j * 90 && e.getY() <= 230 + j * 90)) {
+                if (!clickPose) {
+                    for (int i = 0; i < 6; i++) {
+                        for (int j = 0; j < 6; j++) {
+                            if ((e.getX() >= 350 + i * 100 && e.getX() <= 450 + i * 100 && e.getY() >= 140 + j * 90 && e.getY() <= 230 + j * 90)) {
 
-                            int tr = manager.pickUp(j * 10 + 10 + i + 1);
+                                int tr = manager.pickUp(j * 10 + 10 + i + 1);
 
-                            if (tr == 0) {
-                                int tr2 = manager.cage(j * 10 + 10 + i + 1);
-                                manager.unCage();
-                                if (tr2 == 0) {
-                                    if (!manager.checkWell()) {
-                                        manager.plant(j * 10 + 10 + i + 1);
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Well is empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                if (tr == 0) {
+                                    int tr2 = manager.cage(j * 10 + 10 + i + 1);
+                                    manager.unCage();
+                                    if (tr2 == 0) {
+                                        if (!manager.checkWell()) {
+                                            manager.plant(j * 10 + 10 + i + 1);
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Well is empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        }
                                     }
                                 }
+
+                                this.removeMouseListener(this);
+                                this.invalidate();
+                                this.validate();
+                                this.repaint();
+
+                                return;
                             }
-
-                            this.removeMouseListener(this);
-                            this.invalidate();
-                            this.validate();
-                            this.repaint();
-
-                            return;
                         }
                     }
-                }
-                if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 0 && e.getY() <= 60) {
-                    manager.addHen();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 60 && e.getY() <= 120) {
-                    manager.addTurkey();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 120 && e.getY() <= 180) {
-                    manager.addBuffalo();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 190 && e.getX() <= 220 && e.getY() >= 210 && e.getY() <= 240) {
-                    manager.processUpgrade("mill");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 1130 && e.getX() <= 1160 && e.getY() >= 220 && e.getY() <= 250) {
-                    manager.processUpgrade("bakery");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 170 && e.getX() <= 200 && e.getY() >= 360 && e.getY() <= 390) {
-                    manager.processUpgrade("milkPackaging");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 1150 && e.getX() <= 1180 && e.getY() >= 380 && e.getY() <= 410) {
-                    manager.processUpgrade("iceCreamShop");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 160 && e.getX() <= 190 && e.getY() >= 590 && e.getY() <= 620) {
-                    manager.processUpgrade("sewing");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 1150 && e.getX() <= 1180 && e.getY() >= 580 && e.getY() <= 610) {
-                    manager.processUpgrade("weaving");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
-                    manager.processBuild("mill");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
-                    manager.workFactory("mill");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
-                    manager.processBuild("mill");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
-                    manager.workFactory("mill");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 240 && e.getY() <= 300) {
-                    manager.processBuild("bakery");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 900 && e.getX() <= 1080 && e.getY() >= 80 && e.getY() <= 260) {
-                    manager.workFactory("bakery");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 300 && e.getY() <= 360) {
-                    manager.processBuild("milkPackaging");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 180 && e.getX() <= 400 && e.getY() >= 250 && e.getY() <= 450) {
-                    manager.workFactory("milkPackaging");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 360 && e.getY() <= 420) {
-                    manager.processBuild("iceCreamShop");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 261 && e.getY() <= 430) {
-                    manager.workFactory("iceCreamShop");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 420 && e.getY() <= 480) {
-                    manager.processBuild("sewing");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 180 && e.getX() <= 360 && e.getY() >= 451 && e.getY() <= 630) {
-                    manager.workFactory("sewing");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 480 && e.getY() <= 540) {
-                    manager.processBuild("weaving");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 450 && e.getY() <= 630) {
-                    manager.workFactory("weaving");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 520 && e.getX() <= 560 && e.getY() >= 90 && e.getY() <= 130) {
-                    manager.processBuild("makeHen");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 500 && e.getX() <= 680 && e.getY() >= 20 && e.getY() <= 180) {
-                    manager.workFactory("makeHen");
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() >= 30 && e.getY() <= 180) {
-                    manager.processWell();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 60 && e.getX() <= 270 && e.getY() >= 610 && e.getY() <= 790) {
-                    if (!manager.orders.contains("truckGo")) {
+                    if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 0 && e.getY() <= 60) {
+                        manager.addHen();
                         this.removeMouseListener(this);
-                        truckClicked();
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 60 && e.getY() <= 120) {
+                        manager.addTurkey();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 120 && e.getY() <= 180) {
+                        manager.addBuffalo();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 190 && e.getX() <= 220 && e.getY() >= 210 && e.getY() <= 240) {
+                        manager.processUpgrade("mill");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 1130 && e.getX() <= 1160 && e.getY() >= 220 && e.getY() <= 250) {
+                        manager.processUpgrade("bakery");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 170 && e.getX() <= 200 && e.getY() >= 360 && e.getY() <= 390) {
+                        manager.processUpgrade("milkPackaging");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 1150 && e.getX() <= 1180 && e.getY() >= 380 && e.getY() <= 410) {
+                        manager.processUpgrade("iceCreamShop");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 160 && e.getX() <= 190 && e.getY() >= 590 && e.getY() <= 620) {
+                        manager.processUpgrade("sewing");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 1150 && e.getX() <= 1180 && e.getY() >= 580 && e.getY() <= 610) {
+                        manager.processUpgrade("weaving");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
+                        manager.processBuild("mill");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
+                        manager.workFactory("mill");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
+                        manager.processBuild("mill");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
+                        manager.workFactory("mill");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 240 && e.getY() <= 300) {
+                        manager.processBuild("bakery");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 900 && e.getX() <= 1080 && e.getY() >= 80 && e.getY() <= 260) {
+                        manager.workFactory("bakery");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 300 && e.getY() <= 360) {
+                        manager.processBuild("milkPackaging");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 180 && e.getX() <= 400 && e.getY() >= 250 && e.getY() <= 450) {
+                        manager.workFactory("milkPackaging");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 360 && e.getY() <= 420) {
+                        manager.processBuild("iceCreamShop");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 261 && e.getY() <= 430) {
+                        manager.workFactory("iceCreamShop");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 420 && e.getY() <= 480) {
+                        manager.processBuild("sewing");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 180 && e.getX() <= 360 && e.getY() >= 451 && e.getY() <= 630) {
+                        manager.workFactory("sewing");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 480 && e.getY() <= 540) {
+                        manager.processBuild("weaving");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 450 && e.getY() <= 630) {
+                        manager.workFactory("weaving");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 520 && e.getX() <= 560 && e.getY() >= 90 && e.getY() <= 130) {
+                        manager.processBuild("makeHen");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 500 && e.getX() <= 680 && e.getY() >= 20 && e.getY() <= 180) {
+                        manager.workFactory("makeHen");
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() >= 30 && e.getY() <= 180) {
+                        manager.processWell();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 60 && e.getX() <= 270 && e.getY() >= 610 && e.getY() <= 790) {
+                        if (!manager.orders.contains("truckGo"))
+                            truckClicked();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 670 && e.getY() <= 730) {
+                        processTruckGo();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 450 && e.getY() <= 520) {
+                        processTime();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 550 && e.getY() <= 620) {
+                        clickPose = true;
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 540 && e.getY() <= 600) {
+                        manager.addDog();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 600 && e.getY() <= 660) {
+                        manager.addCat();
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
                     }
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 670 && e.getY() <= 730) {
-                    processTruckGo();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 450 && e.getY() <= 520) {
-                    processTime();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 550 && e.getY() <= 620) {
-                    clickPose = true;
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 540 && e.getY() <= 600) {
-                    manager.addDog();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 600 && e.getY() <= 660) {
-                    manager.addCat();
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
+                } else {
+                    if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 300 && e.getY() <= 400) {
+                        clickPose = false;
+                        this.removeMouseListener(this);
+                        this.invalidate();
+                        this.validate();
+                        this.repaint();
+                        return;
+                    } else if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 500 && e.getY() <= 600) {
+                        this.removeMouseListener(this);
+                        end();
+                        return;
+                    }
                 }
-            } else {
-                if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 300 && e.getY() <= 400) {
 
-                    exit = false;
-
-                    clickPose = false;
-                    this.removeMouseListener(this);
-                    this.invalidate();
-                    this.validate();
-                    this.repaint();
-                    return;
-                } else if (e.getX() >= 400 && e.getX() <= 900 && e.getY() >= 500 && e.getY() <= 600) {
-                    this.removeMouseListener(this);
-                    end();
-                    return;
-                }
-            }
 
 
         }
+
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -544,8 +541,6 @@ public class Gui2D {
         }
 
         public void truckClicked() {
-            this.removeMouseListener(this);
-            exit = true;
             Random random = new Random();
             JFrame jFrame = new JFrame("truck load");
             jFrame.setLayout(null);
@@ -565,9 +560,6 @@ public class Gui2D {
             ok.setBounds(470, 730, 60, 30);
             ok.addActionListener(e -> {
                 jFrame.dispose();
-
-                exit = false;
-
                 this.removeMouseListener(this);
                 this.invalidate();
                 this.validate();
@@ -727,12 +719,6 @@ public class Gui2D {
                     panel.add(buttons[i]);
                 }
             }
-
-            JLabel price = new JLabel("price = " + manager.truck.getPrice());
-            price.setFont(new Font("Courier", Font.ITALIC, 18));
-            price.setForeground(Color.magenta);
-            panel.add(price);
-
         }
 
         public void printOnTruck(Graphics2D g2D) {
@@ -930,7 +916,6 @@ public class Gui2D {
         }
 
         public boolean checkFinishLevel() {
-            //manager.readingLevels();
             if (manager.checkTasks()) {
                 return true;
             } else
@@ -938,7 +923,6 @@ public class Gui2D {
         }
 
         public void printFinishLevel(Graphics2D g2D) {
-            exit = true;
             manager.checkFinishLevel();
             String st = manager.moneySet(manager.timeCounter);
             this.removeMouseListener(this);
@@ -964,12 +948,11 @@ public class Gui2D {
             ok.setContentAreaFilled(false);
             ok.setBorderPainted(false);
             ok.addActionListener(e -> end());
-            jFrame1.add(ok);
+            jFrame.add(ok);
         }
 
         public void end() {
-            exit = true;
-            jFrame1.dispose();
+            jFrame.dispose();
             manager.timeCounter = 0;
             manager.orders.clear();
 
@@ -991,8 +974,6 @@ public class Gui2D {
         }
 
         public void pose(Graphics2D g2D) {
-            exit = true;
-            manager.logger.info("Game Stopped");
             g2D.drawImage(new ImageIcon("newBack.jpg").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("darkGlass.png").getImage(), 0, 0, 1370, 900, null);
             g2D.drawImage(new ImageIcon("Wooden-Blackboard.png").getImage(), 0, 100, 1330, 730, null);
@@ -1012,7 +993,8 @@ public class Gui2D {
         JButton login;
         JButton signUp;
         JButton exit;
-        Manager manager;
+        Manager manager = new Manager();
+        //SecondMenu secondMenu;
         JLabel userNameField;
         JLabel passField;
         JLabel passArrow;
@@ -1020,15 +1002,8 @@ public class Gui2D {
         JLabel usernameArrow;
         JLabel userName;
 
-
-        public Menu(Manager manager) {
-            this.manager = manager;
-        }
-
-
         public void menu() {
-
-
+            manager.setLogger();
             jFrame = new JFrame("menu");
             jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jFrame.setSize(900, 700);
@@ -1125,6 +1100,8 @@ public class Gui2D {
             jFrame.add(usernameArrow);
             jFrame.add(label);
 
+            // jFrame.pack();
+
 
             jFrame.setVisible(true);
         }
@@ -1153,8 +1130,6 @@ public class Gui2D {
                 int index = manager.menu(true);
                 printLogMassage(index);
                 if (index == 2) {
-                    jFrame.dispose();
-                    manager.writeGsonUsers();
                     //secondMenu = new SecondMenu(manager);
                     //secondMenu.graphicChoseLevel();
                 }
