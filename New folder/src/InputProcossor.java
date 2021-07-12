@@ -565,7 +565,7 @@ public class InputProcossor {
     }
 
     public void run() {
-        manager.setLogger();
+
         while (true) {
             if(input.equalsIgnoreCase("logout"))
             {checkMenu = true;}
