@@ -1516,6 +1516,7 @@ public class Manager {
     String[] tasks = new String[13];
 
     public String[] printTask() {
+        readingLevels();
         for (int i = 0; i < 13; i++) {
             tasks[i] = null;
         }
@@ -2376,6 +2377,7 @@ public class Manager {
             logger.warning("Well is working");
         }
     }
+
 
 
 }

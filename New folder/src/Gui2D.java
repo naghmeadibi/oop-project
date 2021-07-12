@@ -70,14 +70,14 @@ public class Gui2D {
 
     static class MyDrawPanel extends JComponent implements MouseListener {
         Manager manager;
-        JFrame jFrame;
+        JFrame jFrame1;
         boolean clickPose = false;
         Graphics2D g2D;
         boolean exit = false;
 
 
         public void setjFrame(JFrame jFrame) {
-            this.jFrame = jFrame;
+            this.jFrame1 = jFrame;
         }
 
         public MyDrawPanel(Manager manager) {
@@ -92,10 +92,10 @@ public class Gui2D {
 
                     printIcons(g2D);
 
-
+                    if (this.getMouseListeners().length==0)
                     this.addMouseListener(this);
 
-                    //     processTime();
+
 
 
                     printGrass(g2D);
@@ -332,8 +332,10 @@ public class Gui2D {
                     this.repaint();
                     return;
                 } else if (e.getX() >= 60 && e.getX() <= 270 && e.getY() >= 610 && e.getY() <= 790) {
-                    if (!manager.orders.contains("truckGo"))
+                    if (!manager.orders.contains("truckGo")) {
+                        this.removeMouseListener(this);
                         truckClicked();
+                    }
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 670 && e.getY() <= 730) {
                     processTruckGo();
@@ -391,7 +393,6 @@ public class Gui2D {
 
 
         }
-
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -546,6 +547,7 @@ public class Gui2D {
         }
 
         public void truckClicked() {
+            this.removeMouseListener(this);
             exit = true;
             Random random = new Random();
             JFrame jFrame = new JFrame("truck load");
@@ -959,12 +961,12 @@ public class Gui2D {
             ok.setContentAreaFilled(false);
             ok.setBorderPainted(false);
             ok.addActionListener(e -> end());
-            jFrame.add(ok);
+            jFrame1.add(ok);
         }
 
         public void end() {
             exit = true;
-            jFrame.dispose();
+            jFrame1.dispose();
             manager.timeCounter = 0;
             manager.orders.clear();
 
@@ -996,6 +998,12 @@ public class Gui2D {
             this.addMouseListener(this);
         }
 
+        public void catchHandle() {
+            this.removeMouseListener(this);
+            this.invalidate();
+            this.validate();
+            this.repaint();
+        }
 
     }
 

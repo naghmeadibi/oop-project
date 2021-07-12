@@ -28,7 +28,8 @@ public class TurnThread extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                } else
+                    return;
             } catch (Exception e) {
                 System.out.println("something occurred");
             }
