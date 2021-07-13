@@ -4,25 +4,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.AttributedString;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.sound.sampled.*;
 
 public class Gui2D {
     public static void main(String[] args) {
         Manager manager = new Manager();
         Menu menu = new Menu(manager);
-
+        manager.setMusic();
         menu.menu();
-
     }
 
     static class Gui2 extends JFrame {
@@ -37,6 +31,7 @@ public class Gui2D {
 
 
         public void go(Manager manager) {
+            manager.playMusic(manager.clip);
             mainThread = new MainThread(manager, drawpanel);
             turnThread = new TurnThread(manager, drawpanel);
 
@@ -61,7 +56,6 @@ public class Gui2D {
 
         }
 
-
     }
 
     static class MyDrawPanel extends JComponent implements MouseListener {
@@ -70,6 +64,9 @@ public class Gui2D {
         boolean clickPose = false;
         Graphics2D g2D;
         boolean exit = false;
+        static File file = new File("error.wav");
+        static Clip clip = null;
+
 
 
         public void setjFrame(JFrame jFrame) {
@@ -104,7 +101,10 @@ public class Gui2D {
 
                     Turn(manager.timeCounter, g2D);
                 } else {
+
                     printFinishLevel(g2D);
+                    this.removeMouseListener(this);
+                    this.addMouseListener(this);
                 }
             } else {
                 pose(g2D);
@@ -114,7 +114,7 @@ public class Gui2D {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
+           if (!checkFinishLevel()) {
             if (!clickPose) {
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 6; j++) {
@@ -125,11 +125,15 @@ public class Gui2D {
                             if (tr == 0) {
                                 int tr2 = manager.cage(j * 10 + 10 + i + 1);
                                 manager.unCage();
+                            /*    if (manager.wildAnimals.livingWildAnimals.get(0).getLife() == 1) {
+                                      manager.unCage();
+                                }*/
                                 if (tr2 == 0) {
                                     if (!manager.checkWell()) {
                                         manager.plant(j * 10 + 10 + i + 1);
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Well is empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        playErrorMusic();
+                                     //   JOptionPane.showMessageDialog(null, "Well is empty", "ERROR", JOptionPane.ERROR_MESSAGE);
                                     }
                                 }
                             }
@@ -149,14 +153,14 @@ public class Gui2D {
                     this.invalidate();
                     this.validate();
                     this.repaint();
-                    return;
+
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 60 && e.getY() <= 120) {
                     manager.addTurkey();
                     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
-                    return;
+
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 120 && e.getY() <= 180) {
                     manager.addBuffalo();
                     this.removeMouseListener(this);
@@ -383,7 +387,11 @@ public class Gui2D {
                     end();
                     return;
                 }
-            }
+            } } else {
+               if (e.getX() >= 70 && e.getX() <= 190 && e.getY() >= 20 && e.getY() <= 120) {
+                   end();
+               }
+           }
 
 
         }
@@ -612,7 +620,6 @@ public class Gui2D {
                     labels[i].setBounds((i % 5) * 60 + 20, (i / 5) * 60 + 20, 50, 50);
                     labels[i].setBackground(new Color(random.nextFloat(), random.nextFloat(), random.nextFloat()));
                     int index1 = i - manager.store.stuff.size();
-                    int in = i;
                     labels[i].addActionListener(e -> {
                         if (manager.truckLoad(manager.wildAnimals.storedWildAnimals.get(index1).name)) {
                             panel1.removeAll();
@@ -822,9 +829,7 @@ public class Gui2D {
                     l += 20;
                 }
             }
-
         }
-
 
         public void printWorkingFactory(Graphics2D g2D) {
             for (int i = 0; i < manager.orders.size(); i += 2) {
@@ -867,7 +872,7 @@ public class Gui2D {
         }
 
         public int foundIndexOfFactory(String name) {
-            int i = 0;
+            int i;
             for (i = 0; i < manager.factory.factories.size(); i++) {
                 if (manager.factory.factories.get(i).getName().equalsIgnoreCase(name)) {
                     return i;
@@ -928,11 +933,7 @@ public class Gui2D {
         }
 
         public boolean checkFinishLevel() {
-            //manager.readingLevels();
-            if (manager.checkTasks()) {
-                return true;
-            } else
-                return false;
+            return manager.checkTasks();
         }
 
         public void printFinishLevel(Graphics2D g2D) {
@@ -940,7 +941,7 @@ public class Gui2D {
             Manager.logger.info("level finished");
             manager.checkFinishLevel();
             String st = manager.moneySet(manager.timeCounter);
-            this.removeMouseListener(this);
+            //this.removeMouseListener(this);
             g2D.clearRect(0, 0, 1370, 850);
             g2D.drawImage(new ImageIcon("newBack.jpg").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("ok.png").getImage(), 70, 20, 120, 100, null);
@@ -957,18 +958,13 @@ public class Gui2D {
             as1.addAttribute(TextAttribute.FONT, new Font("Courier New", Font.BOLD, 18));
             as1.addAttribute(TextAttribute.FOREGROUND, new Color(20, 58, 10));
             g2D.drawString(as1.getIterator(), 500, 560);
-            JButton ok = new JButton("OK");
-            ok.setBounds(70, 20, 120, 100);
-            ok.setOpaque(false);
-            ok.setContentAreaFilled(false);
-            ok.setBorderPainted(false);
-            ok.addActionListener(e -> end());
-            jFrame1.add(ok);
+
         }
 
         public void end() {
             exit = true;
             Manager.logger.info("game ended");
+            jFrame1.invalidate();
             jFrame1.dispose();
             manager.timeCounter = 0;
             manager.orders.clear();
@@ -992,7 +988,6 @@ public class Gui2D {
 
         public void pose(Graphics2D g2D) {
             exit = true;
-
             Manager.logger.info("Game Stopped");
             g2D.drawImage(new ImageIcon("newBack.jpg").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("darkGlass.png").getImage(), 0, 0, 1370, 900, null);
@@ -1000,6 +995,34 @@ public class Gui2D {
             g2D.drawImage(new ImageIcon("continue.png").getImage(), 400, 300, 500, 100, null);
             g2D.drawImage(new ImageIcon("newExit.png").getImage(), 400, 500, 500, 100, null);
             this.addMouseListener(this);
+        }
+
+        static {
+            AudioInputStream audioStream = null;
+            try {
+                audioStream = AudioSystem.getAudioInputStream(file);
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                clip = AudioSystem.getClip();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+            try {
+                clip.open(audioStream);
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void playErrorMusic() {
+            clip.setMicrosecondPosition(300);
+            clip.start();
         }
 
 
@@ -1144,8 +1167,6 @@ public class Gui2D {
                 printLogMassage(index);
                 if (index == 1) {
                     jFrame.dispose();
-                    //secondMenu = new SecondMenu(manager);
-                    //secondMenu.graphicChoseLevel();
                 }
             } else if (e.getSource() == signUp) {
                 manager.username = textField.getText();
@@ -1156,8 +1177,6 @@ public class Gui2D {
                 if (index == 2) {
                     jFrame.dispose();
                     manager.writeGsonUsers();
-                    //secondMenu = new SecondMenu(manager);
-                    //secondMenu.graphicChoseLevel();
                 }
             }
         }
@@ -1179,7 +1198,7 @@ public class Gui2D {
                 frame.setContentPane(new MenuSocond(manager, frame));
             } else if (i == 2) {
                 JOptionPane.showMessageDialog(null, "SIGN UP SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
-                manager.users.add(new User(manager.username, manager.password, 1, 0));
+                manager.addUserToSql(manager.username, manager.password);
                 JFrame frame;
                 frame = new JFrame("menu");
                 frame.setSize(900, 600);
