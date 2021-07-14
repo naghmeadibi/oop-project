@@ -1,6 +1,4 @@
-/**
- * Created by Atmospher-PC on 02/07/2021.
- */
+
 public class TurnThread extends Thread {
     Manager manager;
     Gui2D.MyDrawPanel drawPanel;
@@ -15,21 +13,23 @@ public class TurnThread extends Thread {
 
     public void run() {
         drawPanel.manager.readingLevels();
+        int i  = 0;
 
         while (true) {
+            if (i == 9) {
+                drawPanel.manager.playMusic(manager.clip);
+                i = 0;
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             try {
                 if (!drawPanel.exit) {
-                    // manager.check();
-
                     drawPanel.processTime();
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else
-                    return;
+                }
+                i ++;
             } catch (Exception e) {
                 System.out.println("something occurred");
             }

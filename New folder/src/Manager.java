@@ -2,7 +2,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
+import javax.sound.sampled.*;
 import java.io.*;
+import java.sql.*;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -36,9 +38,11 @@ public class Manager {
     public LinkedList<String> orders = new LinkedList<>();
     public int indexOfUser = 0;
     int timeCounter = 0;
-    boolean setLoggerControll = false;
-    FileHandler fh;
-    Logger logger;
+    static FileHandler fh;
+    static Logger logger;
+    File file = new File("beat.wav");
+    Clip clip = null;
+
 
 
     public int getCounter() {
@@ -49,24 +53,26 @@ public class Manager {
         this.counter = counter;
     }
 
-    public void setLogger() {
-      //  if (!setLoggerControll) {
-            logger = Logger.getLogger("MyLog");
-            try {
-                fh = new FileHandler("LogFile.log");
-                logger.addHandler(fh);
-                SimpleFormatter formatter = new SimpleFormatter();
-                fh.setFormatter(formatter);
-                logger.setUseParentHandlers(false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        //    setLoggerControll = true;
-      //  }
+    static {
+
+        logger = Logger.getLogger("MyLog");
+        try {
+            fh = new FileHandler("LogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            logger.setUseParentHandlers(false);
+            System.out.println("done");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public void writeLogger(FileHandler fileHandler) {
-        logger.setUseParentHandlers(false);
+    static void writeLogger() {
+        logger.info("END of game");
+        logger.removeHandler(fh);
+        fh.close();
     }
 
 
@@ -113,7 +119,7 @@ public class Manager {
         setCounter(getCounter() + 1);
         addWildAnimals(getCounter());
         timeCounter++;
-     //   System.out.println(timeCounter);
+        //   System.out.println(timeCounter);
 
     }
 
@@ -829,27 +835,6 @@ public class Manager {
         }
     }
 
-    public void animalCoordinatePrint() {
-        for (int cnt = 0; cnt < farmanimals.farmanimalss.size(); cnt++) {
-            System.out.println("name : " + farmanimals.farmanimalss.get(cnt).name + " coordinate : " + farmanimals.farmanimalss.get(cnt).coordinate + " life : " + farmanimals.farmanimalss.get(cnt).life);
-        }
-        for (int cnt = 0; cnt < wildAnimals.livingWildAnimals.size(); cnt++) {
-            System.out.println("name : " + wildAnimals.livingWildAnimals.get(cnt).name + " coordinate : " + wildAnimals.livingWildAnimals.get(cnt).coordinate + " life : " + wildAnimals.livingWildAnimals.get(cnt).life);
-        }
-        if (!dogs.isEmpty()) {
-            System.out.println("dogs");
-            for (Dog dog : dogs) {
-                System.out.println("coordinate : " + dog.coordinate);
-            }
-        }
-        if (!cats.isEmpty()) {
-            System.out.println("cats");
-            for (Cat cat : cats) {
-                System.out.println("coordinate : " + cat.coordinate);
-            }
-        }
-    }
-
     public void lifeOfAnimals() {
         for (int cnt = 0; cnt < farmanimals.farmanimalss.size(); cnt++) {
             if (farmanimals.farmanimalss.get(cnt).getLife() == 1) {
@@ -917,63 +902,6 @@ public class Manager {
         }
     }
 
-    public void grassCheck() {
-        if (grasses.isEmpty()) {
-            System.out.println("warning!! plant grass!!");
-        }
-    }
-
-    public void productCoordinatePrint() {
-        for (int cnt = 0; cnt < products.allUnPickedupedProducts.size(); cnt++) {
-            System.out.println(products.allUnPickedupedProducts.get(cnt).name);
-            System.out.println("coordinate : " + products.allUnPickedupedProducts.get(cnt).coordinate);
-        }
-    }
-
-    public void Turn(int timeCounter) {
-
-        System.out.println(timeCounter + " units of time passed :)");
-        int[][] grassField = new int[6][6];
-        for (int cn = 0; cn < 6; cn++)
-            Arrays.fill(grassField[cn], 0);
-        for (int cnt = 1; cnt < 7; cnt++) {
-            for (int cn = 1; cn < 7; cn++) {
-                for (Grass grass : grasses) {
-                    if (grass.coordinate == (cnt * 10 + cn)) {
-                        grassField[cnt - 1][cn - 1] += 1;
-                    }
-                }
-            }
-        }
-        System.out.println("Grass Field");
-        for (int cnt = 0; cnt < 6; cnt++) {
-            for (int cn = 0; cn < 6; cn++) {
-                System.out.print(grassField[cnt][cn] + " ");
-            }
-            System.out.println();
-        }
-        animalCoordinatePrint();
-        productCoordinatePrint();
-        if (!factory.factories.isEmpty()) {
-            System.out.println("Factories : ");
-        }
-        for (int i = 0; i < factory.factories.size(); i++) {
-            System.out.print(factory.factories.get(i).getName());
-            System.out.println("  level = " + factory.factories.get(i).getLevel());
-        }
-        if (!wildAnimals.cagedWildAnimals.isEmpty()) {
-            System.out.println("Caged Animals : ");
-        }
-        for (int i = 0; i < wildAnimals.cagedWildAnimals.size(); i++) {
-            System.out.print(wildAnimals.cagedWildAnimals.get(i).getName());
-            System.out.println("  Coordinate : " + wildAnimals.cagedWildAnimals.get(i).getCoordinate());
-        }
-        System.out.println("Coin$ = " + coin);
-        System.out.println("Remaining tasks : ");
-        printTask();
-    }
-
-
     public void productTimeHandle() {
         for (int cnt = 0; cnt < products.allUnPickedupedProducts.size(); cnt++) {
             if (products.allUnPickedupedProducts.get(cnt).live <= 1) {
@@ -986,7 +914,7 @@ public class Manager {
         }
     }
 
-    public void readingLevels() {
+   /* public void readingLevels() {
         try {
             levels.clear();
             Gson gson = new Gson();
@@ -995,19 +923,66 @@ public class Manager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }*/
+
+    public void readingLevels() {
+        final String username = "root";
+        final String password = "naghme1380";
+        final String con = "jdbc:mysql://localhost:3306/stagegame";
+        String sql = "SELECT * " +
+                "FROM level";
+
+        try (Connection conn = DriverManager.getConnection(con, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int levelIndex = rs.getInt("idlevel");
+                int coin = rs.getInt("coin");
+                HashMap<String,Integer> tasks = new HashMap<>();
+                String taskName = rs.getString("taskname");
+                String[] taskNames = taskName.split("\\s+");
+                String taskAmount = rs.getString("taskamount");
+                String[] taskAmounts = taskAmount.split("\\s+");
+                for (int i = 0; i < taskAmounts.length; i++) {
+                    tasks.put(taskNames[i],Integer.parseInt(taskAmounts[i]));
+                }
+                HashMap<Integer,String> wildAnimal = new HashMap<>();
+                String wildAnimalName = rs.getString("wildname");
+                String[] wildAnimalNames = wildAnimalName.split("\\s+");
+                String wildAnimalTime = rs.getString("wildtime");
+                String[] wildAnimalTimes = wildAnimalTime.split("\\s+");
+                for (int i = 0; i < wildAnimalTimes.length; i++) {
+                    wildAnimal.put(Integer.parseInt(wildAnimalTimes[i]),wildAnimalNames[i]);
+                }
+                HashMap<Integer,Integer> time = new HashMap<>();
+                String timeFinish = rs.getString("timefinish");
+                String[] timeFinishes = timeFinish.split("\\s+");
+                String timePrize = rs.getString("timeprize");
+                String[] timePrizes = timePrize.split("\\s+");
+                for (int i = 0; i < timeFinishes.length; i++) {
+                    time.put(Integer.parseInt(timeFinishes[i]),Integer.parseInt(timePrizes[i]));
+                }
+
+                Level level = new Level(levelIndex,coin,tasks,wildAnimal,time);
+                levels.add(level);
+
+
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void coinSet() {
         coin = levels.get(selectedLevel - 1).coin;
     }
 
-    public boolean checkLevel(int playerLvel) {
-        coin = levels.get(selectedLevel - 1).coin;
-        return selectedLevel <= playerLvel;
-    }
-
     public void addWildAnimals(int counter) {
-        readingLevels();
+        //readingLevels();
         if (levels.get(selectedLevel - 1).wildAnimalsHashMap.containsKey(counter)) {
             if (levels.get(selectedLevel - 1).wildAnimalsHashMap.get(counter).equalsIgnoreCase("lion")) {
                 addLion();
@@ -1019,7 +994,6 @@ public class Manager {
         }
     }
 
-
     public int countFarmAnimal(String nameAnimal) {
         int counter = 0;
         for (int i = 0; i < farmanimals.farmanimalss.size(); i++) {
@@ -1030,11 +1004,41 @@ public class Manager {
         return counter;
     }
 
-    public void writeGsonUsers() {
+   /* public void writeGsonUsers() {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
         Gson gson = builder.create();
         String user = gson.toJson(users);
         writeUsers(user);
+    }*/
+
+    public void writeGsonUsers() {
+        final String username = "root";
+        final String password = "naghme1380";
+        final String con = "jdbc:mysql://localhost:3306/levels";
+        try (Connection conn = DriverManager.getConnection(con, username, password)) {
+
+            for (int i = 0; i < users.size(); i++) {
+                String query = "update user set money = ? , level_user = ?,mill = ?,bakery=?,sewing=?,weaving=?,milkPackaging=?,iceCreamShop=? where username = ?";
+
+                PreparedStatement preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setInt(1, users.get(i).money);
+                preparedStmt.setInt(2, users.get(i).level);
+                preparedStmt.setBoolean(3, users.get(i).workShops.get("mill"));
+                preparedStmt.setBoolean(4, users.get(i).workShops.get("bakery"));
+                preparedStmt.setBoolean(5, users.get(i).workShops.get("Sewing"));
+                preparedStmt.setBoolean(6, users.get(i).workShops.get("clothWeaving"));
+                preparedStmt.setBoolean(7, users.get(i).workShops.get("milkPackaging"));
+                preparedStmt.setBoolean(8, users.get(i).workShops.get("iceCreamShop"));
+
+                preparedStmt.setString(9, users.get(i).name);
+
+
+                preparedStmt.execute();
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void writeUsers(String string) {
@@ -1047,7 +1051,7 @@ public class Manager {
         }
     }
 
-    public void readUser() {
+ /*   public void readUser() {
         try {
             users.clear();
             Gson gson = new Gson();
@@ -1055,6 +1059,66 @@ public class Manager {
             Collections.addAll(users, userss);
         } catch (Exception e) {
 
+        }
+    }*/
+
+    public void addUserToSql(String name, String pass) {
+        final String username = "root";
+        final String password = "naghme1380";
+        final String con = "jdbc:mysql://localhost:3306/levels";
+        try (Connection conn = DriverManager.getConnection(con, username, password)) {
+
+            // loop through the result set
+            String query = " insert into user (username, password, level_user, money, mill,bakery,sewing,weaving,milkPackaging,iceCreamShop)"
+                    + " values (?, ?, ?, ?, ?,?, ?, ?, ?, ?)";
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, name);
+            preparedStmt.setString(2, pass);
+            preparedStmt.setInt(3, 1);
+            preparedStmt.setInt(4, 0);
+            preparedStmt.setBoolean(5, false);
+            preparedStmt.setBoolean(6, false);
+            preparedStmt.setBoolean(7, false);
+            preparedStmt.setBoolean(8, false);
+            preparedStmt.setBoolean(9, false);
+            preparedStmt.setBoolean(10, false);
+            users.add(new User(name, pass, 1, 0));
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void readUser() {
+        final String username = "root";
+        final String password = "naghme1380";
+        final String con = "jdbc:mysql://localhost:3306/levels";
+        String sql = "SELECT * " +
+                "FROM user";
+
+        try (Connection conn = DriverManager.getConnection(con, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            while (rs.next()) {
+                User user = new User(rs.getString("username"), rs.getString("password"), rs.getInt("level_user"), rs.getInt("money"));
+                user.workShops.put("mill", rs.getBoolean("mill"));
+                user.workShops.put("iceCreamShop", rs.getBoolean("iceCreamShop"));
+                user.workShops.put("Sewing", rs.getBoolean("sewing"));
+                user.workShops.put("bakery", rs.getBoolean("bakery"));
+                user.workShops.put("milkPackaging", rs.getBoolean("milkPackaging"));
+                user.workShops.put("clothWeaving", rs.getBoolean("weaving"));
+                users.add(user);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -1141,192 +1205,6 @@ public class Manager {
         return levels.get(selectedLevel - 1).tasks.isEmpty();
     }
 
-    public void menu1(boolean c) {
-        String password;
-        String username;
-        readUser();
-        boolean mainWhile = true;
-        while (mainWhile && c) {
-            System.out.println("Enter number of your choice : ");
-            System.out.println("1) login");
-            System.out.println("2) sign up");
-            System.out.println("3) EXIT");
-            String choice = scanner.nextLine();
-            switch (choice) {
-                case "1":
-                    System.out.println("enter your username :");
-                    username = scanner.nextLine();
-                    if (checkUsername(username) == -1) {
-                        System.out.println("Invalid Username!!");
-                        logger.warning("Invalid Username");
-                    } else {
-                        while (true) {
-                            System.out.println("enter your password : ");
-                            password = scanner.nextLine();
-                            if (users.get(checkUsername(username)).getPassword().equalsIgnoreCase(password)) {
-                                mainWhile = false;
-                                System.out.println("done!");
-                                logger.info("logged in successfully");
-                                indexOfUser = checkUsername(username);
-                                break;
-                            } else {
-                                logger.warning("wrong password");
-                                System.out.println("Wrong Password, try again!!");
-                            }
-                        }
-                    }
-                    break;
-                case "2":
-                    while (true) {
-                        System.out.println("enter your username :");
-                        username = scanner.nextLine();
-                        if (checkUsername(username) == -1) {
-                            System.out.println("enter your password : ");
-                            password = scanner.nextLine();
-                            mainWhile = false;
-                            indexOfUser = numOfUsers;
-                            numOfUsers++;
-                            setNumOfUsers(numOfUsers);
-                            users.add(new User(username, password, 1, 0));
-                            logger.info("signed up successfully");
-                            break;
-                        } else {
-                            logger.warning("invalid username");
-                            System.out.println("your username is invalid choose another ");
-                        }
-                    }
-                    break;
-                case "3":
-                    writeGsonUsers();
-                    logger.info("exit");
-                    System.exit(0);
-            }
-        }
-        while (true) {
-            System.out.println("what shall we do next?");
-            System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
-            String choice = scanner.nextLine();
-            String[] strings = choice.split("\\s+");
-            if (strings[0].equalsIgnoreCase("1")) {
-                selectedLevel = Integer.parseInt(strings[1]);
-                if (selectedLevel > users.get(getIndexOfUser()).getLevel()) {
-                    logger.warning("wrong selected level");
-                    System.out.println("You cant play this level");
-                } else {
-                    System.out.println("Go On");
-                    logger.info("Start Game");
-                    return;
-                }
-            } else if (strings[0].equalsIgnoreCase("2")) {
-                c = true;
-                logger.info("log out");
-                menu(c);
-                return;
-            } else if (strings[0].equalsIgnoreCase("3")) {
-                logger.info("enter setting");
-                System.out.println("you wanna buy?");
-                System.out.println("1) mill 2) weaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
-                String workShop = scanner.nextLine();
-                if (workShop.equals("1")) {
-                    if (!users.get(indexOfUser).workShops.get("mill")) {
-                        if (users.get(indexOfUser).getMoney() >= 150) {
-                            users.get(indexOfUser).workShops.replace("mill", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 150);
-                            logger.info("Mill was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("mill is already taken");
-                        logger.warning("mill is already taken");
-                    }
-                }
-                if (workShop.equals("2")) {
-                    if (!users.get(indexOfUser).workShops.get("clothWeaving")) {
-                        if (users.get(indexOfUser).getMoney() >= 250) {
-                            users.get(indexOfUser).workShops.replace("clothWeaving", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
-                            logger.info("ClothWeaving was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("clothWeaving is already taken");
-                        logger.warning("clothWeaving is already taken");
-                    }
-                }
-                if (workShop.equals("3")) {
-                    if (!users.get(indexOfUser).workShops.get("milkPackaging")) {
-                        if (users.get(indexOfUser).getMoney() >= 400) {
-                            users.get(indexOfUser).workShops.replace("milkPackaging", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
-                            logger.info("MilkPackaging was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("milkPackaging is already taken");
-                        logger.warning("milkPackaging is already taken");
-                    }
-                }
-                if (workShop.equals("4")) {
-                    if (!users.get(indexOfUser).workShops.get("bakery")) {
-                        if (users.get(indexOfUser).getMoney() >= 250) {
-                            users.get(indexOfUser).workShops.replace("bakery", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
-                            logger.info("Bakery was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("bakery is already taken");
-                        logger.warning("bakery is already taken");
-                    }
-                }
-                if (workShop.equals("5")) {
-                    if (!users.get(indexOfUser).workShops.get("Sewing")) {
-                        if (users.get(indexOfUser).getMoney() >= 400) {
-                            users.get(indexOfUser).workShops.replace("Sewing", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
-                            logger.info("Sewing was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("sewing is already taken");
-                        logger.warning("sewing is already taken");
-                    }
-                }
-                if (workShop.equals("6")) {
-                    if (!users.get(indexOfUser).workShops.get("iceCreamShop")) {
-                        if (users.get(indexOfUser).getMoney() >= 550) {
-                            users.get(indexOfUser).workShops.replace("iceCreamShop", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 550);
-                            logger.info("IceCreamShop was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("iceCreamShop is already taken");
-                        logger.warning("iceCreamShop is already taken");
-                    }
-                }
-                writeGsonUsers();
-            } else if (choice.equals("4")) {
-                writeGsonUsers();
-                logger.info("exit");
-                System.exit(0);
-            }
-
-        }
-    }
-
     public void checkFinishLevel() {
         logger.info("finished level " + (getSelectedLevel()));
         if (getSelectedLevel() >= users.get(getIndexOfUser()).getLevel()) {
@@ -1374,7 +1252,6 @@ public class Manager {
                         indexOfUser = numOfUsers;
                         numOfUsers++;
                         setNumOfUsers(numOfUsers);
-
                         logger.info("signed up successfully < " + username + " >");
                         return 2;
                     } else {
@@ -1386,137 +1263,11 @@ public class Manager {
         return 0;
     }
 
-    public void secondMenu(boolean c) {
-        while (true) {
-            System.out.println("what shall we do next?");
-            System.out.println("1) start [level] " + " 2) log out" + "  3) settings " + " 4) EXIT");
-            String choice = scanner.nextLine();
-            String[] strings = choice.split("\\s+");
-            if (strings[0].equalsIgnoreCase("1")) {
-                selectedLevel = Integer.parseInt(strings[1]);
-                if (selectedLevel > users.get(getIndexOfUser()).getLevel()) {
-                    logger.warning("wrong selected level");
-                    System.out.println("You cant play this level");
-                } else {
-                    System.out.println("Go On");
-                    logger.info("Start Game");
-                    return;
-                }
-            } else if (strings[0].equalsIgnoreCase("2")) {
-                c = true;
-                logger.info("log out");
-                menu(c);
-                return;
-            } else if (strings[0].equalsIgnoreCase("3")) {
-                logger.info("enter setting");
-                System.out.println("you wanna buy?");
-                System.out.println("1) mill 2) weaving 3) milkPackaging 4) bakery 5) sewing 6) iceCreamShop ");
-                String workShop = scanner.nextLine();
-                if (workShop.equals("1")) {
-                    if (!users.get(indexOfUser).workShops.get("mill")) {
-                        if (users.get(indexOfUser).getMoney() >= 150) {
-                            users.get(indexOfUser).workShops.replace("mill", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 150);
-                            logger.info("Mill was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("mill is already taken");
-                        logger.warning("mill is already taken");
-                    }
-                }
-                if (workShop.equals("2")) {
-                    if (!users.get(indexOfUser).workShops.get("clothWeaving")) {
-                        if (users.get(indexOfUser).getMoney() >= 250) {
-                            users.get(indexOfUser).workShops.replace("clothWeaving", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
-                            logger.info("ClothWeaving was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("clothWeaving is already taken");
-                        logger.warning("clothWeaving is already taken");
-                    }
-                }
-                if (workShop.equals("3")) {
-                    if (!users.get(indexOfUser).workShops.get("milkPackaging")) {
-                        if (users.get(indexOfUser).getMoney() >= 400) {
-                            users.get(indexOfUser).workShops.replace("milkPackaging", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
-                            logger.info("MilkPackaging was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("milkPackaging is already taken");
-                        logger.warning("milkPackaging is already taken");
-                    }
-                }
-                if (workShop.equals("4")) {
-                    if (!users.get(indexOfUser).workShops.get("bakery")) {
-                        if (users.get(indexOfUser).getMoney() >= 250) {
-                            users.get(indexOfUser).workShops.replace("bakery", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 250);
-                            logger.info("Bakery was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("bakery is already taken");
-                        logger.warning("bakery is already taken");
-                    }
-                }
-                if (workShop.equals("5")) {
-                    if (!users.get(indexOfUser).workShops.get("Sewing")) {
-                        if (users.get(indexOfUser).getMoney() >= 400) {
-                            users.get(indexOfUser).workShops.replace("Sewing", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 400);
-                            logger.info("Sewing was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("sewing is already taken");
-                        logger.warning("sewing is already taken");
-                    }
-                }
-                if (workShop.equals("6")) {
-                    if (!users.get(indexOfUser).workShops.get("iceCreamShop")) {
-                        if (users.get(indexOfUser).getMoney() >= 550) {
-                            users.get(indexOfUser).workShops.replace("iceCreamShop", true);
-                            users.get(indexOfUser).setMoney(users.get(indexOfUser).getMoney() - 550);
-                            logger.info("IceCreamShop was bought");
-                        } else {
-                            System.out.println("you don't have enough money");
-                            logger.warning("There is not enough money");
-                        }
-                    } else {
-                        System.out.println("iceCreamShop is already taken");
-                        logger.warning("iceCreamShop is already taken");
-                    }
-                }
-                writeGsonUsers();
-            } else if (choice.equals("4")) {
-                writeGsonUsers();
-                logger.info("exit");
-                System.exit(0);
-            }
-
-        }
-    }
-
 
     String[] tasks = new String[13];
 
     public String[] printTask() {
-        readingLevels();
+
         for (int i = 0; i < 13; i++) {
             tasks[i] = null;
         }
@@ -1879,17 +1630,6 @@ public class Manager {
             }
         }
         return i;
-    }
-
-    public boolean checkFactoryLevel(String factoryName) {
-        int check = 0;
-        for (int i = 0; i < factory.factories.size(); i++) {
-            if ((factory.factories.get(i).getName().equalsIgnoreCase(factoryName)) && (factory.factories.get(i).getLevel() == 1)) {
-                check = 1;
-                break;
-            }
-        }
-        return check == 1;
     }
 
     public void catMove() {
@@ -2378,6 +2118,34 @@ public class Manager {
         }
     }
 
+
+    public void setMusic() {
+        AudioInputStream audioStream = null;
+        try {
+            audioStream = AudioSystem.getAudioInputStream(file);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        try {
+            clip.open(audioStream);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playMusic(Clip clip) {
+        clip.setMicrosecondPosition(0);
+        clip.start();
+    }
 
 
 }

@@ -1,2 +1,64 @@
-Jul 01, 2021 3:41:57 PM Manager menu
-INFO: logged in successfully
+Jul 09, 2021 3:28:52 PM Manager menu
+INFO: signed up successfully < sasha >
+Jul 09, 2021 3:28:56 PM MenuSocond mouseClicked
+INFO: Start level 1
+Jul 09, 2021 3:28:59 PM Manager randomCoordinate
+INFO: Random coordinates were generated :52
+Jul 09, 2021 3:28:59 PM Manager addHen
+INFO: new hen 52 3
+Jul 09, 2021 3:28:59 PM Manager checkTasks
+INFO: task was done : hen
+Jul 09, 2021 3:29:01 PM Manager plant
+INFO: plant 42
+Jul 09, 2021 3:29:02 PM Manager addEgg
+INFO: Egg was produced 62 5
+Jul 09, 2021 3:29:02 PM Manager plant
+INFO: plant 44
+Jul 09, 2021 3:29:02 PM Manager plant
+INFO: plant 64
+Jul 09, 2021 3:29:03 PM Manager pickUp
+INFO: pickup and add to warehouse Egg
+Jul 09, 2021 3:29:05 PM Manager grassToBeEaten
+INFO: hen eat 42
+Jul 09, 2021 3:29:05 PM Manager addEgg
+INFO: Egg was produced 52 8
+Jul 09, 2021 3:29:06 PM Manager pickUp
+INFO: pickup and add to warehouse Egg
+Jul 09, 2021 3:29:06 PM Manager checkTasks
+INFO: task was done : egg
+Jul 09, 2021 3:29:06 PM Gui2D$MyDrawPanel printFinishLevel
+INFO: level finished
+Jul 09, 2021 3:29:06 PM Manager checkFinishLevel
+INFO: finished level 1
+Jul 09, 2021 3:29:06 PM Manager checkFinishLevel
+INFO: Level 2 is open now
+Jul 09, 2021 3:29:06 PM Manager moneySet
+INFO: Silver
+Jul 09, 2021 3:29:08 PM Gui2D$MyDrawPanel end
+INFO: game ended
+Jul 09, 2021 3:29:13 PM MenuSocond buyWorkShop
+INFO: enter setting
+Jul 09, 2021 3:29:13 PM MenuSocond buyWorkShop
+WARNING: There is not enough money
+Jul 09, 2021 3:29:15 PM MenuSocond buyWorkShop
+INFO: enter setting
+Jul 09, 2021 3:29:15 PM MenuSocond buyWorkShop
+INFO: Mill was bought
+Jul 09, 2021 3:29:23 PM MenuSocond mouseClicked
+INFO: Start level 2
+Jul 09, 2021 3:29:32 PM Gui2D$MyDrawPanel pose
+INFO: Game Stopped
+Jul 09, 2021 3:29:37 PM Gui2D$MyDrawPanel mouseClicked
+INFO: game continued
+Jul 09, 2021 3:29:40 PM Gui2D$MyDrawPanel pose
+INFO: Game Stopped
+Jul 09, 2021 3:29:44 PM Gui2D$MyDrawPanel mouseClicked
+INFO: game continued
+Jul 09, 2021 3:29:47 PM Gui2D$MyDrawPanel pose
+INFO: Game Stopped
+Jul 09, 2021 3:29:48 PM Gui2D$MyDrawPanel end
+INFO: game ended
+Jul 09, 2021 3:29:52 PM MenuSocond mouseClicked
+INFO: Exit
+Jul 09, 2021 3:29:52 PM Manager writeLogger
+INFO: END of game

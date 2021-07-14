@@ -37,26 +37,6 @@ public class Farmfrenzy {
             Gson gson = builder.create();
             String level = gson.toJson(levels);
             write(level);
-     // String jsonString = read();
-       // System.out.println(jsonString);
-     //   GsonBuilder builder = new GsonBuilder();
-      //  Gson gson = builder.create();
-      //  Level level = gson.fromJson(jsonString,Level.class);
-      //  System.out.println(level);
-
-       /* GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-        Gson gson = builder.create();*/
-    //   JSONParser jsonParser = new JSONParser();
-       /*try {
-           Gson gson = new Gson();
-           Level[] levels = gson.fromJson(new FileReader("levels.json"),Level[].class);
-           System.out.println(levels.length);
-           System.out.println(levels[1].tasks.toString());
-       }catch (Exception e){
-
-       }*/
-     //400 برا طلا 200 برا نقره 100 برا برنز
-
     }
 
     public static void write (String string) {
@@ -68,17 +48,5 @@ public class Farmfrenzy {
             e.printStackTrace();
         }
     }
-    public static String read () {
-        String string = "";
-        File file = new File("levels.json");
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()){
-                string += scanner.nextLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return string;
-    }
+
 }

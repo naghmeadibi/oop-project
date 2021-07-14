@@ -187,6 +187,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                 this.removeMouseListener(this);
                 manager.writeGsonUsers();
                 manager.logger.info("Exit");
+                Manager.writeLogger();
                 System.exit(0);
             }
         } else if (witchPage == 3) {
@@ -360,7 +361,7 @@ public class MenuSocond extends JComponent implements MouseListener {
                     manager.users.get(manager.indexOfUser).workShops.replace("milkPackaging", true);
                     manager.users.get(manager.indexOfUser).setMoney(manager.users.get(manager.indexOfUser).getMoney() - 400);
                     manager.logger.info("MilkPackaging was bought");
-                    JOptionPane.showMessageDialog(null, "SIGN UP SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "MilkPackaging was bought", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
                     manager.logger.warning("There is not enough money");
