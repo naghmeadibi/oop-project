@@ -777,7 +777,17 @@ public class Gui2D {
             g2D.drawImage(new ImageIcon("buyHen.jpg").getImage(), 0, 0, 60, 60, null);
             g2D.drawImage(new ImageIcon("buyTurkey.jpg").getImage(), 0, 60, 60, 60, null);
             g2D.drawImage(new ImageIcon("buyBuffalo.jpg").getImage(), 0, 120, 60, 60, null);
-            g2D.drawImage(new ImageIcon("well.png").getImage(), 750, 30, 100, 150, null);
+            if (manager.orders.contains("well")){
+                g2D.drawImage(new ImageIcon("wellAtWork.png").getImage(), 750, 30, 100, 150, null);
+            } else {
+                g2D.drawImage(new ImageIcon("well.png").getImage(), 750, 30, 100, 150, null);
+            }
+            if (manager.checkWell()) {
+                g2D.drawImage(new ImageIcon("bucketEmpty.png").getImage() , 850 , 90,40,80,null);
+            } else {
+                g2D.drawImage(new ImageIcon("bucketFull.png").getImage() , 850 , 90,40,80,null);
+            }
+
             g2D.drawImage(new ImageIcon("makeHen.png").getImage(), 520, 90, 40, 40, null);
             g2D.drawImage(new ImageIcon("mill.png").getImage(), 0, 180, 60, 60, null);
             g2D.drawImage(new ImageIcon("bakery.png").getImage(), 0, 240, 60, 60, null);
@@ -959,6 +969,7 @@ public class Gui2D {
             as1.addAttribute(TextAttribute.FOREGROUND, new Color(20, 58, 10));
             g2D.drawString(as1.getIterator(), 500, 560);
 
+
         }
 
         public void end() {
@@ -1021,7 +1032,7 @@ public class Gui2D {
         }
 
         public void playErrorMusic() {
-            clip.setMicrosecondPosition(300);
+            clip.setMicrosecondPosition(1000);
             clip.start();
         }
 
@@ -1052,11 +1063,69 @@ public class Gui2D {
         public void menu() {
 
 
+
             jFrame = new JFrame("menu");
             jFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             jFrame.setSize(900, 700);
             ImageIcon arrow = new ImageIcon("arrow.png");
             ImageIcon userPassField = new ImageIcon("passField.png");
+
+
+
+
+
+            JLabel label5 = new JLabel(new ImageIcon("rain.gif"));
+            label5.setBounds(0,0,900,600);
+            jFrame.add(label5);
+            label5.setVisible(false);
+            JLabel label6 = new JLabel(new ImageIcon("snow.gif"));
+            label6.setBounds(0,0,900,600);
+            jFrame.add(label6);
+            label6.setVisible(false);
+
+            JLabel label7 = new JLabel(new ImageIcon("sun.gif"));
+
+            label7.setBounds(-200,-200,450,450);
+            jFrame.add(label7);
+            label7.setVisible(false);
+
+
+
+           JButton mood = new JButton("mood");
+           mood.setOpaque(false);
+           mood.setContentAreaFilled(false);
+           mood.setBorderPainted(false);
+           mood.addActionListener(e -> {
+               Random random = new Random();
+               int whichMood = random.nextInt(4);
+               if (whichMood == 0) {
+                   label7.setVisible(false);
+                   label6.setVisible(false);
+                   label5.setVisible(false);
+               } else if (whichMood == 1) {
+                   label7.setVisible(true);
+                   label6.setVisible(false);
+                   label5.setVisible(false);
+               } else if (whichMood == 2) {
+                   label7.setVisible(false);
+                   label6.setVisible(true);
+                   label5.setVisible(false);
+               } else if (whichMood == 3) {
+                   label7.setVisible(false);
+                   label6.setVisible(false);
+                   label5.setVisible(true);
+               }
+           });
+           mood.setBounds(10,600,150,50);
+           mood.setFont(new Font("",Font.BOLD,20));
+           mood.setForeground(new Color(90,90,10));
+           jFrame.add(mood);
+
+
+
+
+
+
 
             JLabel label = new JLabel();
             label.setBounds(0, 0, 1370, 700);
@@ -1207,6 +1276,7 @@ public class Gui2D {
                 frame.setContentPane(new MenuSocond(manager, frame));
             }
         }
+
 
     }
 

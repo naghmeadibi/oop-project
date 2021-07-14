@@ -927,7 +927,7 @@ public class Manager {
 
     public void readingLevels() {
         final String username = "root";
-        final String password = "naghme1380";
+        final String password = "Mgh0781038308";
         final String con = "jdbc:mysql://localhost:3306/stagegame";
         String sql = "SELECT * " +
                 "FROM level";
@@ -1013,7 +1013,7 @@ public class Manager {
 
     public void writeGsonUsers() {
         final String username = "root";
-        final String password = "naghme1380";
+        final String password = "Mgh0781038308";
         final String con = "jdbc:mysql://localhost:3306/levels";
         try (Connection conn = DriverManager.getConnection(con, username, password)) {
 
@@ -1064,7 +1064,7 @@ public class Manager {
 
     public void addUserToSql(String name, String pass) {
         final String username = "root";
-        final String password = "naghme1380";
+        final String password = "Mgh0781038308";
         final String con = "jdbc:mysql://localhost:3306/levels";
         try (Connection conn = DriverManager.getConnection(con, username, password)) {
 
@@ -1096,7 +1096,7 @@ public class Manager {
 
     public void readUser() {
         final String username = "root";
-        final String password = "naghme1380";
+        final String password = "Mgh0781038308";
         final String con = "jdbc:mysql://localhost:3306/levels";
         String sql = "SELECT * " +
                 "FROM user";
