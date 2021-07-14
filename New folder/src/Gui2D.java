@@ -959,6 +959,7 @@ public class Gui2D {
             as1.addAttribute(TextAttribute.FOREGROUND, new Color(20, 58, 10));
             g2D.drawString(as1.getIterator(), 500, 560);
 
+
         }
 
         public void end() {
@@ -1052,11 +1053,69 @@ public class Gui2D {
         public void menu() {
 
 
+
             jFrame = new JFrame("menu");
             jFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             jFrame.setSize(900, 700);
             ImageIcon arrow = new ImageIcon("arrow.png");
             ImageIcon userPassField = new ImageIcon("passField.png");
+
+
+
+
+
+            JLabel label5 = new JLabel(new ImageIcon("rain.gif"));
+            label5.setBounds(0,0,900,600);
+            jFrame.add(label5);
+            label5.setVisible(false);
+            JLabel label6 = new JLabel(new ImageIcon("snow.gif"));
+            label6.setBounds(0,0,900,600);
+            jFrame.add(label6);
+            label6.setVisible(false);
+
+            JLabel label7 = new JLabel(new ImageIcon("sun.gif"));
+
+            label7.setBounds(-200,-200,450,450);
+            jFrame.add(label7);
+            label7.setVisible(false);
+
+
+
+           JButton mood = new JButton("mood");
+           mood.setOpaque(false);
+           mood.setContentAreaFilled(false);
+           mood.setBorderPainted(false);
+           mood.addActionListener(e -> {
+               Random random = new Random();
+               int whichMood = random.nextInt(4);
+               if (whichMood == 0) {
+                   label7.setVisible(false);
+                   label6.setVisible(false);
+                   label5.setVisible(false);
+               } else if (whichMood == 1) {
+                   label7.setVisible(true);
+                   label6.setVisible(false);
+                   label5.setVisible(false);
+               } else if (whichMood == 2) {
+                   label7.setVisible(false);
+                   label6.setVisible(true);
+                   label5.setVisible(false);
+               } else if (whichMood == 3) {
+                   label7.setVisible(false);
+                   label6.setVisible(false);
+                   label5.setVisible(true);
+               }
+           });
+           mood.setBounds(10,600,150,50);
+           mood.setFont(new Font("",Font.BOLD,20));
+           mood.setForeground(new Color(90,90,10));
+           jFrame.add(mood);
+
+
+
+
+
+
 
             JLabel label = new JLabel();
             label.setBounds(0, 0, 1370, 700);
@@ -1207,6 +1266,7 @@ public class Gui2D {
                 frame.setContentPane(new MenuSocond(manager, frame));
             }
         }
+
 
     }
 

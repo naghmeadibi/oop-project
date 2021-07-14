@@ -1,71 +1,62 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 
 class MysqlData {
-    private static final String username = "root";
-    private static final String password = "naghme1380";
-    private static final String con = "jdbc:mysql://localhost:3306/levels";
-    private static ArrayList<User> users = new ArrayList<>();
-   /* public static void main(String[] args)
-    {
-        try
-        {
-            // create a java mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
-            String myUrl = "jdbc:mysql://localhost/test";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
 
-            // create the java mysql update preparedstatement
-            String query = "update users set num_points = ? where first_name = ?";
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt   (1, 6000);
-            preparedStmt.setString(2, "Fred");
-
-            // execute the java preparedstatement
-            preparedStmt.executeUpdate();
-
-            conn.close();
-        }
-        catch (Exception e)
-        {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        }
-    } */
-
-
+    private static LinkedList<Level> levels = new LinkedList<>();
     public static void main(String[] args) {
+        final String username = "root";
+        final String password = "naghme1380";
+        final String con = "jdbc:mysql://localhost:3306/stagegame";
+        String sql = "SELECT * " +
+                "FROM level";
 
-        Manager manager = new Manager();
-        manager.readUser();
-        users =(ArrayList<User>) manager.users.clone();
-        users.get(1).workShops.put("bakery",false);
-        try (Connection conn = DriverManager.getConnection(con, username, password)) {
+        try (Connection conn = DriverManager.getConnection(con, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            for (int i = 0; i < users.size(); i++) {
-                String query = "update user set money = ? , level_user = ?,mill = ?,bakery=?,sewing=?,weaving=?,milkPackaging=?,iceCreamShop=? where username = ?";
+            while (rs.next()) {
+                int levelIndex = rs.getInt("idlevel");
+                int coin = rs.getInt("coin");
+                HashMap<String,Integer> tasks = new HashMap<>();
+                String taskName = rs.getString("taskname");
+                String[] taskNames = taskName.split("\\s+");
+                String taskAmount = rs.getString("taskamount");
+                String[] taskAmounts = taskAmount.split("\\s+");
+                for (int i = 0; i < taskAmounts.length; i++) {
+                    tasks.put(taskNames[i],Integer.parseInt(taskAmounts[i]));
+                }
+                HashMap<Integer,String> wildAnimal = new HashMap<>();
+                String wildAnimalName = rs.getString("wildname");
+                String[] wildAnimalNames = wildAnimalName.split("\\s+");
+                String wildAnimalTime = rs.getString("wildtime");
+                String[] wildAnimalTimes = wildAnimalTime.split("\\s+");
+                for (int i = 0; i < wildAnimalTimes.length; i++) {
+                    wildAnimal.put(Integer.parseInt(wildAnimalTimes[i]),wildAnimalNames[i]);
+                }
+                HashMap<Integer,Integer> time = new HashMap<>();
+                String timeFinish = rs.getString("timefinish");
+                String[] timeFinishes = timeFinish.split("\\s+");
+                String timePrize = rs.getString("timeprize");
+                String[] timePrizes = timePrize.split("\\s+");
+                for (int i = 0; i < timeFinishes.length; i++) {
+                    time.put(Integer.parseInt(timeFinishes[i]),Integer.parseInt(timePrizes[i]));
+                }
 
-                PreparedStatement preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setInt(1, users.get(i).money);
-                preparedStmt.setInt(2, users.get(i).level);
-                preparedStmt.setBoolean(3, users.get(i).workShops.get("mill"));
-                preparedStmt.setBoolean(4, users.get(i).workShops.get("bakery"));
-                preparedStmt.setBoolean(5, users.get(i).workShops.get("Sewing"));
-                preparedStmt.setBoolean(6, users.get(i).workShops.get("clothWeaving"));
-                preparedStmt.setBoolean(7, users.get(i).workShops.get("milkPackaging"));
-                preparedStmt.setBoolean(8, users.get(i).workShops.get("iceCreamShop"));
-
-                preparedStmt.setString(9, users.get(i).name);
+               Level level = new Level(levelIndex,coin,tasks,wildAnimal,time);
+                levels.add(level);
 
 
-                preparedStmt.execute();
+
             }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+
     }
-} 
+
+    }
