@@ -7,6 +7,7 @@ import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.IOException;
 import java.text.AttributedString;
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.*;
 import javax.sound.sampled.*;
@@ -66,6 +67,7 @@ public class Gui2D {
         boolean exit = false;
         static File file = new File("error.wav");
         static Clip clip = null;
+        int[][] iconSize = new int[11][2];
 
 
 
@@ -75,6 +77,9 @@ public class Gui2D {
 
         public MyDrawPanel(Manager manager) {
             this.manager = manager;
+            for (int i = 0; i < 11; i++) {
+                Arrays.fill(this.iconSize[i],60);
+            }
         }
 
         public void paintComponent(Graphics g) {
@@ -138,7 +143,7 @@ public class Gui2D {
                                 }
                             }
 
-                            this.removeMouseListener(this);
+                           // this.removeMouseListener(this);
                             this.invalidate();
                             this.validate();
                             this.repaint();
@@ -149,49 +154,49 @@ public class Gui2D {
                 }
                 if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 0 && e.getY() <= 60) {
                     manager.addHen();
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
 
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 60 && e.getY() <= 120) {
                     manager.addTurkey();
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
 
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 120 && e.getY() <= 180) {
                     manager.addBuffalo();
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 190 && e.getX() <= 220 && e.getY() >= 210 && e.getY() <= 240) {
                     manager.processUpgrade("mill");
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 1130 && e.getX() <= 1160 && e.getY() >= 220 && e.getY() <= 250) {
                     manager.processUpgrade("bakery");
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 170 && e.getX() <= 200 && e.getY() >= 360 && e.getY() <= 390) {
                     manager.processUpgrade("milkPackaging");
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 1150 && e.getX() <= 1180 && e.getY() >= 380 && e.getY() <= 410) {
                     manager.processUpgrade("iceCreamShop");
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
@@ -212,49 +217,49 @@ public class Gui2D {
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
                     manager.processBuild("mill");
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
                     manager.workFactory("mill");
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 180 && e.getY() <= 240) {
                     manager.processBuild("mill");
-                    this.removeMouseListener(this);
+               //     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 200 && e.getX() <= 380 && e.getY() >= 60 && e.getY() <= 240) {
                     manager.workFactory("mill");
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 240 && e.getY() <= 300) {
                     manager.processBuild("bakery");
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 900 && e.getX() <= 1080 && e.getY() >= 80 && e.getY() <= 260) {
                     manager.workFactory("bakery");
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 300 && e.getY() <= 360) {
                     manager.processBuild("milkPackaging");
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
@@ -268,63 +273,63 @@ public class Gui2D {
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 360 && e.getY() <= 420) {
                     manager.processBuild("iceCreamShop");
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 261 && e.getY() <= 430) {
                     manager.workFactory("iceCreamShop");
-                    this.removeMouseListener(this);
+                //    this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 420 && e.getY() <= 480) {
                     manager.processBuild("sewing");
-                    this.removeMouseListener(this);
+                //    this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 180 && e.getX() <= 360 && e.getY() >= 451 && e.getY() <= 630) {
                     manager.workFactory("sewing");
-                    this.removeMouseListener(this);
+               //     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 480 && e.getY() <= 540) {
                     manager.processBuild("weaving");
-                    this.removeMouseListener(this);
+                //    this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 970 && e.getX() <= 1150 && e.getY() >= 450 && e.getY() <= 630) {
                     manager.workFactory("weaving");
-                    this.removeMouseListener(this);
+               //     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 520 && e.getX() <= 560 && e.getY() >= 90 && e.getY() <= 130) {
                     manager.processBuild("makeHen");
-                    this.removeMouseListener(this);
+               //     this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 500 && e.getX() <= 680 && e.getY() >= 20 && e.getY() <= 180) {
                     manager.workFactory("makeHen");
-                    this.removeMouseListener(this);
+              //      this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 750 && e.getX() <= 850 && e.getY() >= 30 && e.getY() <= 180) {
                     manager.processWell();
-                    this.removeMouseListener(this);
+                   // this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
@@ -337,35 +342,35 @@ public class Gui2D {
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 670 && e.getY() <= 730) {
                     processTruckGo();
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 450 && e.getY() <= 520) {
                     processTime();
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 1290 && e.getX() <= 1360 && e.getY() >= 550 && e.getY() <= 620) {
                     clickPose = true;
-                    this.removeMouseListener(this);
+                //    this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 540 && e.getY() <= 600) {
                     manager.addDog();
-                    this.removeMouseListener(this);
+                  //  this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
                     return;
                 } else if (e.getX() >= 0 && e.getX() <= 60 && e.getY() >= 600 && e.getY() <= 660) {
                     manager.addCat();
-                    this.removeMouseListener(this);
+                 //   this.removeMouseListener(this);
                     this.invalidate();
                     this.validate();
                     this.repaint();
@@ -398,25 +403,23 @@ public class Gui2D {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            // TODO Auto-generated method stub
+
 
 
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            // TODO Auto-generated method stub
+
 
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
         }
 
         public void printUnpickedProduct(Graphics2D g2D) {
@@ -774,19 +777,29 @@ public class Gui2D {
 
         public void printIcons(Graphics2D g2D) {
             g2D.drawImage(new ImageIcon("newBack.jpg").getImage(), 0, 0, null);
-            g2D.drawImage(new ImageIcon("buyHen.jpg").getImage(), 0, 0, 60, 60, null);
-            g2D.drawImage(new ImageIcon("buyTurkey.jpg").getImage(), 0, 60, 60, 60, null);
-            g2D.drawImage(new ImageIcon("buyBuffalo.jpg").getImage(), 0, 120, 60, 60, null);
-            g2D.drawImage(new ImageIcon("well.png").getImage(), 750, 30, 100, 150, null);
+            g2D.drawImage(new ImageIcon("buyHen.jpg").getImage(), 0, 0, iconSize[0][0], iconSize[0][1], null);
+            g2D.drawImage(new ImageIcon("buyTurkey.jpg").getImage(), 0, 60, iconSize[1][0], iconSize[1][1], null);
+            g2D.drawImage(new ImageIcon("buyBuffalo.jpg").getImage(), 0, 120, iconSize[2][0], iconSize[2][1], null);
+            if (manager.orders.contains("well")){
+                g2D.drawImage(new ImageIcon("wellAtWork.png").getImage(), 750, 30, 100, 150, null);
+            } else {
+                g2D.drawImage(new ImageIcon("well.png").getImage(), 750, 30, 100, 150, null);
+            }
+            if (manager.checkWell()) {
+                g2D.drawImage(new ImageIcon("bucketEmpty.png").getImage() , 850 , 90,40,80,null);
+            } else {
+                g2D.drawImage(new ImageIcon("bucketFull.png").getImage() , 850 , 90,40,80,null);
+            }
+
             g2D.drawImage(new ImageIcon("makeHen.png").getImage(), 520, 90, 40, 40, null);
-            g2D.drawImage(new ImageIcon("mill.png").getImage(), 0, 180, 60, 60, null);
-            g2D.drawImage(new ImageIcon("bakery.png").getImage(), 0, 240, 60, 60, null);
-            g2D.drawImage(new ImageIcon("packagingMilk.png").getImage(), 0, 300, 60, 60, null);
-            g2D.drawImage(new ImageIcon("iceCreamShop.png").getImage(), 0, 360, 60, 60, null);
-            g2D.drawImage(new ImageIcon("sewing.png").getImage(), 0, 420, 60, 60, null);
-            g2D.drawImage(new ImageIcon("weaving.png").getImage(), 0, 480, 60, 60, null);
-            g2D.drawImage(new ImageIcon("dogIcon.png").getImage(), 0, 540, 60, 60, null);
-            g2D.drawImage(new ImageIcon("catIcon.png").getImage(), 0, 600, 60, 60, null);
+            g2D.drawImage(new ImageIcon("mill.png").getImage(), 0, 180, iconSize[3][0], iconSize[3][1], null);
+            g2D.drawImage(new ImageIcon("bakery.png").getImage(), 0, 240, iconSize[4][0], iconSize[4][1], null);
+            g2D.drawImage(new ImageIcon("packagingMilk.png").getImage(), 0, 300, iconSize[5][0], iconSize[5][1], null);
+            g2D.drawImage(new ImageIcon("iceCreamShop.png").getImage(), 0, 360, iconSize[6][0], iconSize[6][1], null);
+            g2D.drawImage(new ImageIcon("sewing.png").getImage(), 0, 420, iconSize[7][0], iconSize[7][1], null);
+            g2D.drawImage(new ImageIcon("weaving.png").getImage(), 0, 480, iconSize[8][0], iconSize[8][1], null);
+            g2D.drawImage(new ImageIcon("dogIcon.png").getImage(), 0, 540, iconSize[9][0], iconSize[9][1], null);
+            g2D.drawImage(new ImageIcon("catIcon.png").getImage(), 0, 600, iconSize[10][0], iconSize[10][1], null);
             g2D.drawImage(new ImageIcon("wareHouse.png").getImage(), 1090, 570, 210, 200, null);
             g2D.drawImage(new ImageIcon("truck.png").getImage(), 60, 610, 210, 180, null);
             g2D.drawImage(new ImageIcon("go.png").getImage(), 0, 670, 60, 60, null);
@@ -969,6 +982,8 @@ public class Gui2D {
             jFrame1.dispose();
             manager.timeCounter = 0;
             manager.orders.clear();
+            manager.levels.clear();
+            manager.readingLevels();
 
             JFrame frame;
             frame = new JFrame("menu");
@@ -1022,7 +1037,7 @@ public class Gui2D {
         }
 
         public void playErrorMusic() {
-            clip.setMicrosecondPosition(300);
+            clip.setMicrosecondPosition(1000);
             clip.start();
         }
 
@@ -1258,6 +1273,7 @@ public class Gui2D {
             } else if (i == 2) {
                 JOptionPane.showMessageDialog(null, "SIGN UP SUCCESSFULLY!", "MASSAGE", JOptionPane.INFORMATION_MESSAGE);
                 manager.addUserToSql(manager.username, manager.password);
+
                 JFrame frame;
                 frame = new JFrame("menu");
                 frame.setSize(900, 600);

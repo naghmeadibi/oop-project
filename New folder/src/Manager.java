@@ -44,7 +44,6 @@ public class Manager {
     Clip clip = null;
 
 
-
     public int getCounter() {
         return counter;
     }
@@ -939,34 +938,33 @@ public class Manager {
             while (rs.next()) {
                 int levelIndex = rs.getInt("idlevel");
                 int coin = rs.getInt("coin");
-                HashMap<String,Integer> tasks = new HashMap<>();
+                HashMap<String, Integer> tasks = new HashMap<>();
                 String taskName = rs.getString("taskname");
                 String[] taskNames = taskName.split("\\s+");
                 String taskAmount = rs.getString("taskamount");
                 String[] taskAmounts = taskAmount.split("\\s+");
                 for (int i = 0; i < taskAmounts.length; i++) {
-                    tasks.put(taskNames[i],Integer.parseInt(taskAmounts[i]));
+                    tasks.put(taskNames[i], Integer.parseInt(taskAmounts[i]));
                 }
-                HashMap<Integer,String> wildAnimal = new HashMap<>();
+                HashMap<Integer, String> wildAnimal = new HashMap<>();
                 String wildAnimalName = rs.getString("wildname");
                 String[] wildAnimalNames = wildAnimalName.split("\\s+");
                 String wildAnimalTime = rs.getString("wildtime");
                 String[] wildAnimalTimes = wildAnimalTime.split("\\s+");
                 for (int i = 0; i < wildAnimalTimes.length; i++) {
-                    wildAnimal.put(Integer.parseInt(wildAnimalTimes[i]),wildAnimalNames[i]);
+                    wildAnimal.put(Integer.parseInt(wildAnimalTimes[i]), wildAnimalNames[i]);
                 }
-                HashMap<Integer,Integer> time = new HashMap<>();
+                HashMap<Integer, Integer> time = new HashMap<>();
                 String timeFinish = rs.getString("timefinish");
                 String[] timeFinishes = timeFinish.split("\\s+");
                 String timePrize = rs.getString("timeprize");
                 String[] timePrizes = timePrize.split("\\s+");
                 for (int i = 0; i < timeFinishes.length; i++) {
-                    time.put(Integer.parseInt(timeFinishes[i]),Integer.parseInt(timePrizes[i]));
+                    time.put(Integer.parseInt(timeFinishes[i]), Integer.parseInt(timePrizes[i]));
                 }
 
-                Level level = new Level(levelIndex,coin,tasks,wildAnimal,time);
+                Level level = new Level(levelIndex - 1, coin, tasks, wildAnimal, time);
                 levels.add(level);
-
 
 
             }
@@ -1095,30 +1093,32 @@ public class Manager {
     }
 
     public void readUser() {
-        final String username = "root";
-        final String password = "naghme1380";
-        final String con = "jdbc:mysql://localhost:3306/levels";
-        String sql = "SELECT * " +
-                "FROM user";
+        if (users.isEmpty()) {
+            final String username = "root";
+            final String password = "naghme1380";
+            final String con = "jdbc:mysql://localhost:3306/levels";
+            String sql = "SELECT * " +
+                    "FROM user";
 
-        try (Connection conn = DriverManager.getConnection(con, username, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            try (Connection conn = DriverManager.getConnection(con, username, password);
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
 
-            // loop through the result set
-            while (rs.next()) {
-                User user = new User(rs.getString("username"), rs.getString("password"), rs.getInt("level_user"), rs.getInt("money"));
-                user.workShops.put("mill", rs.getBoolean("mill"));
-                user.workShops.put("iceCreamShop", rs.getBoolean("iceCreamShop"));
-                user.workShops.put("Sewing", rs.getBoolean("sewing"));
-                user.workShops.put("bakery", rs.getBoolean("bakery"));
-                user.workShops.put("milkPackaging", rs.getBoolean("milkPackaging"));
-                user.workShops.put("clothWeaving", rs.getBoolean("weaving"));
-                users.add(user);
+                // loop through the result set
+                while (rs.next()) {
+                    User user = new User(rs.getString("username"), rs.getString("password"), rs.getInt("level_user"), rs.getInt("money"));
+                    user.workShops.put("mill", rs.getBoolean("mill"));
+                    user.workShops.put("iceCreamShop", rs.getBoolean("iceCreamShop"));
+                    user.workShops.put("Sewing", rs.getBoolean("sewing"));
+                    user.workShops.put("bakery", rs.getBoolean("bakery"));
+                    user.workShops.put("milkPackaging", rs.getBoolean("milkPackaging"));
+                    user.workShops.put("clothWeaving", rs.getBoolean("weaving"));
+                    users.add(user);
+                }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
         }
     }
 
@@ -1250,6 +1250,7 @@ public class Manager {
                 case "2":
                     if (checkUsername(username) == -1) {
                         indexOfUser = numOfUsers;
+                        System.out.println(numOfUsers);
                         numOfUsers++;
                         setNumOfUsers(numOfUsers);
                         logger.info("signed up successfully < " + username + " >");
