@@ -1,4 +1,4 @@
-import com.google.gson.Gson;
+﻿import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
@@ -392,7 +392,7 @@ public class Manager {
                     check = 1;
                     if (truck.getCapacity() >= farmanimals.farmanimalss.get(i).capacity) {
                         truck.setCapacity(truck.getCapacity() - farmanimals.farmanimalss.get(i).capacity);
-                        store.setCapacity(store.getCapacity() + farmanimals.farmanimalss.get(i).capacity);
+                       // store.setCapacity(store.getCapacity() + farmanimals.farmanimalss.get(i).capacity);
                         truck.farmAnimalsToSell.add(farmanimals.farmanimalss.get(i));
                         truck.setPrice(truck.getPrice() + farmanimals.farmanimalss.get(i).getPrice());
                         logger.info("add to truck " + farmanimals.farmanimalss.get(i).getName());
@@ -451,7 +451,7 @@ public class Manager {
                 if (truck.farmAnimalsToSell.get(i).name.equalsIgnoreCase(name)) {
                     if (store.getCapacity() >= truck.farmAnimalsToSell.get(i).capacity) {
                         truck.setCapacity(truck.getCapacity() + truck.farmAnimalsToSell.get(i).capacity);
-                        store.setCapacity(store.getCapacity() - truck.farmAnimalsToSell.get(i).capacity);
+                       // store.setCapacity(store.getCapacity() - truck.farmAnimalsToSell.get(i).capacity);
                         truck.setPrice(truck.getPrice() - truck.farmAnimalsToSell.get(i).getPrice());
                         farmanimals.farmanimalss.add(truck.farmAnimalsToSell.get(i));
                         logger.info("back to warehouse " + truck.farmAnimalsToSell.get(i).getName());
