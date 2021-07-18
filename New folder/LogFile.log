@@ -1,0 +1,258 @@
+Jul 19, 2021 1:23:53 AM Manager menu
+INFO: logged in successfully < naghme >
+Jul 19, 2021 1:23:57 AM MenuSocond mouseClicked
+INFO: Start level 5
+Jul 19, 2021 1:24:03 AM Gui2D$MyDrawPanel pose
+INFO: Game Stopped
+Jul 19, 2021 1:24:05 AM Gui2D$MyDrawPanel end
+INFO: game ended
+Jul 19, 2021 1:24:08 AM MenuSocond mouseClicked
+INFO: Start level 3
+Jul 19, 2021 1:24:11 AM Manager randomCoordinate
+INFO: Random coordinates were generated :34
+Jul 19, 2021 1:24:11 AM Manager addHen
+INFO: new hen 34 3
+Jul 19, 2021 1:24:12 AM Manager randomCoordinate
+INFO: Random coordinates were generated :12
+Jul 19, 2021 1:24:12 AM Manager addCat
+INFO: new Cat
+Jul 19, 2021 1:24:14 AM Manager addEgg
+INFO: Egg was produced 15 5
+Jul 19, 2021 1:24:14 AM Manager plant
+INFO: plant 43
+Jul 19, 2021 1:24:15 AM Manager plant
+INFO: plant 44
+Jul 19, 2021 1:24:15 AM Manager plant
+INFO: plant 34
+Jul 19, 2021 1:24:16 AM Manager plant
+INFO: plant 22
+Jul 19, 2021 1:24:16 AM Manager plant
+INFO: plant 32
+Jul 19, 2021 1:24:17 AM Manager addEgg
+INFO: Egg was produced 34 8
+Jul 19, 2021 1:24:18 AM Manager productTimeHandle
+INFO: Egg removed
+Jul 19, 2021 1:24:18 AM Manager grassToBeEaten
+INFO: hen eat 34
+Jul 19, 2021 1:24:20 AM Manager addEgg
+INFO: Egg was produced 33 11
+Jul 19, 2021 1:24:21 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:21 AM Manager well
+INFO: The well was full
+Jul 19, 2021 1:24:22 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:23 AM Manager addEgg
+INFO: Egg was produced 32 14
+Jul 19, 2021 1:24:23 AM Manager buildFactory
+INFO: Mill was built
+Jul 19, 2021 1:24:24 AM Manager grassToBeEaten
+INFO: hen eat 32
+Jul 19, 2021 1:24:26 AM Manager addEgg
+INFO: Egg was produced 22 17
+Jul 19, 2021 1:24:26 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:26 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:27 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:28 AM Manager plant
+INFO: plant 24
+Jul 19, 2021 1:24:28 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:28 AM Manager plant
+INFO: plant 26
+Jul 19, 2021 1:24:29 AM Manager plant
+INFO: plant 46
+Jul 19, 2021 1:24:29 AM Manager grassToBeEaten
+INFO: hen eat 22
+Jul 19, 2021 1:24:29 AM Manager addEgg
+INFO: Egg was produced 23 20
+Jul 19, 2021 1:24:29 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:29 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:29 AM Manager plant
+INFO: plant 55
+Jul 19, 2021 1:24:29 AM Manager plant
+INFO: plant 52
+Jul 19, 2021 1:24:31 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:31 AM Manager pickUp
+INFO: pickup and add to warehouse powder
+Jul 19, 2021 1:24:31 AM Manager pickUp
+INFO: pickup and add to warehouse powder
+Jul 19, 2021 1:24:31 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:31 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:32 AM Manager addEgg
+INFO: Egg was produced 22 23
+Jul 19, 2021 1:24:33 AM Manager randomCoordinate
+INFO: Random coordinates were generated :13
+Jul 19, 2021 1:24:33 AM Manager addBear
+INFO: new Bear
+Jul 19, 2021 1:24:34 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:34 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:34 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:35 AM Manager cage
+INFO: try cage bear 2
+Jul 19, 2021 1:24:35 AM Manager cage
+INFO: try cage bear 1
+Jul 19, 2021 1:24:35 AM Manager cage
+INFO: try cage bear 0
+Jul 19, 2021 1:24:35 AM Manager addEgg
+INFO: Egg was produced 23 26
+Jul 19, 2021 1:24:36 AM Manager cage
+INFO: try cage bear 0
+Jul 19, 2021 1:24:36 AM Manager cage
+INFO: try cage bear -1
+Jul 19, 2021 1:24:36 AM Manager cage
+INFO: add to cage bear
+Jul 19, 2021 1:24:36 AM Manager catCollect
+INFO: cat collect bear
+Jul 19, 2021 1:24:37 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:37 AM Manager grassToBeEaten
+INFO: hen eat 24
+Jul 19, 2021 1:24:37 AM Manager well
+INFO: The well was full
+Jul 19, 2021 1:24:38 AM Manager addEgg
+INFO: Egg was produced 35 29
+Jul 19, 2021 1:24:39 AM Gui2D$MyDrawPanel truckClicked
+INFO: game posed
+Jul 19, 2021 1:24:40 AM Manager truckLoad
+INFO: add to truck bear
+Jul 19, 2021 1:24:42 AM Gui2D$MyDrawPanel lambda$truckClicked$0
+INFO: game continued
+Jul 19, 2021 1:24:42 AM Manager productTimeHandle
+INFO: powder removed
+Jul 19, 2021 1:24:42 AM Manager productTimeHandle
+INFO: powder removed
+Jul 19, 2021 1:24:44 AM Manager addEgg
+INFO: Egg was produced 34 32
+Jul 19, 2021 1:24:45 AM Manager productTimeHandle
+INFO: Egg removed
+Jul 19, 2021 1:24:46 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:46 AM Manager grassToBeEaten
+INFO: hen eat 44
+Jul 19, 2021 1:24:46 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:46 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:47 AM Manager plant
+INFO: plant 24
+Jul 19, 2021 1:24:47 AM Manager addEgg
+INFO: Egg was produced 55 35
+Jul 19, 2021 1:24:47 AM Manager plant
+INFO: plant 22
+Jul 19, 2021 1:24:48 AM Manager plant
+INFO: plant 32
+Jul 19, 2021 1:24:48 AM Manager plant
+INFO: plant 42
+Jul 19, 2021 1:24:49 AM Manager plant
+INFO: plant 34
+Jul 19, 2021 1:24:49 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:49 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:49 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:50 AM Manager pickUp
+INFO: pickup and add to warehouse powder
+Jul 19, 2021 1:24:50 AM Manager checkTasks
+INFO: task was done : powder
+Jul 19, 2021 1:24:50 AM Manager addEgg
+INFO: Egg was produced 65 38
+Jul 19, 2021 1:24:50 AM Manager pickUp
+INFO: pickup and add to warehouse powder
+Jul 19, 2021 1:24:51 AM Manager randomCoordinate
+INFO: Random coordinates were generated :51
+Jul 19, 2021 1:24:51 AM Manager addLion
+INFO: new Lion
+Jul 19, 2021 1:24:52 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:52 AM Manager workFactory
+INFO: An egg was removed from the warehouse
+Jul 19, 2021 1:24:52 AM Manager grassToBeEaten
+INFO: hen eat 55
+Jul 19, 2021 1:24:53 AM Manager addEgg
+INFO: Egg was produced 55 41
+Jul 19, 2021 1:24:54 AM Manager cage
+INFO: try cage lion 1
+Jul 19, 2021 1:24:54 AM Manager cage
+INFO: try cage lion 0
+Jul 19, 2021 1:24:54 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:54 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:54 AM Manager addPowder
+INFO: Powder was produced 11
+Jul 19, 2021 1:24:55 AM Manager cage
+INFO: try cage lion 0
+Jul 19, 2021 1:24:55 AM Manager cage
+INFO: try cage lion -1
+Jul 19, 2021 1:24:55 AM Manager cage
+INFO: add to cage lion
+Jul 19, 2021 1:24:55 AM Manager pickUp
+INFO: pickup and add to warehouse lion
+Jul 19, 2021 1:24:55 AM Manager catCollect
+INFO: cat collect Egg
+Jul 19, 2021 1:24:55 AM Manager truckGo
+INFO: The truck arrived
+Jul 19, 2021 1:24:56 AM Gui2D$MyDrawPanel truckClicked
+INFO: game posed
+Jul 19, 2021 1:24:57 AM Manager truckLoad
+INFO: add to truck lion
+Jul 19, 2021 1:24:59 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:24:59 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:25:00 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:25:00 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:25:02 AM Manager truckUnload
+INFO: back to warehouse lion
+Jul 19, 2021 1:25:04 AM Manager truckLoad
+INFO: add to truck powder
+Jul 19, 2021 1:25:05 AM Manager truckLoad
+INFO: add to truck powder
+Jul 19, 2021 1:25:06 AM Manager truckLoad
+INFO: add to truck Egg
+Jul 19, 2021 1:25:07 AM Manager truckLoad
+INFO: add to truck powder
+Jul 19, 2021 1:25:08 AM Manager truckLoad
+INFO: add to truck powder
+Jul 19, 2021 1:25:11 AM Manager truckLoad
+INFO: add to truck Egg
+Jul 19, 2021 1:25:12 AM Manager truckLoad
+INFO: add to truck Egg
+Jul 19, 2021 1:25:14 AM Manager truckLoad
+INFO: add to truck hen
+Jul 19, 2021 1:25:16 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:25:17 AM Manager truckLoad
+WARNING: The truck does not have enough space
+Jul 19, 2021 1:25:18 AM Manager truckUnload
+INFO: back to warehouse powder
+Jul 19, 2021 1:25:20 AM Gui2D$MyDrawPanel lambda$truckClicked$0
+INFO: game continued
+Jul 19, 2021 1:25:20 AM Manager well
+INFO: The well was full
+Jul 19, 2021 1:25:23 AM Manager productTimeHandle
+INFO: powder removed
+Jul 19, 2021 1:25:23 AM Manager productTimeHandle
+INFO: powder removed
+Jul 19, 2021 1:25:24 AM Gui2D$MyDrawPanel pose
+INFO: Game Stopped
+Jul 19, 2021 1:25:25 AM Gui2D$MyDrawPanel end
+INFO: game ended
+Jul 19, 2021 1:25:28 AM MenuSocond mouseClicked
+INFO: Exit
+Jul 19, 2021 1:25:28 AM Manager writeLogger
+INFO: END of game
